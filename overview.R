@@ -2,12 +2,12 @@
   library(wesanderson)
   
   # Areocentric Longitude values (deg).
-  Ls_VE = 0       # Vernal Equinox.
+  Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.
   Ls_A = 71       # APHELION.
   Ls_SS = 90      # Summer Solstice.
-  Ls_AE = 180     # Autumn Equinox.
-  Ls_P = 248      # PERIPHELION.
-  Ls_WS = 270     # Winter Solstice.
+  Ls_AE = 180     # Autumn Equinox - Dust Storm Season begins.
+  Ls_P = 248      # PERIPHELION - Dust Storm Season.
+  Ls_WS = 270     # Winter Solstice - Dust Storm Season.
   Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE,  Ls_P, Ls_WS)
   Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
   
@@ -53,6 +53,8 @@
        labels=paste(Ls_lbl_seq, " (", ceiling(Gob_eq(Ls_seq)), " W/m²)", sep=""),
        cex=0.7,
        pos=4)
+  
+  title(main="Beam irradiance at top of Mars atmosphere\nas a function of Areocentric Longitude")
   
   
   ###
@@ -215,4 +217,7 @@
          col=wes_palette("FantasticFox1", length(zenith_angles), type = "continuous"),
          cex=0.8, bty="n", lty=1)
   mtext("Variation of global irradiance on Mars horizontal surface for different areocentric longitudes\nEffect of optical depth with sun zenith angle as a parameter", side = 3, line = -3, outer = TRUE)
+  
+  
+  scatter3D(x, y, z, clab = c("Sepal", "Width (cm)"))
 
