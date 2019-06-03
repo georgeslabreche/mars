@@ -1,9 +1,16 @@
+# Generate 3D perspective plots describing solar radiation on Mars as a function of solar zenith angle and atmospheric opacity.
+#
+# Based on equations presented in the following publication:
+# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+
 # Future work - persp3d plot may not be necessary for this....
 # 2 possible worst cases:
 #   A. Furtherest away from the sun: at periphelion.
 #   B. Furthest away from the sun during dust season at Vernal Equinox (Ls=0) - Dust Storm Season ends.
 # Check distance from sun during Vernal and Autumn equinox. Should be the same. However we generate more power during Autumn. Why?
 # Color the areas in the plane where we expect the rover to still work or die.
+# How about diffuse and beam irradiance?
 
 library("plot3D") # Needed for scatter3D
 library(rgl)
@@ -14,43 +21,26 @@ library(rgl)
 # Reference and solutions for other operating systems can be found here: 
 # https://stackoverflow.com/questions/31820865/error-in-installing-rgl-package
 
+# Equation 17: Global irradiance on Mars horizontal surface (W/m2).
+Gh_eq = dget("functions/G_h.R")
+
+# The normalized net flux function.
+f_all_taus = dget("functions/f_all_taus.R")
+f_all_Zs = dget("functions/f_all_Zs.R")
+
 Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.
 Ls_A = 71       # APHELION.
-Ls_SS = 90      # Summer Solstice.
-Ls_AE = 180     # Autumn Equinox - Dust Storm Season begins.
-Ls_P = 248      # PERIPHELION - Dust Storm Season.
-Ls_WS = 270     # Winter Solstice - Dust Storm Season.
-Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE,  Ls_P, Ls_WS)
-Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
 
-e = 0.093377    # Mars orbit eccentricity.
-Mb = 590        # Mean beam irradiance at the top of the Martian atmosphere
-
-
-nnff = read.csv("normalized-net-flux-function-at-martian-surface.csv")
-rownames(nnff) = sprintf("%1.2f", nnff[,1])
-nnff = nnff[-c(1)]
-
-zenith_angles = as.numeric(gsub("X", "", colnames(nnff)))
-taus_all = as.numeric(rownames(nnff))
+# Tau list options
+taus_all = f_all_taus()
+taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
 
 # Which taus vector to work with.
-taus = taus_all
+taus = taus_selected
 
-Gob_eq = function(Ls){
-  Mb * ( (1 + e*cos( (Ls-Ls_P)* pi/180 ))^2 / (1-e^2)^2 ) # Eq. 4.
-}
-
-f = function(Z, tau){
-  nnff[sprintf("%1.2f", tau), paste("X", Z, sep="")]
-}
-
-# Global irradiance on Mars horizontal surface.
-Gh_eq = function(Ls, Z, tau){
-  Gob_eq(Ls) * cos(Z * pi/180) * (f(Z, tau) / 0.9)
-}
-
+# Zenith angle options
+zenith_angles = f_all_Zs()
 
 # Using the outer() function doesn't work with the Gh_eq equation:
 # z=outer(zenith_angles, taus, Gh_eq)
@@ -68,10 +58,9 @@ outer_matrix = function(Ls, zenith_angles, taus){
   matrix(outer_vector, ncol=length(zenith_angles))
 }
 
-
 # Plot the results
 
-# For worst case A:
+# For worst case A :
 matrix = outer_matrix(Ls_A, zenith_angles, taus)
 open3d()
 persp3d(x=zenith_angles, y=taus, z=matrix,
@@ -90,6 +79,7 @@ persp3d(x=zenith_angles, y=taus, z=matrix_VE,
         ticktype="detailed")
 surface3d(x=zenith_angles, y=taus, z=matrix_VE, back = "lines")
 surface3d(x=zenith_angles, y=taus, z=matrix_VE, front = "lines")
+
 
 
 
