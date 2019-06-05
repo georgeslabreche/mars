@@ -1,6 +1,19 @@
 # Solar Radiation on Mars
 Plotting solar radiation on Mars as a function of many parameters.
 
+## Functions
+The following functions are taken from Appelbaum, Joseph & Flood, Dennis (1990):
+
+| Filename | Description                                                 | Reference |
+|----------|-------------------------------------------------------------|-----------|
+| G_ob.R   | Beam irradiance at the top of the Martian atmosphere (W/m2) | Eq. 4     |
+| Z.R      | Zenith angle of the incident solar radiation (deg)          | Eq. 6     |
+| G_dh.R   | Diffuse irradiance on Mars horizontal surface (W/m2)        | Eq. 16    |
+| G_h.R    | Global irradiance on Mars horizontal surface (W/m2)         | Eq. 17    |
+| G_bh.R   | Beam irradiance on Mars horizontal surface (W/m2)           | Eq. 18    |
+| f.R      | The normalized net flux function                            | Table III |
+
+## References
 Based on the following excellent work:
 - [Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7](https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars):  Detailed information on solar radiation characteristics on Mars are necessary for effective design of future planned solar energy systems operating on the surface of Mars. In this paper we present a procedure and solar radiation related data from which the diurnally, hourly and daily variation of the global, direct beam and diffuse insolation on Mars are calculated. The radiation data are based on measured optical depth of the Martian atmosphere derived from images taken of the sun with a special diode on the Viking cameras; and computation based on multiple wavelength and multiple scattering of the solar radiation.
 
