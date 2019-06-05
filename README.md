@@ -4,14 +4,14 @@ Plotting solar radiation on Mars as a function of many parameters.
 ## Functions
 The following functions are taken from Appelbaum, Joseph & Flood, Dennis (1990):
 
-| Filename | Description                                                 | Reference |
-|----------|-------------------------------------------------------------|-----------|
-| G_ob.R   | Beam irradiance at the top of the Martian atmosphere (W/m2) | Eq. 4     |
-| Z.R      | Zenith angle of the incident solar radiation (deg)          | Eq. 6     |
-| G_dh.R   | Diffuse irradiance on Mars horizontal surface (W/m2)        | Eq. 16    |
-| G_h.R    | Global irradiance on Mars horizontal surface (W/m2)         | Eq. 17    |
-| G_bh.R   | Beam irradiance on Mars horizontal surface (W/m2)           | Eq. 18    |
-| f.R      | The normalized net flux function                            | Table III |
+| Filename | Description                                                  | Reference |
+|----------|--------------------------------------------------------------|-----------|
+| G_ob.R   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4     |
+| Z.R      | Zenith angle of the incident solar radiation (deg).          | Eq. 6     |
+| G_dh.R   | Diffuse irradiance on Mars horizontal surface (W/m2).        | Eq. 16    |
+| G_h.R    | Global irradiance on Mars horizontal surface (W/m2).         | Eq. 17    |
+| G_bh.R   | Beam irradiance on Mars horizontal surface (W/m2).           | Eq. 18    |
+| f.R      | The normalized net flux function.                            | Table III |
 
 ## References
 Based on the following excellent work:
