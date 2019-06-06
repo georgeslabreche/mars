@@ -24,12 +24,20 @@ Based on the following excellent work:
 - [Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos. (1994). Solar radiation on Mars: Tracking photovoltaic array. Journal of Propulsion and Power. 12. 10.2514/3.24044](https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array): A photovoltaic power source for surface-based operation on Mars can offer many advantages. Detailed information on solar radiation characteristics on Mars and the insolation on various types of collector surfaces are necessary for effective design of future planned photovoltaic systems. In this article we have presented analytical expressions for solar radiation calculation and solar radiation data for single axis (of various types) and two axis tracking surfaces and compared the insulation to horizontal and inclined surfaces. For clear skies (low atmospheric dust load) tracking surfaces resulted in higher insolation than stationary surfaces, whereas for highly dusty atmospheres, the difference is small. The insolation on the different types of stationary and tracking surfaces depend on latitude, season and optical depth of the atmosphere, and the duration of system operation. These insolations have to be compared for each mission.
 
 ## Future Development
- - Include albedo as a parameter of the normalized net flux function. Refer to [Appelbaum, Joseph & Flood, Dennis (1990) Update 1990.](https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990)
- - Include more granular optical depth and zenith angle parameter value options for the normalized net flux function. Refer to [Appelbaum, Joseph & Flood, Dennis (1990) Update 1990.](https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990)
- - Include the option to switch to the analytical expression of the normalized net flux function rather than relying on a lookup table. Refer to [Appelbaum, Joseph & Flood, Dennis (1990) Update 1990.](https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990)
- - Include the option to switch to the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than relying on inputing its value as a parameter. Refer to [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I. (1991).](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
-  - Include dust storm occurrence probability. Refer to [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I. (1991).](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
- - Add surface inclination angle as a parameter based on work by [Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos (1994).](https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array)
- - Generate plots of interest for the thesis and README documentation purposes.
- - Experiment with 3D plots.
- - Experiment with model described in [Vicente-Retortillo, Álvaro & Valero, Francisco & Vázquez, Luis & Martinez, German M.. (2015). A model to calculate solar radiation fluxes on the Martian surface. Journal of Space Weather and Space Climate. 5. A33. 10.1051/swsc/2015035](https://www.researchgate.net/publication/283452176_A_model_to_calculate_solar_radiation_fluxes_on_the_Martian_surface).
+### [Appelbaum, Joseph & Flood, Dennis (1990) — Update 1990](https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990):
+- Include more granular optical depth and zenith angle parameter value options for the normalized net flux function.
+- **[DONE]** Implement the analytical expression of the normalized net flux function rather than just relying on a lookup table.
+
+### [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I (1991) — Update 1991](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
+- Implement albedo function that takes longitude and latitude as parameters.
+- Implement the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than just relying on inputing its value as a parameter.
+- Plot optical depth tau factor as a function of latitude and areocentric longitude.
+- Include dust storm occurrence probability.
+
+### [Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos (1994)](https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array):
+- Add surface inclination angle as a parameter.
+
+### Other
+- Generate plots of interest for the thesis and README documentation purposes.
+- Experiment with 3D plots.
+- Experiment with model described in [Vicente-Retortillo, Álvaro & Valero, Francisco & Vázquez, Luis & Martinez, German M.. (2015). A model to calculate solar radiation fluxes on the Martian surface. Journal of Space Weather and Space Climate. 5. A33. 10.1051/swsc/2015035](https://www.researchgate.net/publication/283452176_A_model_to_calculate_solar_radiation_fluxes_on_the_Martian_surface).
