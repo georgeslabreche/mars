@@ -1,7 +1,9 @@
 # Equation 20. The analytical expression of the normalized net flux function.
 # Uses a lookup table to retrieve coefficients.
 #
-# TODO: Merge f_89.R, f_90.R, and f.R into a single parameterized function.
+# TODO: 
+#   - Merge f_89.R, f_90.R, and f.R into a single parameterized function.
+#   - Mars surface albedo value can be determined as a function of Longitude and Latitude (Table I.)
 #
 # Based on equations presented in the following publication:
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990. NASA STI/Recon Technical Report N. 91. 15117-.
@@ -29,7 +31,7 @@ p = function(i, j, k){
 # The net flux function.
 #   Z     - Zenith angle [deg].
 #   tau   - Optical depth tau factor.
-#   al    - Albedo (from 0 to 1 but can only validate against 0.1 and 0.4 in literature).
+#   al    - Albedo (ranges from 0.1 to 0.4).
 function(Z, tau, al){
   psum = 0
   

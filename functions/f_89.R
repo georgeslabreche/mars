@@ -1,5 +1,5 @@
 # The normalized net flux function.
-# Uses a looktup table published in "Solar radiation on Mars"
+# Uses a looktup Table III published in "Solar radiation on Mars"
 #
 # TODO: Merge f_89.R, f_90.R, and f.R into a single parameterized function.
 #
@@ -12,7 +12,7 @@
 #   depth tau. This table pertains to an albedo of 0.1 but can be used
 #   for higher albedo values to a first approximation.
 #
-# Based on equations presented in the following publication:
+# Based on the following publication:
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
