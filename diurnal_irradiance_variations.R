@@ -23,7 +23,7 @@ Gdh_eq = dget("functions/G_dh.R")
 
 # Store all irradiance equations and their labels
 G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
-G_eqs_labels = c("global irradiance", "beam irradiance", "diffuse irradiance")
+G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
 G_eqs_cols = wes_palette("Darjeeling1", 3)
 
 # Tau list options
@@ -75,7 +75,7 @@ for(Ls in Ls_seq){
     # Plot
     if(G_index == 1){
       plot(omega_seq, G_seq,
-           xlab="Solar Time [h]", ylab="Gh [W/m2]",
+           xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
            ylim=c(0,550),
            pch=3,
            col=G_eqs_cols[G_index],
@@ -137,7 +137,7 @@ for(tau in taus){
     # Plot
     if(G_index == 1){
       plot(omega_seq, G_seq,
-           xlab="Solar Time [h]", ylab="Gh [W/m2]",
+           xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
            ylim=c(0,550),
            pch=3,
            col=G_eqs_cols[G_index],
@@ -212,7 +212,7 @@ for(phi in phis){
     if(length(omega_seq) == length(G_seq)){
       if(G_index == 1){
         plot(omega_seq, G_seq,
-             xlab="Solar Time [h]", ylab="Gh [W/m2]",
+             xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
              ylim=c(0, 600),
              pch=3,
              col=G_eqs_cols[G_index],
@@ -244,7 +244,7 @@ for(phi in phis){
           error = function(e) {
             # Enter here when following error occurs: plot.new has not been called yet
             plot(omega_seq, G_seq,
-                 xlab="Solar Time [h]", ylab="Gh [W/m2]",
+                 xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
                  ylim=c(0,550),
                  pch=3,
                  col=G_eqs_cols[G_index],
