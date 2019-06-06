@@ -34,7 +34,7 @@ taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
 Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.
 Ls_A = 71       # APHELION.
 Ls_SS = 90      # Summer Solstice.
-Ls_AE = 180     # Autumn Equinox - Dust Sa = ctorm Season begins.
+Ls_AE = 180     # Autumn Equinox - Dust Sand storm Season begins.
 Ls_P = 248      # PERIPHELION - Dust Storm Season.
 Ls_WS = 270     # Winter Solstice - Dust Storm Season.
 Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE, Ls_P, Ls_WS)
@@ -178,8 +178,18 @@ Ls = Ls_A
 # Select an optical depth tau factor.
 tau = 0.5
 
-# Select latitudes
-phis = seq(-40, 60, 10)
+# Naive best latitude sequence selection for plotting purposes
+# depending on selected Areocentric longitude.
+if(Ls == Ls_AE){
+  phis = seq(-50, 50, 10)
+}else if(Ls < Ls_AE){
+  phis = seq(-40, 60, 10)
+}else if(Ls > Ls_AE){
+  phis = seq(-60, 40, 10)
+}
+
+# Or just define your own sequence 
+#phis = seq(-50, 50, 10)
 
 dev.new()
 par(mfrow=c(3,4))
