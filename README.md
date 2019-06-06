@@ -37,7 +37,7 @@ Based on the following excellent work:
 #### [Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos (1994)](https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array)
 - Add surface inclination angle as a parameter.
 
-### Other
+#### Other
 - Generate plots of interest for the thesis and README documentation purposes.
 - Experiment with 3D plots.
 - Experiment with model described in [Vicente-Retortillo, Álvaro & Valero, Francisco & Vázquez, Luis & Martinez, German M.. (2015). A model to calculate solar radiation fluxes on the Martian surface. Journal of Space Weather and Space Climate. 5. A33. 10.1051/swsc/2015035](https://www.researchgate.net/publication/283452176_A_model_to_calculate_solar_radiation_fluxes_on_the_Martian_surface).
