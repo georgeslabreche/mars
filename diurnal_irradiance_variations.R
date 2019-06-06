@@ -4,6 +4,9 @@
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
+# Load
+library(wesanderson)
+
 # Equation 6: Zenith angle of the incident solar radiation (deg).
 Z_eq = dget("functions/Z.R")
 
@@ -21,7 +24,7 @@ Gdh_eq = dget("functions/G_dh.R")
 # Store all irradiance equations and their labels
 G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
 G_eqs_labels = c("global irradiance", "beam irradiance", "diffuse irradiance")
-G_eqs_cols = c("red", "blue", "green")
+G_eqs_cols = wes_palette("Darjeeling1", 3)
 
 # Tau list options
 taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
@@ -53,7 +56,7 @@ omega_seq = seq(omega_l, omega_u, 1)
 # Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes. #
 ##############################################################################################################################
 dev.new()
-par(mfrow=c(3,2))
+par(mfrow=c(2,4))
 Ls_index = 1
 for(Ls in Ls_seq){
 
@@ -98,6 +101,13 @@ for(Ls in Ls_seq){
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 
+# Add a legend
+plot.new()
+legend("top",
+       G_eqs_labels,
+       col = G_eqs_cols,
+       cex=1, bty="n", lty=1)
+
 ######################################################################################################################
 # Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths. #
 ######################################################################################################################
@@ -109,7 +119,7 @@ Ls = Ls_A
 taus = taus_selected
 
 dev.new()
-par(mfrow=c(3,3))
+par(mfrow=c(3,4))
 for(tau in taus){
 
   G_index = 1
@@ -151,6 +161,12 @@ for(tau in taus){
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths\n", paste("(Ls=", Ls, "°, ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 
+# Add a legend
+plot.new()
+legend("top",
+       G_eqs_labels,
+       col = G_eqs_cols,
+       cex=1, bty="n", lty=1)
 
 ######################################################################################################################
 # Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths. #
@@ -163,10 +179,10 @@ Ls = Ls_A
 tau = 0.5
 
 # Select latitudes
-phis = seq(-40, 40, 10)
+phis = seq(-40, 60, 10)
 
 dev.new()
-par(mfrow=c(3,3))
+par(mfrow=c(3,4))
 for(phi in phis){
   new_plot_initialized = FALSE
   
@@ -249,3 +265,10 @@ for(phi in phis){
   }
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes\n", paste("(Ls=", Ls, "°, τ=", tau, "°)", sep="")), side = 3, line = -3, outer = TRUE)
+
+# Add a legend
+plot.new()
+legend("top",
+       G_eqs_labels,
+       col = G_eqs_cols,
+       cex=1, bty="n", lty=1)
