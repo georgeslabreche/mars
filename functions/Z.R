@@ -7,10 +7,14 @@
 # Mars obliquity of rotation axis [deg]
 delta_0 = 24.936
 
-# Ls          - Areocentric longitude [deg].
-# omega       - Hour angle value [h]. An integeder beloging to [6, 18].
-# phi         - Latitude [deg].
-function(Ls, omega, phi){
+# Ls              - Areocentric longitude [deg].
+# omega           - Hour angle value [h]. An integeder beloging to [6, 18] if using f_89.R or f_90.R.
+# phi             - Latitude [deg].
+# round           - Set to TRUE if using f_89.R or f_90.R implementation of the net flux function.
+#                   This is because f_89.R and f_90.R implementations use lookup tables that expect pre-defined rounded values of Z.
+# round_multiple  - Set to 10 to round to a power of 10 (for f_89.R).
+#                 - Set to 5 to round to a power of 5 (for f_90.R).
+function(Ls, omega, phi, nfft){
   
   ##################################
   # Equation 7: Declination angle. #
@@ -33,14 +37,26 @@ function(Ls, omega, phi){
   a = sin(phi * pi/180) * sin(delta)
   b = cos(phi * pi/180) * cos(delta) * cos(omega * pi/180)
   
+  Z = acos(a + b) * 180/pi
+  
   # We have to round the zenith angle to a power of ten because the
   # normalized net flux function only takes predetermined Z angle values.
-  Z = round(acos(a + b) * 180/pi, -1)
-  
-  # In case we get 90, replace it with 85.
-  # Because we don't have 90 in our normalized net flux function table.
-  v1 <- unlist(Z)
-  Z = relist(replace(v1, v1==90, 85), skeleton=Z)
-  #v1 <- unlist(Z)
-  #Z = relist(replace(v1, v1==100, 85), skeleton=Z)
+  if(nfft == 1){
+    Z = round(Z, -1)
+    
+    # In case we get 90, replace it with 85. It's actually much closer to 85 than 90 prior to the rounding.
+    # Also, we don't have 90 in our normalized net flux function table.
+    v1 <- unlist(Z)
+    Z = relist(replace(v1, v1==90, 85), skeleton=Z)
+    
+  }else if(nfft == 2){
+    # TODO: Test this.
+    Z = round(Z/5) * 5
+    stop("Not implemented yet.")
+    
+  }else if(nfft != 3){
+    stop(paste("Unsupported net flux function type, should be 1 for f_89, 2 for f_90, or 3 for f:", nfft))
+  }
+
+  return(Z)
 }

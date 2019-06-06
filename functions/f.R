@@ -1,9 +1,14 @@
 # Equation 20. The analytical expression of the normalized net flux function.
-# Uses a lookup table to retrieve coefficients.
+#
 #
 # TODO: 
 #   - Merge f_89.R, f_90.R, and f.R into a single parameterized function.
 #   - Mars surface albedo value can be determined as a function of Longitude and Latitude (Table I.)
+#
+# From Appelbaum, Joseph & Flood, Dennis (1990) - Update 1990:
+#   The mean error is about 0.7 percent for the full range. For zenith angles up to 40° the error is much smaller.
+#   The largest error is for zenith angle of 80° and 85° and for τ greater than 5. The maximum error is about 7 percent.
+#   At these large angles and opacities, the error has a minor effect on the calculated daily insolations.
 #
 # Based on equations presented in the following publication:
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990. NASA STI/Recon Technical Report N. 91. 15117-.
@@ -33,8 +38,23 @@ p = function(i, j, k){
 #   tau   - Optical depth tau factor.
 #   al    - Albedo (ranges from 0.1 to 0.4).
 function(Z, tau, al){
-  psum = 0
   
+  # Check for and warn against parameters that would result in lagest errors (max. 7%).
+  if(tau > 5){
+    warning(paste("Large error encountered with τ=", tau, " greater than 5 (maximum error is 7%). ", 
+                  "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
+                  sep="")
+            )
+  }
+  
+  if(Z == 80 || Z == 85){
+    warning(paste("Large error encountered with Z=", Z, "° (maximum error is 7%). ", 
+                  "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
+                  sep="")
+            )
+  }
+  
+  psum = 0
   for(i in seq(0,5,1)){
     for(j in seq(0,5,1)){
       for(k in seq(0,1,1)){

@@ -13,6 +13,6 @@ Gh_eq = dget("functions/G_h.R")
 # Equation 18: Beam irradiance on Mars horizontal surface (W/m2).
 Gbh_eq = dget("functions/G_bh.R")
 
-function(Ls, Z, tau){
-  Gh_eq(Ls, Z, tau) - Gbh_eq(Ls, Z, tau)
+function(Ls, Z, tau, al, nfft){
+  Gh_eq(Ls, Z, tau, al, nfft) - Gbh_eq(Ls, Z, tau)
 } 

@@ -26,6 +26,9 @@ G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
 G_eqs_cols = wes_palette("Darjeeling1", 3)
 
+al = 0.1    # Albedo.
+nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+
 # Tau list options
 taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
@@ -67,8 +70,8 @@ for(Ls in Ls_seq){
     # Calculate the irradiance for each given parameters.
     # Store the results in a sequence that will be used in the plot() function.
     for(omega in omega_seq){
-      Z = Z_eq(Ls, omega, phi)
-      G = G_eq(Ls, Z, tau)
+      Z = Z_eq(Ls, omega, phi, nfft)
+      G = G_eq(Ls, Z, tau, al, nfft)
       G_seq = c(G_seq, G)
     }
 
@@ -129,8 +132,8 @@ for(tau in taus){
     # Calculate the irradiance for each given parameters.
     # Store the results in a sequence that will be used in the plot() function.
     for(omega in omega_seq){
-      Z = Z_eq(Ls, omega, phi)
-      G = G_eq(Ls, Z, tau)
+      Z = Z_eq(Ls, omega, phi, nfft)
+      G = G_eq(Ls, Z, tau, al, nfft)
       G_seq = c(G_seq, G)
     }
 
@@ -195,19 +198,19 @@ dev.new()
 par(mfrow=c(3,4))
 for(phi in phis){
   new_plot_initialized = FALSE
-  
+
   G_index = 1
   for(G_eq in G_eqs){
     G_seq = c()
-    
+
     # Calculate the irradiance for each given parameters.
     # Store the results in a sequence that will be used in the plot() function.
     for(omega in omega_seq){
-      Z = Z_eq(Ls, omega, phi)
-      G = G_eq(Ls, Z, tau)
+      Z = Z_eq(Ls, omega, phi, nfft)
+      G = G_eq(Ls, Z, tau, al, nfft)
       G_seq = c(G_seq, G)
     }
-    
+
     # Plot
     if(length(omega_seq) == length(G_seq)){
       if(G_index == 1){
@@ -219,18 +222,18 @@ for(phi in phis){
              sub=paste("ϕ = ", phi, "°", sep=""),
              font.sub=2,
              cex.sub=1.2)
-        
+
         smooth_line = smooth.spline(omega_seq, G_seq, spar=0.35)
         lines(smooth_line, col=G_eqs_cols[G_index])
-        
+
         new_plot_initialized = TRUE
       }else{
-          
+          # Make sure we are plotting on a new plot when needed.
           tryCatch({
             if(new_plot_initialized == TRUE){
               smooth_line = smooth.spline(omega_seq, G_seq, spar=0.35)
               lines(smooth_line, col=G_eqs_cols[G_index])
-            
+
               points(omega_seq, G_seq,
                    pch=3,
                    col=G_eqs_cols[G_index])
@@ -251,27 +254,30 @@ for(phi in phis){
                  sub=paste("ϕ = ", phi, sep=""),
                  font.sub=2,
                  cex.sub=1.2)
-            
+
             smooth_line = smooth.spline(omega_seq, G_seq, spar=0.35)
             lines(smooth_line, col=G_eqs_cols[G_index])
-            
+
             new_plot_initialized = TRUE
           },
           finally = {
             # Do nothing
           })
-        
+
       }
     }else{
-      message(paste("Could not calculate ", G_eqs_labels[G_index] , " for latitude ϕ=", phi, "°", sep=""))
+      # Using the f_89 or f_90 lookup table based implementations of the net flux function may
+      # result feeding that function a rounded Z parameter that does not exist in the lookup tables.
+      # This will result in an error which we are handling here by not plotting the affected irradiance type.
+      message(paste("Could not calculate ", G_eqs_labels[G_index] , " for latitude ϕ=", phi, "°.", " Try using the analytical expression of the net flux function instead of the lookup table.", sep=""))
     }
-    
+
     if(G_index == 3){
       G_index = 1
     }else{
       G_index = G_index + 1
     }
-    
+
   }
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes\n", paste("(Ls=", Ls, "°, τ=", tau, "°)", sep="")), side = 3, line = -3, outer = TRUE)

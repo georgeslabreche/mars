@@ -7,6 +7,6 @@
 # Equation 4: Beam irridiance at the top of the Martian atmosphere (W/m2).
 Gob_eq = dget("functions/G_ob.R")
 
-function(Ls, Z, tau){
+function(Ls, Z, tau, al=NULL, nfft=NULL){
   Gob_eq(Ls) * cos(Z * pi/180) * exp(-tau / cos(Z * pi/180))
 } 

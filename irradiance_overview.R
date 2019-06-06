@@ -7,10 +7,6 @@
 # Load
 library(wesanderson)
 
-# Optical depth and zenith angle values.
-f_all_taus = dget("functions/f_all_taus.R")
-f_all_Zs = dget("functions/f_all_Zs.R")
-
 # Equation 17: Global irradiance on Mars horizontal surface (W/m2).
 Gh_eq = dget("functions/G_h.R")
 
@@ -25,6 +21,14 @@ Gdh_eq = dget("functions/G_dh.R")
 # Store all irradiance equations and their labels
 G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
 G_eqs_labels = c("global irradiance", "beam irradiance", "diffuse irradiance")
+
+al = 0.1    # Albedo.
+nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+
+# Optical depth and zenith angle values.
+# FIXME: Edit this to grab based on nfft.
+f_all_taus = dget("functions/f_all_taus.R")
+f_all_Zs = dget("functions/f_all_Zs.R")
 
 # Areocentric Longitude values (deg).
 Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.
@@ -65,7 +69,7 @@ for(G_eq in G_eqs){
     color_index = 1
   
     for(Z in zenith_angles){
-      curve(G_eq(x, Z, tau), 0, 360, 360,
+      curve(G_eq(x, Z, tau, al, nfft), 0, 360, 360,
             add=ifelse(color_index>1, TRUE, FALSE),
             ylim=c(0, 700),
             xlab="Ls [deg]", ylab="Gh [W/m2]",
@@ -102,7 +106,7 @@ for(G_eq in G_eqs){
     color_index = 1
 
     for(tau in taus){
-      curve(G_eq(x, Z, tau), 0, 360, 360,
+      curve(G_eq(x, Z, tau, al, nfft), 0, 360, 360,
             add=ifelse(color_index>1, TRUE, FALSE),
             ylim=c(0, 700),
             xlab="Ls [deg]", ylab="Gh [W/m2]",
@@ -137,7 +141,7 @@ for(G_eq in G_eqs){
     index = 1
     for(tau in taus){
       if(index == 1){
-        plot(zenith_angles, G_eq(Ls, zenith_angles, tau),
+        plot(zenith_angles, G_eq(Ls, zenith_angles, tau, al, nfft),
              ylim=c(0, 700),
              xlab="Z [deg]", ylab="Gh [W/m2]",
              sub=paste("Ls = ", Ls, "°", sep=""),
@@ -146,7 +150,7 @@ for(G_eq in G_eqs){
              type="l",
              col=wes_palette("FantasticFox1", length(taus), type = "continuous")[index])
       }else{
-        lines(zenith_angles, G_eq(Ls, zenith_angles, tau),
+        lines(zenith_angles, G_eq(Ls, zenith_angles, tau, al, nfft),
               sub=paste("Ls = ", Ls, "°", sep=""),
               font.sub=2,
               cex.sub=1.2,
@@ -179,7 +183,7 @@ for(G_eq in G_eqs){
     index = 1
     for(zenith_angle in zenith_angles){
       if(index == 1){
-        plot(taus, G_eq(Ls, zenith_angle, taus),
+        plot(taus, G_eq(Ls, zenith_angle, taus, al, nfft),
              ylim=c(0, 700),
              xlab="τ", ylab="Gh [W/m2]",
              sub=paste("Ls = ", Ls, "°", sep=""),
@@ -188,7 +192,7 @@ for(G_eq in G_eqs){
              type="l",
              col=wes_palette("FantasticFox1", length(zenith_angles), type = "continuous")[index])
       }else{
-        lines(taus, G_eq(Ls, zenith_angle, taus),
+        lines(taus, G_eq(Ls, zenith_angle, taus, al, nfft),
               sub=paste("Ls = ", Ls, "°", sep=""),
               font.sub=2,
               cex.sub=1.2,

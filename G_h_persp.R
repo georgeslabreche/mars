@@ -24,7 +24,11 @@ library(rgl)
 # Equation 17: Global irradiance on Mars horizontal surface (W/m2).
 Gh_eq = dget("functions/G_h.R")
 
+al = 0.1    # Albedo.
+nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+
 # The normalized net flux function.
+# FIXME: Edit this to grab based on nfft.
 f_all_taus = dget("functions/f_all_taus.R")
 f_all_Zs = dget("functions/f_all_Zs.R")
 
@@ -47,11 +51,11 @@ zenith_angles = f_all_Zs()
 # So we write our own function.
 outer_matrix = function(Ls, zenith_angles, taus){
   # 1. Build first row of the outer vector
-  outer_vector = Gh_eq(Ls, zenith_angles, taus[1])
+  outer_vector = Gh_eq(Ls, zenith_angles, taus[1], al, nfft)
   
   # 2. Build the rest and concatenate to the vector, we will split in the end.
   for(tau in tail(taus, -1)){
-    row = Gh_eq(Ls, zenith_angles, tau)
+    row = Gh_eq(Ls, zenith_angles, tau, al, nfft)
     outer_vector = c(outer_vector, row)
   }
   # 3. Build the outer matrix.
