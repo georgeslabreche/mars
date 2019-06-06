@@ -8,7 +8,7 @@
 Gob_eq = dget("functions/G_ob.R")
 
 # The normalized net flux function.
-f = dget("functions/f.R")
+f = dget("functions/f_89.R")
 
 function(Ls, Z, tau, albedo=0.1){
   Gob_eq(Ls) * cos(Z * pi/180) * (f(Z,tau) / (1-albedo))

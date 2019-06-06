@@ -1,4 +1,7 @@
-# Build a dataframe representation of Table III referenced in Appelbaum, Joseph & Flood, Dennis. (1990).
+# The normalized net flux function.
+# Uses a looktup table published in "Solar radiation on Mars"
+#
+# TODO: Merge f_89.R, f_90.R, and f.R into a single parameterized function.
 #
 # From Appelbaum, Joseph & Flood, Dennis. (1990):
 #   The net solar flux integrated over the solar spectrum on the Martian
@@ -9,14 +12,17 @@
 #   depth tau. This table pertains to an albedo of 0.1 but can be used
 #   for higher albedo values to a first approximation.
 #
-# Based on the following publication:
+# Based on equations presented in the following publication:
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
-function(){
-  nnff = read.csv("data/normalized_net_flux_function/table_III_1990.csv")
-  rownames(nnff) = sprintf("%1.2f", nnff[,1])
-  nnff = nnff[-c(1)]
+# We build a dataframe representation of Table III referenced in From Appelbaum, Joseph & Flood, Dennis. (1990):
+f_build_df = dget("functions/f_build_df.R")
+nnff = f_build_df()
+
+# The normalized net flux function.
+#   Z     - Zenith angle [deg].
+#   tau   - Optical depth tau factor.
+function(Z, tau){
+  nnff[sprintf("%1.2f", tau), paste("X", Z, sep="")]
 }
-
-
