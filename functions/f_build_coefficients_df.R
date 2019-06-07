@@ -5,7 +5,7 @@
 # https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990
 
 function(k=0){
-  nnff = read.csv(paste("data/normalized_net_flux_function/", "k", k ,"_coefficients_update_1990-1.csv", sep=""))
+  nnff = read.csv(paste("data/normalized_net_flux_function/", "k", k ,"_coefficients_1990_update.csv", sep=""))
   nnff = nnff[-c(1)]
 }
 
