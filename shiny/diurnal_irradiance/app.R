@@ -1,36 +1,21 @@
+# This is Shiny web application to plot variation of global, beam, and diffuse irradiance on Mars horizontal surface.
 #
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
+# Based on equations presented in the following publication:
+# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 #
 library(here)
 library(wesanderson)
 library(shiny)
 library(shinyWidgets)
 
-
 # FIXME: Edit this to grab based on nfft.
 f_all_taus = dget(here("functions", "f_all_taus.R"))
 
-# Equation 6: Zenith angle of the incident solar radiation (deg).
-Z_eq = dget(here("functions", "Z.R"))
+# Plot function.
+diurnal_plot = dget(here("plots", "diurnal_plot.R"))
 
-# Equation 17: Global irradiance on Mars horizontal surface (W/m2).
-Gh_eq = dget(here("functions", "G_h.R"))
-
-# Equation 18: Beam irradiance on Mars horizontal surface (W/m2).
-Gbh_eq = dget(here("functions", "G_bh.R"))
-
-# Determine an expression for the diffuse irradiance based on Eq. 17 and Eq. 18.
-# Equation 16: The solar irradiance components on a horizontal Martian surface.
-# Gh = Gbh + Gdh
-Gdh_eq = dget(here("functions", "G_dh.R"))
-
-# Store all irradiance equations and their labels
-G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
+# Legend labels and colors.
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
 G_eqs_cols = wes_palette("Darjeeling1", 3)
 
@@ -45,8 +30,6 @@ Ls_list = list(
     "Autumn Equinox (Ls=180°)" = 180,
     "Periphelion (Ls=248°)" = 248,
     "Winter Solstice (Ls=270°)" = 270)
-
-
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -117,87 +100,14 @@ server <- function(input, output) {
         
         legendLocation = input$legendLocation
         
-        G_index = 1
-        for(G_eq in G_eqs){
-            G_seq = c()
-            
-            # Calculate the irradiance for each given parameters.
-            # Store the results in a sequence that will be used in the plot() function.
-            for(omega in omega_seq){
-                Z = Z_eq(Ls, omega, phi, nfft)
-                G = G_eq(Ls, Z, tau, al, nfft)
-                G_seq = c(G_seq, G)
-            }
-            
-            # Plot
-            if(length(omega_seq) == length(G_seq)){
-                if(G_index == 1){
-                    plot(omega_seq, G_seq,
-                         xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
-                         ylim=c(0, 650),
-                         pch=3,
-                         col=G_eqs_cols[G_index],
-                         font.sub=2,
-                         cex.sub=1.2)
-                    
-                    smooth_line = smooth.spline(omega_seq, G_seq, spar=0.35)
-                    lines(smooth_line, col=G_eqs_cols[G_index])
-                    
-                    new_plot_initialized = TRUE
-                }else{
-                    # Make sure we are plotting on a new plot when needed.
-                    tryCatch({
-                        if(new_plot_initialized == TRUE){
-                            smooth_line = smooth.spline(omega_seq, G_seq, spar=0.35)
-                            lines(smooth_line, col=G_eqs_cols[G_index])
-                            
-                            points(omega_seq, G_seq,
-                                   pch=3,
-                                   col=G_eqs_cols[G_index])
-                        }else{
-                            stop("New plot has not been initialized.")
-                        }
-                    },
-                    warning = function(w) {
-                        # Do nothing
-                    },
-                    error = function(e) {
-                        # Enter here when following error occurs: plot.new has not been called yet
-                        plot(omega_seq, G_seq,
-                             xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
-                             ylim=c(0,550),
-                             pch=3,
-                             col=G_eqs_cols[G_index],
-                             font.sub=2,
-                             cex.sub=1.2)
-                        
-                        smooth_line = smooth.spline(omega_seq, G_seq, spar=0.35)
-                        lines(smooth_line, col=G_eqs_cols[G_index])
-                        
-                        new_plot_initialized = TRUE
-                    },
-                    finally = {
-                        # Do nothing
-                    })
-                    
-                }
-            }else{
-                # Using the f_89 or f_90 lookup table based implementations of the net flux function may
-                # result feeding that function a rounded Z parameter that does not exist in the lookup tables.
-                # This will result in an error which we are handling here by not plotting the affected irradiance type.
-                message(paste("Could not calculate ", G_eqs_labels[G_index] , " for latitude ϕ=", phi, "°.", " Try using the analytical expression of the net flux function instead of the lookup table.", sep=""))
-            }
-            
-            if(G_index == 3){
-                G_index = 1
-            }else{
-                G_index = G_index + 1
-            }
-        }
-        mtext(paste("Ls=", Ls, "°, ", "ϕ=", phi, "°, ", "τ=", tau, sep=""),
+        # Plot.
+        diurnal_plot(nfft, Ls, phi, tau, al, omegas=omega_seq, ylim=c(0,650))
+        
+        # Specify selected parameters.
+        mtext(paste("Ls=", Ls, "°, ", "ϕ=", phi, "°, τ=", tau, sep=""),
               cex=2, side = 3, line = -3, outer = TRUE)
         
-        # Add a legend
+        # Add a legend.
         legend(legendLocation,
                G_eqs_labels,
                col = G_eqs_cols,
