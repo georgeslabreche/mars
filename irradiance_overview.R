@@ -8,15 +8,15 @@
 library(wesanderson)
 
 # Equation 17: Global irradiance on Mars horizontal surface (W/m2).
-Gh_eq = dget("functions/G_h.R")
+Gh_eq = dget(here("functions", "G_h.R"))
 
 # Equation 18: Beam irradiance on Mars horizontal surface (W/m2).
-Gbh_eq = dget("functions/G_bh.R")
+Gbh_eq = dget(here("functions", "G_bh.R"))
 
 # Determine an expression for the diffuse irradiance based on Eq. 17 and Eq. 18.
 # Equation 16: The solar irradiance components on a horizontal Martian surface.
 # Gh = Gbh + Gdh
-Gdh_eq = dget("functions/G_dh.R")
+Gdh_eq = dget(here("functions", "G_dh.R"))
   
 # Store all irradiance equations and their labels
 G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
@@ -27,8 +27,8 @@ nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
 
 # Optical depth and zenith angle values.
 # FIXME: Edit this to grab based on nfft.
-f_all_taus = dget("functions/f_all_taus.R")
-f_all_Zs = dget("functions/f_all_Zs.R")
+f_all_taus = dget(here("functions", "f_all_taus.R"))
+f_all_Zs = dget(here("functions", "f_all_Zs.R"))
 
 # Areocentric Longitude values (deg).
 Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.
