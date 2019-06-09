@@ -4,13 +4,15 @@
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
+library(here)
+
 # Equation 4: Beam irridiance at the top of the Martian atmosphere (W/m2). 
-Gob_eq = dget("functions/G_ob.R")
+Gob_eq = dget(here("functions", "G_ob.R"))
 
 # The normalized net flux functions.
-f_89 = dget("functions/f_89.R") # f(Z,tau)
-#f_90 = dget("functions/f_90.R") # f(Z,tau, al)
-f = dget("functions/f.R") # f(Z,tau, al)
+f_89 = dget(here("functions", "f_89.R")) # f(Z,tau)
+#f_90 = dget(here("functions", "f_90.R")) # f(Z,tau, al)
+f = dget(here("functions", "f.R")) # f(Z,tau, al)
 
 function(Ls, Z, tau, al, nfft){
   if(nfft == 1){

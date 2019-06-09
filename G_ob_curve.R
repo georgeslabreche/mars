@@ -5,10 +5,11 @@
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
 # Load
+library(here)
 library(wesanderson)
 
 # Equation 4: Beam irridiance at the top of the Martian atmosphere (W/m2).
-Gob_eq = dget("functions/G_ob.R")
+Gob_eq = dget(here("functions", "G_ob.R"))
 
 # Areocentric Longitude values (deg).
 Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.

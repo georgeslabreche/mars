@@ -16,8 +16,10 @@
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
+library(here)
+
 # We build a dataframe representation of Table III referenced in From Appelbaum, Joseph & Flood, Dennis. (1990):
-f_build_df = dget("functions/f_build_df.R")
+f_build_df = dget(here("functions", "f_build_df.R"))
 nnff = f_build_df()
 
 # The normalized net flux function.

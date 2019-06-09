@@ -13,8 +13,10 @@
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
+
+
 function(){
-  nnff = read.csv("data/normalized_net_flux_function/table_III_1990.csv")
+  nnff = read.csv(here("data", "normalized_net_flux_function/table_III_1990.csv"))
   rownames(nnff) = sprintf("%1.2f", nnff[,1])
   nnff = nnff[-c(1)]
 }

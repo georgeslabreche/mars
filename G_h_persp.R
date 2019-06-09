@@ -12,6 +12,7 @@
 # Color the areas in the plane where we expect the rover to still work or die.
 # How about diffuse and beam irradiance?
 
+library("here")
 library("plot3D") # Needed for scatter3D
 library(rgl)
 # When attempting to install rgl on Ubuntu 18.04.2 LTS, the following error was thrown:
@@ -22,18 +23,17 @@ library(rgl)
 # https://stackoverflow.com/questions/31820865/error-in-installing-rgl-package
 
 # Equation 17: Global irradiance on Mars horizontal surface (W/m2).
-Gh_eq = dget("functions/G_h.R")
-
-al = 0.1    # Albedo.
-nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+Gh_eq = dget(here("functions", "G_h.R"))
 
 # The normalized net flux function.
 # FIXME: Edit this to grab based on nfft.
-f_all_taus = dget("functions/f_all_taus.R")
-f_all_Zs = dget("functions/f_all_Zs.R")
+f_all_taus = dget(here("functions", "f_all_taus.R"))
+f_all_Zs = dget(here("functions", "f_all_Zs.R"))
 
-Ls_VE = 0       # Vernal Equinox - Dust Storm Season ends.
-Ls_A = 71       # APHELION.
+al = 0.1    # Albedo.
+nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+Ls_VE = 0   # Vernal Equinox - Dust Storm Season ends.
+Ls_A = 71   # APHELION.
 
 # Tau list options
 taus_all = f_all_taus()

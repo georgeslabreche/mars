@@ -5,21 +5,22 @@
 # https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
 # Load
+library(here)
 library(wesanderson)
 
 # Equation 6: Zenith angle of the incident solar radiation (deg).
-Z_eq = dget("functions/Z.R")
+Z_eq = dget(here("functions", "Z.R"))
 
 # Equation 17: Global irradiance on Mars horizontal surface (W/m2).
-Gh_eq = dget("functions/G_h.R")
+Gh_eq = dget(here("functions", "G_h.R"))
 
 # Equation 18: Beam irradiance on Mars horizontal surface (W/m2).
-Gbh_eq = dget("functions/G_bh.R")
+Gbh_eq = dget(here("functions", "G_bh.R"))
 
 # Determine an expression for the diffuse irradiance based on Eq. 17 and Eq. 18.
 # Equation 16: The solar irradiance components on a horizontal Martian surface.
 # Gh = Gbh + Gdh
-Gdh_eq = dget("functions/G_dh.R")
+Gdh_eq = dget(here("functions", "G_dh.R"))
 
 # Store all irradiance equations and their labels
 G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
