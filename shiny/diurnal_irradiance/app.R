@@ -24,12 +24,14 @@ nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
 
 # Areocentric Longitude values (deg).
 Ls_list = list(
-    "Vernal Equinox (Ls=0°)" = 0,
-    "Aphelion (Ls=71°)" = 71,
-    "Summer Solstice (Ls=90°)" = 90,
-    "Autumn Equinox (Ls=180°)" = 180,
-    "Periphelion (Ls=248°)" = 248,
-    "Winter Solstice (Ls=270°)" = 270)
+    "Ls = 0°   (Vernal Equinox) " = 0,
+    "Ls = 71°   (Aphelion)" = 71,
+    "Ls = 90°  (Summer Solstice)" = 90,
+    "Ls = 180° (Autumn Equinox)" = 180,
+    "Ls = 215°" = 215,
+    "Ls = 248° (Periphelion)" = 248,
+    "Ls = 270° (Winter Solstice)" = 270,
+    "Ls = 295°" = 295)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -42,7 +44,7 @@ ui <- fluidPage(
         sidebarPanel(
             selectInput("areocentricLongitude", label = h5("Areocentric Longitude [deg]"), 
                         choices = Ls_list, 
-                        selected = as.numeric(Ls_list[5])),
+                        selected = as.numeric(Ls_list[6])),
             
             sliderInput("phi", label=h5("Latitude [deg]"),
                         min=-80, max=80, step=10, value=0),
