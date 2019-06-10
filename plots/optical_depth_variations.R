@@ -1,3 +1,9 @@
+# TODO:
+# - Compare with MER-A and MER-B collected data:
+#     MER-A: https://www.lpl.arizona.edu/~lemmon/mars-tau-a.html
+#     MER-B: https://www.lpl.arizona.edu/~lemmon/mars-tau-b.html
+# - Compare with satellite data for tau factor.
+
 # Load
 library(here)
 library(wesanderson)
