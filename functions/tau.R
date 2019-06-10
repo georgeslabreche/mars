@@ -32,16 +32,24 @@
 function(phi, Ls, model=1){
   if (model == 1){
     
-    a = (1 + phi/150) / (1917 + (phi+38.27)^2)
+    a = 16787 * ((1 + phi/150) / (1917 + (phi+38.27)^2))
     b = 0.779 * exp(-(Ls-215)^2 / 730) 
     c = exp(-(Ls-295)^2 / 730)
     
-    res = 16787 * a * (b + c)
+    res =  a * (b + c)
 
     return(max(0.5, res))
     
   }else if (model == 2){
-    stop("Not yet implemented.")
+    
+    a = 19500 * ((1 + phi/150) / (4000 + (phi+48.1)^2))
+    b = exp(-(Ls-215)^2 / 730)
+    c = 12700 * ((1 + phi/410) / (2465 + (phi+13.1)^2))
+    d = exp(-(Ls-295)^2 / 730)
+    
+    res =  (a * b) + (c * d) 
+    
+    return(max(0.5, res))
     
   }else{
     stop("Unsupportd model number. Should be either 1 or 2.")
