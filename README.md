@@ -30,8 +30,8 @@ Based on the following excellent work:
 
 #### [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I (1991) — Update 1991](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
 - Implement albedo function that takes longitude and latitude as parameters.
-- Implement the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than just relying on inputing its value as a parameter.
-- Plot optical depth tau factor as a function of latitude and areocentric longitude.
+- **[DONE]** Implement the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than just relying on inputing its value as a parameter.
+- **[DONE]** Plot optical depth tau factor as a function of latitude and areocentric longitude.
 - Include dust storm occurrence probability.
 
 #### [Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos (1994)](https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array)
