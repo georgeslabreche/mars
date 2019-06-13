@@ -31,12 +31,12 @@ f_all_taus = dget(here("functions", "f_all_taus.R"))
 f_all_Zs = dget(here("functions", "f_all_Zs.R"))
 
 al = 0.1    # Albedo.
-nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+nfft = 2    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
 Ls_VE = 0   # Vernal Equinox - Dust Storm Season ends.
 Ls_A = 71   # APHELION.
 
 # Tau list options
-taus_all = f_all_taus()
+taus_all = f_all_taus(nfft)
 taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
 
@@ -44,7 +44,7 @@ taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
 taus = taus_selected
 
 # Zenith angle options
-zenith_angles = f_all_Zs()
+zenith_angles = f_all_Zs(nfft)
 
 # Using the outer() function doesn't work with the Gh_eq equation:
 # z=outer(zenith_angles, taus, Gh_eq)

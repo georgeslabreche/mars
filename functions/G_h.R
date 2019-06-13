@@ -9,33 +9,21 @@ library(here)
 # Equation 4: Beam irridiance at the top of the Martian atmosphere (W/m2). 
 Gob_eq = dget(here("functions", "G_ob.R"))
 
-# The normalized net flux functions.
-f_89 = dget(here("functions", "f_89.R")) # f(Z,tau)
-#f_90 = dget(here("functions", "f_90.R")) # f(Z,tau, al)
-f = dget(here("functions", "f.R")) # f(Z,tau, al)
+# The normalized net flux function
+f = dget(here("functions", "f.R"))
 
 function(Ls, Z, tau, al, nfft){
   if(nfft == 1){
-    if(al != 0.1){
-      stop("The f_89 net flux function only supports an albedo of 0.1.")
-    }
-    
-    net_flux = f_89(Z,tau)
+    net_flux = f(Z, tau, al, pub_year=1989)
     
   }else if(nfft == 2){
-    if(al != 0.1 && al != 0.4){
-      stop("The f_90 net flux function only supports an albedo of 0.1 or 0.4.")
-    }
-    
-    #TODO: Implement.
-    stop("Not yet implemented.")
-    # net_flux = f_90(Z,tau,al)
+    net_flux = f(Z, tau, al, pub_year=1990)
     
   }else if(nfft == 3){
-    net_flux = f(Z,tau,al)
+    net_flux = f(Z, tau, al)
     
   }else{
-    stop("Unsupported net flux function type. Should be 1 for f_89, 2 for f_90, or 3 for f.")
+    stop("Unsupported net flux function type. Should be 1 for the original 1989 lookup table publication, 2 for the 1990/1991 lookup table update, or 3 for the analytical expression.")
   }
   
   Gob_eq(Ls) * cos(Z * pi/180) * (net_flux / (1-al))

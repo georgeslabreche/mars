@@ -10,37 +10,43 @@
 #   for higher albedo values to a first approximation.
 #
 # Based on the following publication:
-# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+#   https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
 # al        - The albedo. Options are:
-#               - 0.1 for pub_year 1990.
-#               - 0.1 or 0.2 for pub_year 1991.
+#               - 0.1 for pub_year 1989.
+#               - 0.1 or 0.2 for pub_year 1990.
 # pub_year  - The research paper's publication year. Retrieve data from the given publication year.
-#             There were 2 updates after the origina publication in 1989/1990. Once in 1990 and another one in 1991.
-function(al=0.1, pub_year=1990){
+#             There were 2 updates after the original publication in 1989. Once in 1990 and another one in 1991.
+#             We only consider the 1990 update since the 1991 update brought no changes to the net flux lookup table.
+function(al=0.1, pub_year=1989){
   csv_filename = NULL
   
-  if(pub_year == 1990){
+  if(pub_year == 1989){
     if(al != 0.1){
-      stop("Only an albedo of 0.1 is supported in the original 1990 publication of the normalized net flux function's lookup table.")
+      stop("Only an albedo of 0.1 is supported in the original 1989 publication of the normalized net flux function's lookup table.")
     }else{
+      # File with data from 1989 table which has 1990 in filename
+      # because that's the official publication year for the original document written in 1989.
       csv_filename = "table_III_1990.csv"
     }
     
-  }else if(pub_year == 1991){
+  }
+  else if(pub_year == 1990){
     if(al == 0.1){
+      # File with data from 1991 table which is the same as that of 1990.
       csv_filename = "al_0-1_table_III_1991_update.csv"
       
     }else if(al == 0.4){
+      # File with data from 1991 table which is the same as that of 1990.
       csv_filename = "al_0-4_table_III_1991_update.csv"
       
     }else{
-      stop("Only an albedo of 0.1 or 0.4 is supported in the publication's 1991 update of the normalized net flux function's lookup table.")
+      stop("Only an albedo of 0.1 or 0.4 is supported in the publication's 1990 update of the normalized net flux function's lookup table.")
     }
     
   }else{
-    stop("Usupported publication year, should either be 1990 for the original pulication or 1991 for the 1991 update.")
+    stop("Usupported publication year, should either be 1989 for the original pulication or 1990 for its 1990 update")
   }
   
   nnff = read.csv(here("data/normalized_net_flux_function/", csv_filename))

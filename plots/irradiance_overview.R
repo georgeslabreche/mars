@@ -41,7 +41,7 @@ Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE,  Ls_P, Ls_WS)
 Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
 
 # Tau list options
-taus_all = f_all_taus()
+taus_nfft = f_all_taus(nfft)
 taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
 
@@ -49,7 +49,7 @@ taus_selected = c(0.1, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0)
 taus = taus_selected
 
 # Zenith angle options
-zenith_angles = f_all_Zs()
+zenith_angles = f_all_Zs(nfft)
 
 #####################################################################
 # Equation 17: Global irradiance on Mars horizontal surface (W/m2). #

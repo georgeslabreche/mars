@@ -50,12 +50,10 @@ function(Ls, omega, phi, nfft){
     Z = relist(replace(v1, v1==90, 85), skeleton=Z)
     
   }else if(nfft == 2){
-    # TODO: Test this.
     Z = round(Z/5) * 5
-    stop("Not implemented yet.")
     
   }else if(nfft != 3){
-    stop(paste("Unsupported net flux function type, should be 1 for f_89, 2 for f_90, or 3 for f:", nfft))
+    stop(paste("Unsupported net flux function type, should be 1 for f_89, 2 for f_90, or 3 for f: ", nfft))
   }
 
   return(Z)

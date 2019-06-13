@@ -53,7 +53,7 @@ ui <- fluidPage(
             #             min=1, max=6, step=1, value=1),
             
             shinyWidgets::sliderTextInput("tau", label=h5("Tau Factor (Atmospheric Opacity)"),
-                                          choices=f_all_taus()),
+                                          choices=f_all_taus(2)),
             
             sliderInput("solarTimeRange", label=h5("Solar Time Range [h]"),
                         min=7, max=17, step=1, value=c(7, 17)),

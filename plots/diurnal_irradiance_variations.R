@@ -15,8 +15,14 @@ diurnal_plot = dget(here("plots", "diurnal_plot.R"))
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
 G_eqs_cols = wes_palette("Darjeeling1", 3)
 
-al = 0.1    # Albedo.
-nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
+# Albedo.
+al = 0.1    
+
+# Net flux function type
+#   1 for 1989 lookup table.
+#   2 for 1990 lookup table.
+#   3 for the analytical expresion.
+nfft = 1  
 
 # Tau list options
 taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
