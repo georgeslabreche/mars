@@ -25,7 +25,7 @@ Based on the following excellent work:
 
 ## Future Development
 #### [Appelbaum, Joseph & Flood, Dennis (1990) — Update 1990](https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990)
-- Include more granular optical depth and zenith angle parameter value options for the normalized net flux function.
+- **[DONE]** Include more granular optical depth and zenith angle parameter value options for the normalized net flux function.
 - **[DONE]** Implement the analytical expression of the normalized net flux function rather than just relying on a lookup table.
 
 #### [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I (1991) — Update 1991](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
@@ -38,6 +38,7 @@ Based on the following excellent work:
 - Add surface inclination angle as a parameter.
 
 #### Other
+- **[DONE]** Plot optical depth ground measurements for MER an Viking Lander and compare with Appelbaum analytical models.
 - Generate plots of interest for the thesis and README documentation purposes.
 - Experiment with 3D plots.
 - Experiment with model described in [Vicente-Retortillo, Álvaro & Valero, Francisco & Vázquez, Luis & Martinez, German M.. (2015). A model to calculate solar radiation fluxes on the Martian surface. Journal of Space Weather and Space Climate. 5. A33. 10.1051/swsc/2015035](https://www.researchgate.net/publication/283452176_A_model_to_calculate_solar_radiation_fluxes_on_the_Martian_surface).
