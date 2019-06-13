@@ -20,7 +20,7 @@ library(here)
 
 # We build a dataframe representation of Table III referenced in From Appelbaum, Joseph & Flood, Dennis. (1990):
 f_build_df = dget(here("functions", "f_build_df.R"))
-nnff = f_build_df()
+nnff = f_build_df(al=0.1, pub_year=1990)
 
 # The normalized net flux function.
 #   Z     - Zenith angle [deg].

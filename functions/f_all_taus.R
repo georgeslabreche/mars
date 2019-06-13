@@ -2,6 +2,6 @@ library(here)
 
 f_build_df = dget(here("functions", "f_build_df.R"))
 
-function(){
-  as.numeric(rownames(f_build_df()))
+function(al=0.1, pub_year=1990){
+  as.numeric(rownames(f_build_df(al, pub_year)))
 }
