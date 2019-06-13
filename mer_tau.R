@@ -51,7 +51,7 @@ model = 1
 # So get taus iteratively.
 tau_seq = c()
 for(Ls in Ls_seq){
-  tau = tau_eq(phi_vl1, Ls, model)
+  tau = tau_eq(phi_oppy, Ls, model)
   tau_seq = c(tau_seq, tau)
 }
 
@@ -192,7 +192,7 @@ phoenix_tau_lines = function(lander_id="VL1", sol_start=0, sol_end=1147, include
 ####################################################
 # Mars Exploration Rovers (Spirit and Opportunity) #
 ####################################################
-mer_tau_lines(MER-A)
+mer_tau_lines("Oppy")
 
 ##################
 # Viking Landers #
