@@ -24,7 +24,7 @@ nfft = 1    # Net flux function type (1 for f_89, 2 for f_90, and 3 for f).
 
 # Areocentric Longitude values (deg).
 Ls_list = list(
-    "Ls = 0°   (Vernal Equinox) " = 0,
+    "Ls = 0°   (Vernal Equinox)" = 0,
     "Ls = 71°   (Aphelion)" = 71,
     "Ls = 90°  (Summer Solstice)" = 90,
     "Ls = 180° (Autumn Equinox)" = 180,
