@@ -29,7 +29,7 @@ Based on the following excellent work:
 - **[DONE]** Implement the analytical expression of the normalized net flux function rather than just relying on a lookup table.
 
 #### [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I (1991) — Update 1991](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
-- Implement albedo function that takes longitude and latitude as parameters.
+- **[DONE]** Implement albedo function that takes longitude and latitude as parameters.
 - **[DONE]** Implement the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than just relying on inputing its value as a parameter.
 - **[DONE]** Plot optical depth tau factor as a function of latitude and areocentric longitude.
 - Include dust storm occurrence probability.
