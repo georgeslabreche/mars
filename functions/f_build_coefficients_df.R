@@ -6,9 +6,22 @@
 
 library(here)
 
+# Load data from files.
+nnff_k0 = read.csv(here("data/normalized_net_flux_function/", "k0_coefficients_1990_update.csv"))
+nnff_k1 = read.csv(here("data/normalized_net_flux_function/", "k1_coefficients_1990_update.csv"))
+
 function(k=0){
-  nnff = read.csv(paste(here("data/normalized_net_flux_function/"), "k", k ,"_coefficients_1990_update.csv", sep=""))
-  nnff = nnff[-c(1)]
+  if(k==0){
+    nnff_k0 = nnff_k0[-c(1)]
+    return(nnff_k0)
+    
+  }else if(k==1){
+    nnff_k1 = nnff_k1[-c(1)]
+    return(nnff_k1)
+    
+  }else{
+    paste("Unsupported value for k, must be either 0 or 1.")
+  }
 }
 
 
