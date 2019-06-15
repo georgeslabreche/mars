@@ -8,8 +8,9 @@
 delta_0 = 24.936
 
 # Ls      - Areocentric longitude [deg].
-# omega   - Hour angle value [h]. An integeder beloging to [6, 18] if using f_89.R or f_90.R.
+# omega   - Hour angle value [h]. An integer belonging to [6, 18] if using f_89.R or f_90.R.
 # phi     - Latitude [deg].
+# nfft    - Net flux function type.
 function(Ls, omega, phi, nfft){
   
   ########################################

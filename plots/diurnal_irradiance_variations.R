@@ -1,10 +1,10 @@
 # Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface.
 #
 # Based on equations presented in the following publication:
-# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+#   https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
-# Load
+# Load libraries
 library(here)
 library(wesanderson)
 
@@ -39,7 +39,7 @@ Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE, Ls_P, Ls_WS)
 Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
 
 tau = 0.5
-phi = 22.3 # Latitude of at Viking Lander VL1. [deg] 
+phi = 22.3 # Latitude of at Viking Lander VL1 [deg]. 
 
 
 # Calculate irradiances.

@@ -2,6 +2,12 @@ library(here)
 
 f_build_df = dget(here("functions", "f_build_df.R"))
 
+# The function.
+#
+#   nfft    - Net flux function implementation type.
+#               - 1 for f_89.
+#               - 2 for f_90.
+#               - 3 for f_analytical.
 function(nfft){
   if(nfft==1){
     as.numeric(gsub("X", "", colnames(f_build_df(0.1, 1989))))

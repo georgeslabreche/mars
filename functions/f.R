@@ -1,16 +1,13 @@
 # Equation 20. The analytical expression of the normalized net flux function.
 #
-# TODO: 
-#   - Mars surface albedo value can be determined as a function of Longitude and Latitude (Table I.)
-#
 # From Appelbaum, Joseph & Flood, Dennis (1990) - Update 1990:
 #   The mean error is about 0.7 percent for the full range. For zenith angles up to 40° the error is much smaller.
 #   The largest error is for zenith angle of 80° and 85° and for τ greater than 5. The maximum error is about 7 percent.
 #   At these large angles and opacities, the error has a minor effect on the calculated daily insolations.
 #
 # Based on equations presented in the following publication:
-# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990. NASA STI/Recon Technical Report N. 91. 15117-.
-# https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990
+#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990. NASA STI/Recon Technical Report N. 91. 15117-.
+#   https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990
 
 library(here)
 

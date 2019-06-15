@@ -1,4 +1,4 @@
-# The albedo function.
+# Table I (Update 1991): The albedo function.
 #
 # Based on following publication:
 #   Appelbaum, Joseph & Landis, Geoffrey & Sherman, I. (1991). Solar radiation on Mars—Update 1991. Solar Energy. 50. 35-51. 10.1016/0038-092X(93)90006-A:

@@ -1,16 +1,16 @@
 # Generate various plots describing solar radiation on Mars.
 #
 # Based on equations presented in the following publication:
-# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+#   https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
 # Load
 library(wesanderson)
 
-# Equation 17: Global irradiance on Mars horizontal surface (W/m2).
+# Equation 17: Global irradiance on Mars horizontal surface [W/m2].
 Gh_eq = dget(here("functions", "G_h.R"))
 
-# Equation 18: Beam irradiance on Mars horizontal surface (W/m2).
+# Equation 18: Beam irradiance on Mars horizontal surface [W/m2].
 Gbh_eq = dget(here("functions", "G_bh.R"))
 
 # Determine an expression for the diffuse irradiance based on Eq. 17 and Eq. 18.
@@ -51,11 +51,11 @@ taus = taus_selected
 # Zenith angle options
 zenith_angles = f_all_Zs(nfft)
 
-#####################################################################
-# Equation 17: Global irradiance on Mars horizontal surface (W/m2). #
-# Equation 18: Beam irradiance on Mars horizontal surface (W/m2).   #
-# Equation 16: Diffuse irradiance on Mars horizontal surface(W/m2). #
-#####################################################################
+######################################################################
+# Equation 17: Global irradiance on Mars horizontal surface [W/m2].  #
+# Equation 18: Beam irradiance on Mars horizontal surface [W/m2].    #
+# Equation 16: Diffuse irradiance on Mars horizontal surface [W/m2]. #
+######################################################################
 
 ###
 # Title: Variation of global, bream, and diffuse irradiance on Mars horizontal for different optical depths.

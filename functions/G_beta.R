@@ -1,41 +1,46 @@
-# Equation 3 (1994): Global irradiance on an inclined surface.
+# Equation 3 (1994): Global irradiance on an inclined surface [W/m2].
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos. (1994). Solar radiation on Mars: Tracking photovoltaic array. Journal of Propulsion and Power. 12. 10.2514/3.24044 
 #   https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array
 library(here)
 
+# Table I (Update 1991): The albedo function.
 albedo = dget(here("functions", "al.R"))
 
-# Equation 6 (1990): Zenith angle of the incident solar radiation (deg).
-Z_eq = dget(here("functions", "Z.R"))
-
-# Equation 14 (1990): Beam irradiance on Mars surface.
-Gb_eq = dget(here("functions", "G_b.R"))
-
-Gbh_eq = dget(here("functions", "G_bh.R"))
-
-# Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere (W/m2). 
+# Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
 
-# Equation 17 (1990): Global irradiance on Mars horizontal surface (W/m2).
-Gh_eq = dget(here("functions", "G_h.R"))
+# Equation 6 (1990): Zenith angle of the incident solar radiation [deg].
+Z_eq = dget(here("functions", "Z.R"))
 
-# Equation 16 (1990): The solar irradiance components on a horizontal Martian surface 
+# Equation 14 (1990): Beam irradiance on Mars surface [W/m2].
+Gb_eq = dget(here("functions", "G_b.R"))
+
+# Equation 16 (1990): The solar irradiance components on a horizontal Martian surface [W/m2].
 Gdh_eq = dget(here("functions", "G_dh.R"))
 
-delta_0 = 24.936  # Mars obliquity of rotation axis [deg].
+# Equation 17 (1990): Global irradiance on Mars horizontal surface [W/m2].
+Gh_eq = dget(here("functions", "G_h.R"))
 
-Gb = 590          # Beam Irradiance.
-
-#gamma_s = 1       # Solar azimuth; south zero, east negative, west positive [deg].
+# Mars obliquity of rotation axis [W/m2].
+delta_0 = 24.936
 
 # Equation 3 (1994): Global irradiance on an inclined surface.
-#   Ls      - Areocentric longitude [deg].
-#   omega   - Hour angle value [h]. An integeder beloging to [6, 18] if using f_89.R or f_90.R.
-#   phi     - Latitude [deg].
-#   tau     - Optical depth.
-#   al      - Albedo
+#
+#   Ls        - Areocentric longitude [deg].
+#   omega     - Hour angle value [h].
+#                 - An integer belonging to [6, 18] if using net flux function f_89 or f_90 (nfft 1 or 2).
+#                 - An interger belonging to [0, 24] if using net flux function f_analytical (nfft 3).
+#   phi       - Latitude [deg].
+#   tau       - Optical depth.
+#   al        - Albedo
+#   beta      - Slope/Tilt angle [deg].
+#   gamma_c   - Sun surface azimuth angle (i.e. orientation angle) [deg].
+#   nfft      - Net flux function implementation type.
+#                 - 1 for f_89.
+#                 - 2 for f_90.
+#                 - 3 for f_analytical.
 test = function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   
   # Equation 7 (1990): Declination angle [rad].

@@ -29,12 +29,14 @@ nnff_04_1991 = read.csv(here("data/normalized_net_flux_function/", "al_0-4_table
 rownames(nnff_04_1991) = sprintf("%1.2f", nnff_04_1991[,1])
 nnff_04_1991 = nnff_04_1991[-c(1)]
 
-# al        - The albedo. Options are:
-#               - 0.1 for pub_year 1989.
-#               - 0.1 or 0.2 for pub_year 1990.
-# pub_year  - The research paper's publication year. Retrieve data from the given publication year.
-#             There were 2 updates after the original publication in 1989. Once in 1990 and another one in 1991.
-#             We only consider the 1990 update since the 1991 update brought no changes to the net flux lookup table.
+# The function.
+#
+#   al        - The albedo. Options are:
+#                 - 0.1 for pub_year 1989.
+#                 - 0.1 or 0.2 for pub_year 1990.
+#   pub_year  - The research paper's publication year. Retrieve data from the given publication year.
+#               There were 2 updates after the original publication in 1989. Once in 1990 and another one in 1991.
+#               We only consider the 1990 update since the 1991 update brought no changes to the net flux lookup table.
 function(al=0.1, pub_year=1989){
   
   if(pub_year == 1989){

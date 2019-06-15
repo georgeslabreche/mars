@@ -11,13 +11,13 @@
 
 library(here)
 
-# Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere (W/m2).
+# Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
 
-# Equation 14 (1990): Beam irradiance on Mars surface.
-#   Ls  - Areocentric Longitude.
-#   Z   - Sun Zenith Angle.
-#   tau - Optical Depth.
+# Equation 14 (1990): Beam irradiance on Mars surface [W/m2]
+#   Ls    - Areocentric Longitude.
+#   Z     - Sun Zenith Angle.
+#   tau   - Optical Depth.
 function(Ls, Z, tau){
   Gob_eq(Ls) * exp(-tau * 1 / cos(Z * pi/180))
 }
