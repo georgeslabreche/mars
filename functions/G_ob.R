@@ -8,6 +8,7 @@ Ls_P = 248      # PERIPHELION - Dust Storm Season.
 e = 0.093377    # Mars orbit eccentricity.
 Mb = 590        # Mean beam irradiance at the top of the Martian atmosphere
 
+# Ls  - Areocentric Longitude.
 function(Ls){
   Mb * ( (1 + e*cos( (Ls-Ls_P)* pi/180 ))^2 / (1-e^2)^2 ) # Eq. 4.
 }

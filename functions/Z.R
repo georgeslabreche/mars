@@ -7,18 +7,14 @@
 # Mars obliquity of rotation axis [deg]
 delta_0 = 24.936
 
-# Ls              - Areocentric longitude [deg].
-# omega           - Hour angle value [h]. An integeder beloging to [6, 18] if using f_89.R or f_90.R.
-# phi             - Latitude [deg].
-# round           - Set to TRUE if using f_89.R or f_90.R implementation of the net flux function.
-#                   This is because f_89.R and f_90.R implementations use lookup tables that expect pre-defined rounded values of Z.
-# round_multiple  - Set to 10 to round to a power of 10 (for f_89.R).
-#                 - Set to 5 to round to a power of 5 (for f_90.R).
+# Ls      - Areocentric longitude [deg].
+# omega   - Hour angle value [h]. An integeder beloging to [6, 18] if using f_89.R or f_90.R.
+# phi     - Latitude [deg].
 function(Ls, omega, phi, nfft){
   
-  ##################################
-  # Equation 7: Declination angle. #
-  ##################################
+  ########################################
+  # Equation 7: Declination angle [rad]. #
+  ########################################
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
   
   #################################
@@ -55,6 +51,6 @@ function(Ls, omega, phi, nfft){
   }else if(nfft != 3){
     stop(paste("Unsupported net flux function type, should be 1 for f_89, 2 for f_90, or 3 for f: ", nfft))
   }
-
+  
   return(Z)
 }
