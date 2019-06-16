@@ -41,10 +41,14 @@ delta_0 = 24.936
 #                 - 1 for f_89.
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
-test = function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
+function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   
   # Equation 7 (1990): Declination angle [rad].
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
+  
+  # Alternative equation for delta.
+  # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
+  #delta = asin(0.42565 * sin(Ls*pi/180)) + 0.25 * sin(Ls*pi/180)
   
   # Equation 8 (1990): Hour angle [deg].
   # From Appelbaum, Joseph & Flood, Dennis. (1990):
@@ -54,49 +58,37 @@ test = function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   #   between the Mars solar time T and the hour angle as for the Earth.
   omega_deg = 15 * omega - 180
   
-  Z = Z_eq(Ls, omega, phi, nfft)
-
-  #x = sin(delta) - cos(Z * pi/180) * sin(phi * pi/180)
-  #y = sin(Z * pi/180) * cos(phi * pi/180)
-  #gamma_s = acos(x / y)
-  #print(gamma_s * 180/pi)
-  
   # Angle of solar elevation [deg]
-  m = sin(delta) * sin(phi * pi/180)
-  n = cos(delta) * cos(omega_deg * (pi/180)) * cos(phi * pi/180)
+  # Source [p.10]: http://mypages.iit.edu/~maslanka/SolarGeo.pdf
+  m = sin(delta) * sin(phi*pi/180)
+  n = cos(delta) * cos(omega_deg*pi/180) * cos(phi*pi/180)
   alpha = asin(m + n)
   
   # Solar Azimuth Angle [deg]
-  # Source: http://mypages.iit.edu/~maslanka/SolarGeo.pdf
-  # x = sin(delta) * cos(phi * pi/180)
-  # y = cos(delta) * cos(omega_deg * (pi/180)) * sin(phi * pi/180)
-  # z = cos(alpha)
-  # 
-  # gamma_s_prime = acos((x - y) / z) # [rad]
-  # gamma_s = if(omega_deg <= 0) (gamma_s_prime * 180/pi) else (360 - (gamma_s_prime * 180/pi)) # [deg]
+  # Source [p.10]: http://mypages.iit.edu/~maslanka/SolarGeo.pdf
+  x = sin(delta) * cos(phi*pi/180)
+  y = cos(delta) * cos(omega_deg*pi/180) * sin(phi*pi/180)
+  z = cos(alpha)
+
+  gamma_s_prime = acos((x - y) / z) # [rad]
+  gamma_s = if(omega_deg <= 0) (gamma_s_prime * 180/pi) else (360 - (gamma_s_prime * 180/pi)) # [deg]
   
-  # Solar Azimuth Angle [deg]
-  # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-  print(paste("omega_deg:", omega_deg))
-  
-  # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
-  gamma_s2 = atan(sin(omega_deg * (pi/180)) / ((cos(phi * pi/180) * tan(delta)) - (sin(phi * pi/180) * cos(omega_deg * (pi/180))))) # [rad]
-  gamma_s2 = gamma_s2 * 180/pi # [deg]
-  gamma_s = gamma_s2  # [deg]
-  
-  #gamma_s = 151.93895
-  
-  # Equation 4 (1994): Sun Angle of Incidence [VERIFIED]
+  # Equation 4 (1994): Sun Angle of Incidence [VERIFIED FOR β=0°]
+  Z = Z_eq(Ls, omega, phi, nfft)
   i = cos(beta * pi/180) * cos(Z * pi/180)
   j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
-  teta = acos(i + j)
+  teta = acos(i + j) # [rad]
   
+  print(paste("? Hour Angle, ω = ", omega_deg, "°", sep=""))
+  print(paste("✓ Declination Angle, δs = ", delta * 180/pi, "°", sep=""))
   
-  #print(paste("Sun Azimuth Angle Prime:", gamma_s_prime * 180/pi))
-  #print(paste("Sun Azimuth Angle:", gamma_s))
-  print(paste("Sun Azimuth Angle [doesn't matter]:", gamma_s)) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
-  print(paste("Sun Angle of Incidence:", teta * 180/pi))
-  print(paste("Sun Zenith Angle:", Z))
+  # Sun Azimuth Angle
+  # Verified with DaVinci: http://davinci.asu.edu/index.php?title=marstimelocal
+  # Verified with Mars24 Sunclock: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
+  print(paste("✓ Sun Azimuth Angle, γ = ", gamma_s, "°", sep="")) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
+  
+  print(paste("✗ Sun Angle of Incidence, θ = ", teta * 180/pi, "°", sep=""))
+  print(paste("✓ Sun Zenith Angle, Z = ", Z, "°", sep=""))
 
   a = Gb_eq(Ls, Z, tau) * cos(teta)  
   b = Gdh_eq(Ls, Z, tau, al, nfft) * cos((beta * pi/180) / 2)^2
@@ -107,42 +99,40 @@ test = function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   return(result)
 }
 
-# Verification Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-#Ls = 277.18758
-#omega = 23.99425
-#phi = 0
+# MER-A Spirit Landing Site
+# Source: : https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
+# Ls = 327.32416
+# omega = 0
+# phi = -14.640
 
-Ls = 327.32416
-omega = 13.16537
-phi = -14.640
-#phi = 10 
+# MER-A Spirit Landing Site
+# January 4, 2004, 04:35 UTC 
+# Ls = 327.66536 # https://jtauber.github.io/mars-clock/
+# omega = 15.5786 # https://www.calculatorsoup.com/calculators/time/time-to-decimal-calculator.php
+# phi = -14.7542
 
-tau = 0.5
-al = 0.1
-# If using the albedo function, the longitude and latitude (phi) must be a multiple of 10.
-#l = albedo(0, phi)
-beta = 0
-gamma_c = 0 # The rover is oriented soutwards [deg].
-nfft = 3
-
-G_beta = test(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
-print(paste("Gβ:", G_beta))
-
-Z = Z_eq(Ls, omega, phi, nfft)
-Gh = Gh_eq(Ls, Z, tau, al, nfft)
-print(paste("Gh:", Gh))
-
-
-# Equation 14 (1994): Sun angle of incidence [rad].
-#teta = acos(1 - cos(delta)^2 * cos(omega_deg * (pi/180)))^(1/2)
-#beta = Z
-
-# Equation 16 (1994): Sun angle of incidence [rad].
-# East-West horizontal axis: North-South tracking.
+# MER-B Oppy Landing Site
+# January 25, 2004, 05:05 UTC
+# Ls = 339.10504 # https://jtauber.github.io/mars-clock/
+# omega = 14.5803 # https://www.calculatorsoup.com/calculators/time/time-to-decimal-calculator.php
+# phi = -1.9483
 # 
-#x = sin(delta) * sin((phi-beta) * (pi/180))
-#y = cos(delta) * cos((phi-beta) * (pi/180)) * cos(omega_deg * (pi/180))
-#teta = acos(x + y)
+# 
+# tau = 0.5
+# al = 0.1
+# # If using the albedo function, the longitude and latitude (phi) must be a multiple of 10.
+# #l = albedo(0, phi)
+# beta = 0
+# gamma_c = 0 # The rover is oriented soutwards [deg].
+# nfft = 3
+# 
+# G_beta = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
+# print(paste("Gβ:", G_beta))
+# 
+# Z = Z_eq(Ls, omega, phi, nfft)
+# Gh = Gh_eq(Ls, Z, tau, al, nfft)
+# print(paste("Gh:", Gh))
 
-# (b) North-South horizontal axis: East-West tracking.
+
+
 

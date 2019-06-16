@@ -18,6 +18,10 @@ function(Ls, omega, phi, nfft){
   ########################################
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
   
+  # Alternative equation for delta.
+  # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
+  #delta = asin(0.42565 * sin(Ls*pi/180)) + 0.25 * sin(Ls*pi/180)
+  
   #################################
   # Equation 8: Hour angle [deg]. #
   #################################
