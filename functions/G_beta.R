@@ -79,16 +79,16 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
   teta = acos(i + j) # [rad]
   
-  print(paste("? Hour Angle, ω = ", omega_deg, "°", sep=""))
-  print(paste("✓ Declination Angle, δs = ", delta * 180/pi, "°", sep=""))
+  # print(paste("Hour Angle, ω = ", omega_deg, "°", sep=""))
+  # print(paste("Declination Angle, δs = ", delta * 180/pi, "°", sep=""))
   
   # Sun Azimuth Angle
   # Verified with DaVinci: http://davinci.asu.edu/index.php?title=marstimelocal
   # Verified with Mars24 Sunclock: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-  print(paste("✓ Sun Azimuth Angle, γ = ", gamma_s, "°", sep="")) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
-  
-  print(paste("✗ Sun Angle of Incidence, θ = ", teta * 180/pi, "°", sep=""))
-  print(paste("✓ Sun Zenith Angle, Z = ", Z, "°", sep=""))
+  # print(paste("Sun Azimuth Angle, γ = ", gamma_s, "°", sep="")) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
+  # 
+  # print(paste("Sun Angle of Incidence, θ = ", teta * 180/pi, "°", sep=""))
+  # print(paste("Sun Zenith Angle, Z = ", Z, "°", sep=""))
 
   a = Gb_eq(Ls, Z, tau) * cos(teta)  
   b = Gdh_eq(Ls, Z, tau, al, nfft) * cos((beta * pi/180) / 2)^2
