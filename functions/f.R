@@ -1,4 +1,4 @@
-# Equation 20. The analytical expression of the normalized net flux function.
+# Equation 20 (1990): The analytical expression of the normalized net flux function.
 #
 # From Appelbaum, Joseph & Flood, Dennis (1990) - Update 1990:
 #   The mean error is about 0.7 percent for the full range. For zenith angles up to 40° the error is much smaller.
