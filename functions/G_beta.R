@@ -47,6 +47,7 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
   
   # Alternative equation for delta.
+  # But changing it here means also having to change it in Z.R.
   # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
   #delta = asin(0.42565 * sin(Ls*pi/180)) + 0.25 * sin(Ls*pi/180)
   
@@ -73,10 +74,10 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   gamma_s_prime = acos((x - y) / z) # [rad]
   gamma_s = if(omega_deg <= 0) (gamma_s_prime * 180/pi) else (360 - (gamma_s_prime * 180/pi)) # [deg]
   
-  # Equation 4 (1994): Sun Angle of Incidence [VERIFIED FOR β=0°]
+  # Equation 4 (1994): Sun Angle of Incidence # [rad]
   Z = Z_eq(Ls, omega, phi, nfft)
   i = cos(beta * pi/180) * cos(Z * pi/180)
-  j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
+  j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j=0.
   teta = acos(i + j) # [rad]
   
   # print(paste("Hour Angle, ω = ", omega_deg, "°", sep=""))
@@ -85,54 +86,19 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   # Sun Azimuth Angle
   # Verified with DaVinci: http://davinci.asu.edu/index.php?title=marstimelocal
   # Verified with Mars24 Sunclock: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-  # print(paste("Sun Azimuth Angle, γ = ", gamma_s, "°", sep="")) # THIS DOES NOT MATTER WHEN BETA = 0 because it leads to j=0
+  # print(paste("Sun Azimuth Angle, γ = ", gamma_s, "°", sep="")) # Does not matter when beta = 0 because it leads to j=0.
   # 
   # print(paste("Sun Angle of Incidence, θ = ", teta * 180/pi, "°", sep=""))
   # print(paste("Sun Zenith Angle, Z = ", Z, "°", sep=""))
 
   a = Gb_eq(Ls, Z, tau) * cos(teta)  
-  b = Gdh_eq(Ls, Z, tau, al, nfft) * cos((beta * pi/180) / 2)^2
-  c = al * Gh_eq(Ls, Z, tau, al, nfft) * sin((beta * pi/180) / 2)^2 # THIS DOES NOT MATTER WHEN BETA = 0 because it equals 0
+  b = Gdh_eq(Ls, Z, tau, al, nfft) * cos((beta*pi/180) / 2)^2
+  c = al * Gh_eq(Ls, Z, tau, al, nfft) * sin((beta*pi/180) / 2)^2
   
   result = a + b + c
   
   return(result)
 }
-
-# MER-A Spirit Landing Site
-# Source: : https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-# Ls = 327.32416
-# omega = 0
-# phi = -14.640
-
-# MER-A Spirit Landing Site
-# January 4, 2004, 04:35 UTC 
-# Ls = 327.66536 # https://jtauber.github.io/mars-clock/
-# omega = 15.5786 # https://www.calculatorsoup.com/calculators/time/time-to-decimal-calculator.php
-# phi = -14.7542
-
-# MER-B Oppy Landing Site
-# January 25, 2004, 05:05 UTC
-# Ls = 339.10504 # https://jtauber.github.io/mars-clock/
-# omega = 14.5803 # https://www.calculatorsoup.com/calculators/time/time-to-decimal-calculator.php
-# phi = -1.9483
-# 
-# 
-# tau = 0.5
-# al = 0.1
-# # If using the albedo function, the longitude and latitude (phi) must be a multiple of 10.
-# #l = albedo(0, phi)
-# beta = 0
-# gamma_c = 0 # The rover is oriented soutwards [deg].
-# nfft = 3
-# 
-# G_beta = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
-# print(paste("Gβ:", G_beta))
-# 
-# Z = Z_eq(Ls, omega, phi, nfft)
-# Gh = Gh_eq(Ls, Z, tau, al, nfft)
-# print(paste("Gh:", Gh))
-
 
 
 
