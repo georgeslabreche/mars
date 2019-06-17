@@ -69,5 +69,5 @@ Based on the following excellent work:
 - **[DONE]** Plot optical depth ground measurements for MER an Viking Lander and compare with Appelbaum analytical models.
 - Generate plots of interest for the thesis and README documentation purposes.
 - Experiment with 3D plots.
-- Read [Solar Radiation on Mars: Stationary Photovoltaic Array].(https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19940010257.pdf)
+- Read [Solar Radiation on Mars: Stationary Photovoltaic Array](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19940010257.pdf).
 - Experiment with model described in [Vicente-Retortillo, Álvaro & Valero, Francisco & Vázquez, Luis & Martinez, German M.. (2015). A model to calculate solar radiation fluxes on the Martian surface. Journal of Space Weather and Space Climate. 5. A33. 10.1051/swsc/2015035](https://www.researchgate.net/publication/283452176_A_model_to_calculate_solar_radiation_fluxes_on_the_Martian_surface).
