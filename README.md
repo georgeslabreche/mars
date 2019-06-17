@@ -13,16 +13,17 @@ The following functions are taken from Appelbaum, Joseph & Flood, Dennis (1990):
 
 | Filename | Description                                                  | Reference                                |
 |----------|--------------------------------------------------------------|------------------------------------------|
-| G_ob.R   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4 (Appelbaum et al. 1990)            |
-| Z.R      | Zenith angle of the incident solar radiation (deg).          | Eq. 6 (Appelbaum et al. 1990)            |
+| [G_ob.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_ob.R)   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4 (Appelbaum et al. 1990)            |
+| [Z.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/Z.R)      | Zenith angle of the incident solar radiation (deg).          | Eq. 6 (Appelbaum et al. 1990)            |
 | T_d.R    | Number of Mars daylight hours (h).                           | Eq. 10 (Appelbaum et al. 1990)            |
-| G_b.R    | Beam irradiance on Mars surface (W/m2).                      | Eq. 13 (Appelbaum et al. 1990)           |
-| G_dh.R   | Diffuse irradiance on Mars horizontal surface (W/m2).        | Eq. 16 (Appelbaum et al. 1990)           |
-| G_h.R    | Global irradiance on Mars horizontal surface (W/m2).         | Eq. 17 (Appelbaum et al. 1990)           |
-| G_bh.R   | Beam irradiance on Mars horizontal surface (W/m2).           | Eq. 18 (Appelbaum et al. 1990)           |
-| f.R      | The normalized net flux function.                            | Table III (Appelbaum et al. 1990)<br>Table I & II (Appelbaum et al. Update 1990)<br>Eq. 20 (Appelbaum et al. Update 1990)   |
-| tau.R    | The optical depth tau factor function.                       | Eq. 1 & 2 (Appelbaum et al. Update 1991) |
-| G_beta.R | Global irradiance on an inclined surface (W/m2).             | Eq. 1 & 2 (Appelbaum et al. 1994)        |
+| [G_b.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_b.R)    | Beam irradiance on Mars surface (W/m2).                      | Eq. 13 (Appelbaum et al. 1990)           |
+| [G_dh.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_dh.R)   | Diffuse irradiance on Mars horizontal surface (W/m2).        | Eq. 16 (Appelbaum et al. 1990)           |
+| [G_h.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_h.R)    | Global irradiance on Mars horizontal surface (W/m2).         | Eq. 17 (Appelbaum et al. 1990)           |
+| [G_bh.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_bh.R)   | Beam irradiance on Mars horizontal surface (W/m2).           | Eq. 18 (Appelbaum et al. 1990)           |
+| [f.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/f.R)      | The normalized net flux function.                            | Table III (Appelbaum et al. 1990)<br>Table I & II (Appelbaum et al. Update 1990)<br>Eq. 20 (Appelbaum et al. Update 1990)   |
+| [tau.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/tau.R)    | The optical depth tau factor function.                       | Eq. 1 & 2 (Appelbaum et al. Update 1991) |
+| [al.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/al.R)    | The albedo function.                       | Table I (Appelbaum et al. Update 1991) |
+| [G_beta.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_beta.R) | Global irradiance on an inclined surface (W/m2).             | Eq. 1 & 2 (Appelbaum et al. 1994)        |
 
 From Appelbaum, Joseph & Flood, Dennis (1990):
 
