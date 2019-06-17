@@ -19,5 +19,5 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 #   Z     - Sun Zenith Angle.
 #   tau   - Optical Depth.
 function(Ls, Z, tau){
-  Gob_eq(Ls) * exp(-tau * 1 / cos(Z * pi/180))
+  Gob_eq(Ls) * exp(-tau / cos(Z * pi/180))
 }
