@@ -1,17 +1,30 @@
 # Solar Radiation on Mars
-Plotting solar radiation on Mars as a function of many parameters.
+Plotting solar radiation on Mars as a function of the following parameters.
+- Areocentric Longitude (Ls)
+- Planetary Latitude (phi)
+- Solar Time (omega)
+- Atmospheric Opacity (tau)
+- Albedo (al)
+- Slope Angle (beta)
+- Slope Orientation (gamma)
 
 ## Functions
 The following functions are taken from Appelbaum, Joseph & Flood, Dennis (1990):
 
-| Filename | Description                                                  | Reference |
-|----------|--------------------------------------------------------------|-----------|
-| G_ob.R   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4     |
-| Z.R      | Zenith angle of the incident solar radiation (deg).          | Eq. 6     |
-| G_dh.R   | Diffuse irradiance on Mars horizontal surface (W/m2).        | Eq. 16    |
-| G_h.R    | Global irradiance on Mars horizontal surface (W/m2).         | Eq. 17    |
-| G_bh.R   | Beam irradiance on Mars horizontal surface (W/m2).           | Eq. 18    |
-| f.R      | The normalized net flux function.                            | Table III |
+| Filename | Description                                                  | Reference                                |
+|----------|--------------------------------------------------------------|------------------------------------------|
+| G_ob.R   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4 (Appelbaum et al. 1990)            |
+| Z.R      | Zenith angle of the incident solar radiation (deg).          | Eq. 6 (Appelbaum et al. 1990)            |
+| T_d.R    | Number of Mars daylight hours (h).                           | Eq. 10 (Appelbaum et al. 1990)            |
+| G_b.R    | Beam irradiance on Mars surface (W/m2).                      | Eq. 13 (Appelbaum et al. 1990)           |
+| G_dh.R   | Diffuse irradiance on Mars horizontal surface (W/m2).        | Eq. 16 (Appelbaum et al. 1990)           |
+| G_h.R    | Global irradiance on Mars horizontal surface (W/m2).         | Eq. 17 (Appelbaum et al. 1990)           |
+| G_bh.R   | Beam irradiance on Mars horizontal surface (W/m2).           | Eq. 18 (Appelbaum et al. 1990)           |
+| f.R      | The normalized net flux function.                            | Table III (Appelbaum et al. 1990)<br>Table I & II (Appelbaum et al. Update 1990)<br>Eq. 20 (Appelbaum et al. Update 1990)   |
+| tau.R    | The optical depth tau factor function.                       | Eq. 1 & 2 (Appelbaum et al. Update 1991) |
+| G_beta.R | Global irradiance on an inclined surface (W/m2).             | Eq. 1 & 2 (Appelbaum et al. 1994)        |
+
+From Appelbaum, Joseph & Flood, Dennis (1990):
 
 ## References
 Based on the following excellent work:
@@ -27,15 +40,16 @@ Based on the following excellent work:
 #### [Appelbaum, Joseph & Flood, Dennis (1990) — Update 1990](https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990)
 - **[DONE]** Include more granular optical depth and zenith angle parameter value options for the normalized net flux function.
 - **[DONE]** Implement the analytical expression of the normalized net flux function rather than just relying on a lookup table.
+- **[DONE]** Implement function for number of Mars daylight hours.
+- Implement functions to calculate Whr/m2-days.
 
 #### [Appelbaum, Joseph & Landis, Geoffrey & Sherman, I (1991) — Update 1991](https://www.researchgate.net/publication/223850868_Solar_radiation_on_Mars-Update_1991)
 - **[DONE]** Implement albedo function that takes longitude and latitude as parameters.
 - **[DONE]** Implement the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than just relying on inputing its value as a parameter.
 - **[DONE]** Plot optical depth tau factor as a function of latitude and areocentric longitude.
-- Include dust storm occurrence probability.
 
 #### [Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos (1994)](https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array)
-- Add surface inclination angle as a parameter.
+- **[DONE]** Add surface inclination angle as a parameter.
 
 #### Other
 - **[DONE]** Plot optical depth ground measurements for MER an Viking Lander and compare with Appelbaum analytical models.
