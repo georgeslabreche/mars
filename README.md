@@ -38,7 +38,7 @@ The following functions are implemented:
 | [diurnal_plot.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/plots/diurnal_plot.R)      | Plot global, beam, and diffuse irradiance as a function of areocentric longitude, planetary latitude, atmospheric opacity, and solar time.
 
 ## Shiny App
-A simply Shiny app is also available. It allows dynamic rendering of diurnal plots for global, beam, and diffuse irradiance though an interface with components to select differnt value for the areocentric longitude, planetary latitude, and atmospheric opacity,
+A simply Shiny app has been implemented. It allows dynamic rendering of diurnal plots for global, beam, and diffuse irradiance though an interface with components to select different values for the areocentric longitude, planetary latitude, and atmospheric opacity.
 
 ## References
 Based on the following excellent work:
