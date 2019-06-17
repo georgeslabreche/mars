@@ -15,7 +15,7 @@ The following functions are taken from Appelbaum, Joseph & Flood, Dennis (1990):
 |----------|--------------------------------------------------------------|------------------------------------------|
 | [G_ob.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_ob.R)   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4 (Appelbaum et al. 1990)            |
 | [Z.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/Z.R)      | Zenith angle of the incident solar radiation (deg).          | Eq. 6 (Appelbaum et al. 1990)            |
-| T_d.R    | Number of Mars daylight hours (h).                           | Eq. 10 (Appelbaum et al. 1990)            |
+| [T_d.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/T_d.R)    | Number of Mars daylight hours (h).                           | Eq. 10 (Appelbaum et al. 1990)            |
 | [G_b.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_b.R)    | Beam irradiance on Mars surface (W/m2).                      | Eq. 13 (Appelbaum et al. 1990)           |
 | [G_dh.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_dh.R)   | Diffuse irradiance on Mars horizontal surface (W/m2).        | Eq. 16 (Appelbaum et al. 1990)           |
 | [G_h.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_h.R)    | Global irradiance on Mars horizontal surface (W/m2).         | Eq. 17 (Appelbaum et al. 1990)           |
