@@ -5,6 +5,7 @@
 #   https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
 # Load
+library(here)
 library(wesanderson)
 
 # Equation 17: Global irradiance on Mars horizontal surface [W/m2].
