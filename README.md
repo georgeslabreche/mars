@@ -9,7 +9,7 @@ Plotting solar radiation on Mars as a function of the following parameters:
 - Slope Orientation (gamma)
 
 ## Functions
-The following functions are implemented:
+Two types of functions are implemented: Equations and Plots.
 
 ### Equations
 
