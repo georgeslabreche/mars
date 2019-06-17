@@ -11,6 +11,8 @@ Plotting solar radiation on Mars as a function of the following parameters:
 ## Functions
 The following functions are implemented:
 
+### Equations
+
 | Filename | Description                                                  | Reference                                |
 |----------|--------------------------------------------------------------|------------------------------------------|
 | [G_ob.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_ob.R)   | Beam irradiance at the top of the Martian atmosphere (W/m2). | Eq. 4 (Appelbaum et al. 1990)            |
@@ -25,7 +27,18 @@ The following functions are implemented:
 | [al.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/al.R)    | The albedo function.                       | Table I (Appelbaum et al. Update 1991) |
 | [G_beta.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/G_beta.R) | Global irradiance on an inclined surface (W/m2).             | Eq. 1 & 2 (Appelbaum et al. 1994)        |
 
-From Appelbaum, Joseph & Flood, Dennis (1990):
+### Plots
+
+| Filename            | Description                                                                                                                                                                                                                         |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [tau_lines.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/plots/tau_lines.R)         | Plots a line for the given atmospheric opacity tau factor values as a function of areocentric longitude. Filtering capabilities based on Sol range and mission year number.                                                         |
+| [vl_tau_lines.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/plots/vl_tau_lines.R)     | Plot lines for the Viking Landers ground measurements of atmospheric opacity tau factor values as a function of areocentric longitude. Filtering capabilities based on Sol range and mission year number.                           |
+| [mer_tau_lines.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/plots/mer_tau_lines.R)     | Plots lines for the MER-A (Spirit) and MER-B (Opportunity) ground measurements of atmospheric opacity tau factor values as a function of areocentric longitude. Filtering capabilities based on Sol ranges and mission year number. |
+| [phoenix_tau_lines.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/plots/phoenix_tau_lines.R) | Plots lines for the Phoenix Lander measurements of atmospheric opacity tau factor values as a function of areocentric longitude. Filtering capabilities based on Sol ranges and mission year number.                                |
+| [diurnal_plot.R](https://github.com/georgeslabreche/mars-solar-radiation/blob/master/functions/plots/diurnal_plot.R)      | Plot global, beam, and diffuse irradiance as a function of areocentric longitude, planetary latitude, atmospheric opacity, and solar time.
+
+## Shiny App
+A simply Shiny app is also available. It allows dynamic rendering of diurnal plots for global, beam, and diffuse irradiance though an interface with components to select differnt value for the areocentric longitude, planetary latitude, and atmospheric opacity,
 
 ## References
 Based on the following excellent work:
@@ -56,4 +69,5 @@ Based on the following excellent work:
 - **[DONE]** Plot optical depth ground measurements for MER an Viking Lander and compare with Appelbaum analytical models.
 - Generate plots of interest for the thesis and README documentation purposes.
 - Experiment with 3D plots.
+- Read [Solar Radiation on Mars: Stationary Photovoltaic Array].(https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19940010257.pdf)
 - Experiment with model described in [Vicente-Retortillo, Álvaro & Valero, Francisco & Vázquez, Luis & Martinez, German M.. (2015). A model to calculate solar radiation fluxes on the Martian surface. Journal of Space Weather and Space Climate. 5. A33. 10.1051/swsc/2015035](https://www.researchgate.net/publication/283452176_A_model_to_calculate_solar_radiation_fluxes_on_the_Martian_surface).
