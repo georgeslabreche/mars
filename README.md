@@ -1,5 +1,5 @@
 # Solar Radiation on Mars
-Plotting solar radiation on Mars as a function of the following parameters.
+Plotting solar radiation on Mars as a function of the following parameters:
 - Areocentric Longitude (Ls)
 - Planetary Latitude (phi)
 - Solar Time (omega)
@@ -9,7 +9,7 @@ Plotting solar radiation on Mars as a function of the following parameters.
 - Slope Orientation (gamma)
 
 ## Functions
-The following functions are taken from Appelbaum, Joseph & Flood, Dennis (1990):
+The following functions are implemented:
 
 | Filename | Description                                                  | Reference                                |
 |----------|--------------------------------------------------------------|------------------------------------------|
