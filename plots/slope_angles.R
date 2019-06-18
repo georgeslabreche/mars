@@ -18,15 +18,15 @@ Z_eq = dget(here("functions", "Z.R"))
 
 gamma_orientation_angles = list(
   "South" = 0,
-  "Southeast" = 45,
-  "East" = 90,
-  "Northeast" = 135,
-  "North" = 180,
-  "Northwest" = 225,
-  "West" = 270,
-  "Southwest" = 315)
+  "Southeast" = -45,
+  "East" = -90,
+  "Northeast" = -135,
+  "North" = -180,
+  "Northwest" = -225,
+  "West" = -270,
+  "Southwest" = -315)
 
-tau = 0     # Optical depth.
+tau = 0    # Optical depth.
 al = 0.1    # Albedo.
 nfft = 3    # Net flux function type.
 
@@ -51,203 +51,283 @@ phi = phi_oppy
 
 ####################################################################################
 # Title: Variation of Mars solar irradiance Gβ for different slope orientations γ. #
-# Subtitle: Effect of hour angle ω with slope angle β as a parameter.              #
+# Subtitle: Effect of solar time with slope angle β as a parameter.                #
 ####################################################################################
-dev.new()
-par(mfrow=c(3,4))
+plot_a = function(Ls, phi, tau, al, omegas, betas, gammas, xomega=TRUE){
+  dev.new()
+  par(mfrow=c(3,4))
 
-Ls = 75 # Areocentric longitude [deg].
+  gamma_index = 1
+  for(gamma_c in gammas){
+    beta_index = 1
+    
+    betas = seq(0, 90, 15)
+    for(beta in betas){
+      
+      x = c()
+      y = c()
+      for(omega in omegas){
+        if(isTRUE(xomega)){
+          x = c(x, omega)
+        }else{
+          Z = Z_eq(Ls, omega, phi, nfft)
+          x = c(x, Z)
+        }
+        
+        G = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
+        y = c(y, G)
+      }
+      
+      if(beta_index == 1){
+        plot(x, y,
+             xlab=if(isTRUE(xomega)) "solar time [h]" else "Z [deg]",
+             ylab="Gβ [W/m2]",
+             xlim=if(isTRUE(xomega)) c(omegas[1], omegas[length(omegas)]) else c(0, 75),
+             ylim=c(0, 500),
+             sub=paste("γ = ", gamma_c, "°", sep=""),
+             font.sub=2,
+             cex.sub=1.2,
+             type="l",
+             col=wes_palette("FantasticFox1", length(betas), type = "continuous")[beta_index])
+        
+      }else{
+        lines(x, y,
+              type="l",
+              col=wes_palette("FantasticFox1", length(betas), type = "continuous")[beta_index])
+      }
+      
+      beta_index = beta_index + 1
+    }
+    
+    gamma_index = gamma_index + 1
+  }
+  
+  plot.new()
+  legend("top",
+         paste("β = ", betas, "°" , sep=""),
+         col=wes_palette("FantasticFox1", length(betas), type="continuous"),
+         cex=0.8, bty="n", lty=1)
+  
+  effect = if(isTRUE(xomega)) "solar time" else "Sun zenith angle Z"
+  title = paste("Variation of Mars solar irradiance Gβ for different slope orientations γ \nEffect of ",effect , " with slope angle β as a parameter (Ls=", round(Ls), "°, ϕ=", phi, "°, τ=", tau, ", al=", al, ")", sep="")
+  mtext(title, side=3, line=-3, outer=TRUE)
+}
+
+
+#######
+# Plot effect of solar time.
+#######
+# Set some parameters before plotting.
 omegas = 7:17 # Solar time [h].
 
 # FIXME: Solar time 12h throws aNaNs produced error for a acos((x - y)/z) in the G_beta function.
 # Removing that solar time  value until it is resolved.
 omegas = omegas[!omegas %in% 12]
 
-gamma_index = 1
-for(gamma_c in gamma_orientation_angles){
-  beta_index = 1
+# Plot.
+plot_a(Ls, phi, tau, al, omegas, betas, gamma_orientation_angles, TRUE)
 
-  betas = seq(0, 90, 15)
+#######
+# Plot effect of Sun zenith angle Z.
+#######
+# Set some parameters before plotting.
+omegas = 0:24 # Solar time [h].
+
+# Plot.
+plot_a(Ls, phi, tau, al, omegas, betas, gamma_orientation_angles, FALSE)
+
+#############################################################################
+# Title: Variation of Mars solar irradiance Gβ for different slope angle β. #
+# Subtitle: Effect of solar angle ω with latitude ϕ as a parameter.         #
+#############################################################################
+plot_b = function(Ls, phis, tau, al, omegas, betas, gamma_c, xomega=TRUE){
+  dev.new()
+  par(mfrow=c(2,4))
+
+  beta_index = 1
   for(beta in betas){
-    
-    y = c()
-    for(omega in omegas){
-      G = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
-      y = c(y, G)
-    }
-    
-    if(beta_index == 1){
-      plot(omegas, y,
-            xlab="ω [h]", ylab="Gβ [W/m2]",
-            sub=paste("γ = ", gamma_c, "°", sep=""),
-            font.sub=2,
-            cex.sub=1.2,
-            type="l",
-            col=wes_palette("FantasticFox1", length(betas), type = "continuous")[beta_index])
-    
-    }else{
-      lines(omegas, y,
-           xlab="ω [h]", ylab="Gβ [W/m2]",
-           sub=paste("γ = ", gamma_c, "°", sep=""),
-           font.sub=2,
-           cex.sub=1.2,
-           type="l",
-           col=wes_palette("FantasticFox1", length(betas), type = "continuous")[beta_index])
+
+    phi_index = 1
+    for(phi in phis){
+
+      omega_index = 1
+      x = c()
+      y = c()
+      for(omega in omegas){
+
+        if(isTRUE(xomega)){
+          x = c(x, omega)
+        }else{
+          Z = Z_eq(Ls, omega, phi, nfft)
+          x = c(x, Z)
+        }
+
+        G = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
+        y = c(y, G)
+
+        omega_index = omega_index + 1
+      }
+
+      if(phi_index == 1){
+        plot(x, y,
+             xlab=if(isTRUE(xomega)) "solar time [h]" else "Z [deg]",
+             ylab="Gβ [W/m2]",
+             xlim=if(isTRUE(xomega)) c(omegas[1], omegas[length(omegas)]) else c(0, 75),
+             ylim=c(0, 500),
+             type="l",
+             sub=paste("β = ", beta, "°", sep=""),
+             font.sub=2,
+             cex.sub=1.2,
+             col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
+
+      }else{
+        lines(x, y,
+              type="l",
+              col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
+      }
+
+      phi_index = phi_index + 1
     }
 
     beta_index = beta_index + 1
   }
 
-  gamma_index = gamma_index + 1
+  plot.new()
+  legend("topleft",
+         paste("ϕ = ", phis, "°" , sep=""),
+         col=wes_palette("FantasticFox1", length(phis), type="continuous"),
+         cex=0.8, bty="n", lty=1)
+
+  effect = if(isTRUE(xomega)) "solar time" else "Sun zenith angle Z"
+  title = paste("Variation of Mars solar irradiance Gβ for different slope angle β\nEffect of ", effect, " with latitude ϕ as a parameter (Ls=", round(Ls), "°, γ=", gamma_c, "°, τ=", tau, ", al=", al, ")", sep="")
+  mtext(title, side=3, line=-3, outer=TRUE)
+
 }
 
-plot.new()
-legend("top",
-       paste("β = ", betas, "°" , sep=""),
-       col=wes_palette("FantasticFox1", length(betas), type="continuous"),
-       cex=0.8, bty="n", lty=1)
-
-mtext(paste("Variation of Mars solar irradiance Gβ for different slope orientations γ \nEffect of the hour angle ω with slope angle β as a parameter (Ls=", round(Ls), "°, ϕ=", phi, "°, τ=", tau, ", al=", al, ")", sep=""), side=3, line=-3, outer=TRUE)
-
-#############################################################################
-# Title: Variation of Mars solar irradiance Gβ for different slope angle β. #
-# Subtitle: Effect of Sun zenith angle Z with latitude ϕ as a parameter.    #
-#############################################################################
-dev.new()
-par(mfrow=c(2,4))
-
+# Set some parameters before plotting.
 phis = seq(-75, 75, 15) # Planetary Latitudes [deg].
-
-# FIXME: Solar times throw a NaNs produced error for a acos((x - y)/z) in the G_beta function.
-omegas = 0:24 # Solar time [h].
-
 betas = seq(0, 90, 15) # Slope Angles [deg].
 gamma_c = gamma_orientation_angles$South # The slope orientation [deg].
 
-beta_index = 1
-for(beta in betas){
+#######
+# Plot effect of solar time.
+#######
+omegas = 7:18 # Solar time [h].
+# FIXME: Solar time 12h throws aNaNs produced error for a acos((x - y)/z) in the G_beta function.
+# Removing that solar time 12 value until it is resolved.
+omegas = omegas[!omegas %in% 12]
 
-  phi_index = 1
-  for(phi in phis){
+# Plot.
+plot_b(Ls, phis, tau, al, omegas, betas, gamma_c, TRUE)
 
-    omega_index = 1
-    x = c()
-    y = c()
-    for(omega in omegas){
+#######
+# Plot effect of Sun zenith angle Z.
+#######
+omegas = 0:24 # Solar time [h].
 
-      Z = Z_eq(Ls, omega, phi, nfft)
-      x = c(x, Z)
-
-      G = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
-      y = c(y, G)
-
-      omega_index = omega_index + 1
-    }
-
-    if(phi_index == 1){
-      plot(x, y,
-           xlab="Z [deg]", ylab="Gβ [W/m2]",
-           xlim=c(0, 75), ylim=c(0, 500),
-           type="l",
-           sub=paste("β = ", beta, "°", sep=""),
-           font.sub=2,
-           cex.sub=1.2,
-           col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
-
-    }else{
-      lines(x, y,
-            type="l",
-            sub=paste("β = ", beta, "°", sep=""),
-            font.sub=2,
-            cex.sub=1.2,
-            col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
-    }
-
-    phi_index = phi_index + 1
-  }
-
-  beta_index = beta_index + 1
-}
-
-plot.new()
-legend("topleft",
-        paste("ϕ = ", phis, "°" , sep=""),
-        col=wes_palette("FantasticFox1", length(phis), type="continuous"),
-        cex=0.8, bty="n", lty=1)
-
-mtext(paste("Variation of Mars solar irradiance Gβ for different slope angle β\nEffect of Sun zenith angle Z with latitude ϕ as a parameter (Ls=", round(Ls), "°, γ=", gamma_c, "°, τ=", tau, ", al=", al, ")", sep=""), side=3, line=-3, outer=TRUE)
+# Plot.
+plot_b(Ls, phis, tau, al, omegas, betas, gamma_c, FALSE)
 
 
 ####################################################################################
 # Title: Variation of Mars solar irradiance Gβ for different slope orientations γ. #
-# Subtitle: Effect of Sun zenith angle Z with latitude ϕ as a parameter.           #
+# Subtitle: Effect of solar time with latitude ϕ as a parameter.                   #
 ####################################################################################
-dev.new()
-par(mfrow=c(3,4))
+plot_c = function(Ls, phis, tau, al, omegas, beta, gammas, xomega=TRUE){
+  dev.new()
+  par(mfrow=c(3,4))
 
-phis = seq(-75, 75, 15) # Planetary Latitudes [deg].
+  gamma_index = 1
+  for(gamma_c in gammas){
 
-# FIXME: Solar times throw a NaNs produced error for a acos((x - y)/z) in the G_beta function.
-omegas = 0:24 # Solar time [h].
+    phi_index = 1
+    for(phi in phis){
 
-beta = 45 # Slope Angle [deg].
+      omega_index = 1
+      x = c()
+      y = c()
+      for(omega in omegas){
 
-gamma_index = 1
-for(gamma_c in gamma_orientation_angles){
+        if(isTRUE(xomega)){
+          x = c(x, omega)
+        }else{
+          Z = Z_eq(Ls, omega, phi, nfft)
+          x = c(x, Z)
+        }
 
-  phi_index = 1
-  for(phi in phis){
+        G = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
+        y = c(y, G)
 
-    omega_index = 1
-    x = c()
-    y = c()
-    for(omega in omegas){
+        omega_index = omega_index + 1
+      }
 
-      Z = Z_eq(Ls, omega, phi, nfft)
-      x = c(x, Z)
+      if(phi_index == 1){
+        plot(x, y,
+             xlab=if(isTRUE(xomega)) "solar time [h]" else "Z [deg]",
+             ylab="Gβ [W/m2]",
+             xlim=if(isTRUE(xomega)) c(omegas[1], omegas[length(omegas)]) else c(0, 75),
+             ylim=c(0, 500),
+             type="l",
+             sub=paste("γ = ", gamma_c, "°", sep=""),
+             font.sub=2,
+             cex.sub=1.2,
+             col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
 
-      G = Gbeta_eq(Ls, omega, phi, tau, al, beta, gamma_c, nfft)
-      y = c(y, G)
+      }else{
+        lines(x, y,
+              type="l",
+              col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
+      }
 
-      omega_index = omega_index + 1
+      phi_index = phi_index + 1
     }
 
-    if(phi_index == 1){
-      plot(x, y,
-           xlab="Z [deg]", ylab="Gβ [W/m2]",
-           xlim=c(0, 75), ylim=c(0, 500),
-           type="l",
-           sub=paste("γ = ", gamma_c, "°", sep=""),
-           font.sub=2,
-           cex.sub=1.2,
-           col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
-
-    }else{
-      lines(x, y,
-            type="l",
-            sub=paste("γ = ", gamma_c, "°", sep=""),
-            font.sub=2,
-            cex.sub=1.2,
-            col=wes_palette("FantasticFox1", length(phis), type="continuous")[phi_index])
-    }
-
-    phi_index = phi_index + 1
+    gamma_index = gamma_index + 1
   }
 
-  gamma_index = gamma_index + 1
+  plot.new()
+  legend("topleft",
+         paste("ϕ = ", phis, "°" , sep=""),
+         col=wes_palette("FantasticFox1", length(phis), type="continuous"),
+         cex=0.8, bty="n", lty=1)
+
+  effect = if(isTRUE(xomega)) "solar time" else "Sun zenith angle Z"
+  title = paste("Variation of Mars solar irradiance Gβ for different slope orientations γ\nEffect of ", effect, " with latitude ϕ as a parameter (Ls=", round(Ls), "°, β=", beta, "°, τ=", tau, ", al=", al, ")", sep="")
+  mtext(title, side=3, line=-3, outer=TRUE)
+
 }
 
-plot.new()
-legend("topleft",
-       paste("ϕ = ", phis, "°" , sep=""),
-       col=wes_palette("FantasticFox1", length(phis), type="continuous"),
-       cex=0.8, bty="n", lty=1)
+# Set some parameters before plotting.
+phis = seq(-75, 75, 15) # Planetary Latitudes [deg].
+beta = 45 # Slope Angle [deg].
+gamma_c = gamma_orientation_angles$South # The slope orientation [deg].
 
-mtext(paste("Variation of Mars solar irradiance Gβ for different slope orientations γ\nEffect of Sun zenith angle Z with latitude ϕ as a parameter (Ls=", round(Ls), "°, β=", beta, "°, τ=", tau, ", al=", al, ")", sep=""), side=3, line=-3, outer=TRUE)
+#######
+# Plot effect of solar time.
+#######
+omegas = 7:18 # Solar time [h].
+# FIXME: Solar time 12h throws a NaNs produced error for a acos((x - y)/z) in the G_beta function.
+# Removing that solar time 12 value until it is resolved.
+omegas = omegas[!omegas %in% 12]
 
-####################################################################################
+# Plot.
+plot_c(Ls, phis, tau, al, omegas, beta, gamma_orientation_angles, TRUE)
 
+#######
+# Plot effect of Sun zenith angle Z.
+#######
+omegas = 0:24 # Solar time [h].
+# FIXME: Solar time 12h throws a NaNs produced error for a acos((x - y)/z) in the G_beta function.
+# Removing that solar time 12 value until it is resolved.
+
+# Plot.
+plot_c(Ls, phis, tau, al, omegas, beta, gamma_orientation_angles, FALSE)
+
+
+####################################
+# Plot angle figure as visual aid. #
+####################################
 dev.new()
-im <- load.image(here("images", "angles.png"))
+im <- load.image(here("images", "solar_angles_on_an_inclined_surface.png"))
 plot(im, axes=FALSE,
-     main="Zenith angle, surface tilt, surface azimuth angle, latitude, and\nlocal meridian for a tilted surface (Widén 2010)")
+     main="Solar angles on an inclined surface (Appelbaum et al. 1993)")
