@@ -13,7 +13,7 @@ library(shinyWidgets)
 f_all_taus = dget(here("functions", "f_all_taus.R"))
 
 # Plot function.
-diurnal_plot = dget(here("plots", "diurnal_plot.R"))
+diurnal_plot = dget(here("functions/plots", "diurnal_plot.R"))
 
 # Legend labels and colors.
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")

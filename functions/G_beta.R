@@ -43,6 +43,9 @@ delta_0 = 24.936
 #                 - 3 for f_analytical.
 function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   
+  # Equation 6 (1990): Zenith angle of the incident solar radiation [deg].
+  Z = Z_eq(Ls, omega, phi, nfft)
+  
   # Equation 7 (1990): Declination angle [rad].
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
   
@@ -61,21 +64,35 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   
   # Angle of solar elevation [deg]
   # Source [p.10]: http://mypages.iit.edu/~maslanka/SolarGeo.pdf
+  # Verified with DaVinci: http://davinci.asu.edu/index.php?title=marstimelocal
+  # Verified with Mars24 Sunclock: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
   m = sin(delta) * sin(phi*pi/180)
   n = cos(delta) * cos(omega_deg*pi/180) * cos(phi*pi/180)
   alpha = asin(m + n)
   
-  # Solar Azimuth Angle [deg]
+  # Solar Azimuth Angle [deg] - INCORRECT.
   # Source [p.10]: http://mypages.iit.edu/~maslanka/SolarGeo.pdf
-  x = sin(delta) * cos(phi*pi/180)
-  y = cos(delta) * cos(omega_deg*pi/180) * sin(phi*pi/180)
-  z = cos(alpha)
-
-  gamma_s_prime = acos((x - y) / z) # [rad]
-  gamma_s = if(omega_deg <= 0) (gamma_s_prime * 180/pi) else (360 - (gamma_s_prime * 180/pi)) # [deg]
+  # x = sin(delta) * cos(phi*pi/180)
+  # y = cos(delta) * cos(omega_deg*pi/180) * sin(phi*pi/180)
+  # z = cos(alpha)
+  # 
+  # gamma_s_prime = acos((x - y) / z) # [rad]
+  # gamma_s = if(omega_deg <= 0) (gamma_s_prime * 180/pi) else (360 - (gamma_s_prime * 180/pi)) # [deg]
   
+  #  Equation 6 (1993): Solar Azimuth Angle [deg]
+  x = sin(phi*pi/180) * cos(delta) * cos(omega_deg*pi/180)
+  y = cos(phi*pi/180) * sin(delta) 
+  z = sin(Z*pi/180)
+  
+  gamma_s = acos((x - y) / z) * 180/pi # [deg]
+  
+  # Alternatively, Equation 7 (1993): Solar Azimuth Angle [deg]
+  # x = sin(phi*pi/180) * cos(Z*pi/180) - sin(delta) 
+  # y = cos(phi*pi/180) * sin(Z*pi/180)
+  # 
+  # gamma_s = acos(x / y) * 180/pi # [deg]
+
   # Equation 4 (1994): Sun Angle of Incidence # [rad]
-  Z = Z_eq(Ls, omega, phi, nfft)
   i = cos(beta * pi/180) * cos(Z * pi/180)
   j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j=0.
   teta = acos(i + j) # [rad]
@@ -84,10 +101,8 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   # print(paste("Declination Angle, δs = ", delta * 180/pi, "°", sep=""))
   
   # Sun Azimuth Angle
-  # Verified with DaVinci: http://davinci.asu.edu/index.php?title=marstimelocal
-  # Verified with Mars24 Sunclock: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-  # print(paste("Sun Azimuth Angle, γ = ", gamma_s, "°", sep="")) # Does not matter when beta = 0 because it leads to j=0.
-  # 
+  # print(paste("Sun Azimuth Angle, γ_s = ", gamma_s, "°", sep="")) # Does not matter when beta = 0 because it leads to j=0.
+  
   # print(paste("Sun Angle of Incidence, θ = ", teta * 180/pi, "°", sep=""))
   # print(paste("Sun Zenith Angle, Z = ", Z, "°", sep=""))
 
