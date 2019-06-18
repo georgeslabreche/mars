@@ -69,7 +69,7 @@ Based on the following excellent work:
 - **[DONE]** Implement the analytical expression of the optical depth, as a function of latitude and areocentric longitude, rather than just relying on inputing its value as a parameter.
 - **[DONE]** Plot optical depth tau factor as a function of latitude and areocentric longitude.
 
-#### [Appelbaum, Joseph & Sherman, I & Landis, Geoffrey. (1993)](https://ntrs.nasa.gov/?R=19940010257)
+#### [Appelbaum, Joseph & Sherman, I & Landis, Geoffrey (1993)](https://ntrs.nasa.gov/?R=19940010257)
 - Equation 39 & 40: The optimal inclination angle (clear sky).
 - Equation 41 & 42: The daily global insolation and the optimal inclination angle (cloudy sky).
 - Equation 28: Daily optimal inclination angle (cloudy sky).
