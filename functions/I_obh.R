@@ -17,7 +17,7 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 # Mars obliquity of rotation axis [W/m2].
 delta_0 = 24.936
 
-test = function(Ls, phi, T_start, T_end){
+function(Ls, phi, T_start, T_end){
   
   if(T_start >= T_end){
     stop("Solar start time cannot be after or equal to the solar end time.")

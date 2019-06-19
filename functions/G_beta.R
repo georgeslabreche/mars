@@ -3,6 +3,9 @@
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos. (1994). Solar radiation on Mars: Tracking photovoltaic array. Journal of Propulsion and Power. 12. 10.2514/3.24044 
 #   https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array
+
+# FIXME: Update this function so that it figures out if its a polar night or day.
+
 library(here)
 
 # Table I (Update 1991): The albedo function.

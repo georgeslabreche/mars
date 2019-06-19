@@ -9,7 +9,7 @@ library(here)
 library(wesanderson)
 
 # Plot function.
-diurnal_plot = dget(here("plots", "diurnal_plot.R"))
+diurnal_plot = dget(here("functions/plots", "diurnal_plot.R"))
 
 # Legend labels and colors.
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
@@ -39,8 +39,14 @@ Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE, Ls_P, Ls_WS)
 Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
 
 tau = 0.5
-phi = 22.3 # Latitude of at Viking Lander VL1 [deg]. 
+phi = 22.3 # Latitude of at Viking Lander VL1 [deg]. a
 
+# Default plotting parameters.
+Ts=0:24
+T_step=1
+xlim=NULL
+include_points = TRUE
+smooth_lines = TRUE
 
 # Calculate irradiances.
 
@@ -52,7 +58,7 @@ par(mfrow=c(2,4))
 Ls_index = 1
 for(Ls in Ls_seq){
   sub = paste(Ls_lbl_seq [Ls_index], " (Ls = ", Ls, "°)", sep="")
-  diurnal_plot(nfft, Ls, phi, tau, al, sub=sub)
+  diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
   Ls_index = Ls_index + 1
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
@@ -78,7 +84,7 @@ dev.new()
 par(mfrow=c(3,4))
 for(tau in taus){
   sub = paste("τ = ", tau, sep="")
-  diurnal_plot(nfft, Ls, phi, tau, al, sub=sub)
+  diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths\n", paste("(Ls=", Ls, "°, ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 
@@ -99,24 +105,14 @@ Ls = Ls_A
 # Select an optical depth tau factor.
 tau = 0.5
 
-# Naive best latitude sequence selection for plotting purposes
-# depending on selected Areocentric longitude.
-if(Ls == Ls_AE){
-  phis = seq(-50, 50, 10)
-}else if(Ls < Ls_AE){
-  phis = seq(-40, 60, 10)
-}else if(Ls > Ls_AE){
-  phis = seq(-60, 40, 10)
-}
-
-# Or just define your own sequence 
-#phis = seq(-50, 50, 10)
+# Select planetary latitudes
+phis = seq(-50, 50, 10)
 
 dev.new()
 par(mfrow=c(3,4))
 for(phi in phis){
   sub = paste("ϕ = ", phi, sep="")
-  diurnal_plot(nfft, Ls, phi, tau, al, sub=sub)
+  diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes\n", paste("(Ls=", Ls, "°, τ=", tau, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 

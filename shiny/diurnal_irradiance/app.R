@@ -33,6 +33,14 @@ Ls_list = list(
     "Ls = 270° (Winter Solstice)" = 270,
     "Ls = 295°" = 295)
 
+# Default plotting parameters.
+T_step=1
+xlim=NULL
+ylim=c(0,650)
+
+include_points = TRUE
+smooth_lines = TRUE
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
@@ -47,7 +55,7 @@ ui <- fluidPage(
                         selected = as.numeric(Ls_list[6])),
             
             sliderInput("phi", label=h5("Latitude [deg]"),
-                        min=-80, max=80, step=10, value=0),
+                        min=-90, max=90, step=10, value=0),
             
             # sliderInput("tau", label=h5("Tau Factor (Atmospheric Opacity)"),
             #             min=1, max=6, step=1, value=1),
@@ -56,7 +64,7 @@ ui <- fluidPage(
                                           choices=f_all_taus(2)),
             
             sliderInput("solarTimeRange", label=h5("Solar Time Range [h]"),
-                        min=7, max=17, step=1, value=c(7, 17)),
+                        min=0, max=24, step=1, value=c(7, 17)),
             
             # sliderInput("irradianceRange", label = h5("Irradiance Range [W/m2]"),
             #             min=0, max=600, step=50, value=c(0, 550)),
@@ -92,9 +100,9 @@ server <- function(input, output) {
         tau = input$tau[1]
         
         # Sequence of omega values to calculate irradiance.
-        omega_t1 = input$solarTimeRange[1]
-        omega_t2 = input$solarTimeRange[2]
-        omega_seq = seq(omega_t1, omega_t2, 1)
+        T_t1 = input$solarTimeRange[1]
+        T_t2 = input$solarTimeRange[2]
+        Ts = seq(T_t1, T_t2, 1)
         
         # Sequence of omega values to calculate irradiance.
         # G_1 = input$irradianceRange[1]
@@ -103,7 +111,10 @@ server <- function(input, output) {
         legendLocation = input$legendLocation
         
         # Plot.
-        diurnal_plot(nfft, Ls, phi, tau, al, omegas=omega_seq, ylim=c(0,650))
+        diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al,
+                     Ts=Ts, T_step=T_step,
+                     sub=sub, xlim=xlim, ylim=ylim,
+                     points=include_points, smooth=smooth_lines)
         
         # Specify selected parameters.
         mtext(paste("Ls=", Ls, "°, ", "ϕ=", phi, "°, τ=", tau, sep=""),

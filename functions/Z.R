@@ -8,10 +8,10 @@
 delta_0 = 24.936
 
 # Ls      - Areocentric longitude [deg].
-# omega   - Hour angle value [h]. An integer belonging to [6, 18] if using f_89.R or f_90.R.
+# T_s     - Solar time [h]. An integer belonging to [6, 18] if using f_89.R or f_90.R.
 # phi     - Latitude [deg].
 # nfft    - Net flux function type.
-function(Ls, omega, phi, nfft){
+function(Ls, T_s, phi, nfft){
   
   ########################################
   # Equation 7: Declination angle [rad]. #
@@ -30,7 +30,7 @@ function(Ls, omega, phi, nfft){
   #   It is convenient, for calculation purposes, to define a Mar hour
   #   by dividing the Martian day into 24 hr. Using the same relationship
   #   between the Mars solar time T and the hour angle as for the Earth.
-  omega = 15 * omega - 180
+  omega = 15 * T_s - 180
   
   ##################################################################
   # Equation 6: Zenith angle of the incident solar radiation [deg] #

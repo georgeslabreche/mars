@@ -4,6 +4,8 @@
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
 
+# FIXME: Update this function so that it figures out if its a polar night or day.
+
 library(here)
 
 # Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
