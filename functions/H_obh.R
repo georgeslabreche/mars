@@ -13,7 +13,7 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 # Mars obliquity of rotation axis [W/m2].
 delta_0 = 24.936
 
-test = function(Ls, phi){
+function(Ls, phi){
   # Convert phi into radians.
   phi = phi * pi/180
   
@@ -33,6 +33,3 @@ test = function(Ls, phi){
   
   return(H_obh)
 }
-
-H_obh = test(299, 22.3)
-print(H_obh)
