@@ -25,7 +25,7 @@ function(Ls, phi){
   
   # Equation 13 (1990): Daily beam insolation on a horizontal surfce at top of Mars atmosphere [Wh/m2-day].
   a = (24/pi) * Gob_eq(Ls)
-  b = 2 * pi * (omega_ss*180/pi) / 360 # Check is this omega is meant to be rad or degrees. Probably degrees.
+  b = 2 * pi * (omega_ss*180/pi) / 360
   c = sin(phi) * sin(delta)
   d = cos(phi) * cos(delta) * sin(omega_ss)
   
