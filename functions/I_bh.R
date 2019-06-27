@@ -22,6 +22,7 @@ test = function(Ls, phi, tau, T_start, T_end){
   # Equation 7 (1990): Declination angle [rad].
   delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
   
+  # The interand for Equation 19 (1990).
   interand = function(T_s){
     # Equation 8 (1990): Hour angle [rad].
     # From Appelbaum, Joseph & Flood, Dennis. (1990):
@@ -31,7 +32,6 @@ test = function(Ls, phi, tau, T_start, T_end){
     #   between the Mars solar time T and the hour angle as for the Earth.
     omega = (15 * T_s - 180) * pi/180
     
-    # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.
     a = 12/pi * Gob_eq(Ls)
     b = sin(phi) * sin(delta) + cos(phi) * cos(delta) * cos(omega)
     c = exp(-tau / (sin(phi) * sin(delta) + cos(phi) * cos(delta) * cos(omega)))
@@ -39,6 +39,7 @@ test = function(Ls, phi, tau, T_start, T_end){
     a * b * c
   }
   
+  # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.
   I_bh = integrate(interand, T_start, T_end)
   
   print(I_bh)
@@ -48,4 +49,7 @@ test = function(Ls, phi, tau, T_start, T_end){
 
 # Result should be 390
 test(Ls=69, phi=22.3, tau=0.65, T_start=13, T_end=14)
+
+# Result should be 265
+test(Ls=120, phi=22.3, tau=0.40, T_start=14, T_end=15)
 
