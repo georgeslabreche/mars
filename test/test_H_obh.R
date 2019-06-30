@@ -11,16 +11,18 @@ library(testthat)
 library(here)
 
 Hobh_eq = dget(here("functions", "H_obh.R"))
+Iobh_eq = dget(here("functions", "I_obh.R"))
+
+# Test with expected results from TABLE II.
 tolerance = 10
-
-expected_results = list(
-  "69" = 4136,
-  "120" = 4442,
-  "153" = 4620,
-  "249" = 3449,
-  "299" = 3350)
-
 test_that("Equation 13 (1990): H_obh.", {
+  
+  expected_results = list(
+    "69" = 4136,
+    "120" = 4442,
+    "153" = 4620,
+    "249" = 3449,
+    "299" = 3350)
   
   index = 1
   for(Hobh_expected in expected_results){
@@ -28,6 +30,22 @@ test_that("Equation 13 (1990): H_obh.", {
     Hobh = Hobh_eq(Ls, 22.3)
 
     expect_equal(Hobh, Hobh_expected, tolerance=tolerance, scale=1)
+    
+    index = index + 1
+  }
+})
+
+# Hobh is obtained by integrating Iobh over the period from sunrise to sunset.
+# So we can also test if this equality is true.
+tolerance = 1e-10
+test_that("Equation 13 (1990): H_obh (compared with I_obj from sunrise to sunset).", {
+  
+  index = 1
+  for(Ls in 0:360){
+    Hobh = Hobh_eq(Ls, 22.3)
+    Iobh_day = Iobh_eq(Ls, 22.3, 0, 24)
+    
+    expect_equal(Hobh, Iobh_day, tolerance=tolerance, scale=1)
     
     index = index + 1
   }
