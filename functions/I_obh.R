@@ -74,6 +74,10 @@ function(Ls, phi, T_start, T_end){
     }
     omega_end_rad = omega_end_deg * pi/180
     
+    # Can this ever happen?
+    if(omega_start_deg >= omega_end_deg){
+      stop("Applying sunrise and sunset constraint has resulted in the start time being after or equal to the solar end time.")
+    }
     
     # Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
     w = (12/pi) * Gob_eq(Ls)

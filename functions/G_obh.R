@@ -1,12 +1,14 @@
-# Beam daily insolation on Mars horizontal surface.
-# Obtained by integrating Equation 19 (1990), beam hourly insolation on Mars horizontal surface,
-# over the period from sunrise to sunset
+# Equation 5 (1990): Beam irridiance on a horizontal surface at the top of Mars atmosphere [W/m2].
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://ntrs.nasa.gov/?R=19890018252
 #
 
-function(){
-  stop("Not yet implemented.")
+library(here)
+
+Gob_eq = dget(here("functions", "G_ob.r"))
+
+function(Ls, Z){
+  Gob_eq(Ls) * cos(Z*pi/180)
 }
