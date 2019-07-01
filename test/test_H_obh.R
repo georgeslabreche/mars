@@ -10,7 +10,10 @@
 library(testthat) 
 library(here)
 
+# Equation 13 (1990): Daily beam insolation on a horizontal surfce at top of Mars atmosphere [Wh/m2-day].
 Hobh_eq = dget(here("functions", "H_obh.R"))
+
+# Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
 Iobh_eq = dget(here("functions", "I_obh.R"))
 
 # Test with expected results from TABLE II.

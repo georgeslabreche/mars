@@ -10,6 +10,7 @@
 library(testthat) 
 library(here)
 
+# Global daily insolation on Mars horizontal surface [Wh/m2-day].
 Hh_eq = dget(here("functions", "H_h.R"))
 
 # Test with expected results from TABLE IV.

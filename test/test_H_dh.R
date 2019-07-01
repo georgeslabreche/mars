@@ -10,7 +10,7 @@
 library(testthat) 
 library(here)
 
-# Diffuse hourly insolation on Mars horizontal surface [Wh/m2].
+# Diffuse hourly insolation on Mars horizontal surface [Wh/m2-day].
 Hdh_eq = dget(here("functions", "H_dh.R"))
 
 # Test with expected results from TABLE VI.
