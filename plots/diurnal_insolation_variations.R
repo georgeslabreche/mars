@@ -43,12 +43,41 @@ tau = 0.5
 phi = 22.3 # Latitude of at Viking Lander VL1 [deg].
 
 T_step = 1
-ylim = c(0, 2000)
+ylim = c(0, 500)
 xlim = c(T_step, 24)
 include_points = TRUE
 smooth_lines = TRUE
 
 plot_type = 3
+
+##############################################################################################################################
+# Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different areocentric longitudes. #
+##############################################################################################################################
+dev.new()
+par(mfrow=c(2,3))
+Ls_index = 1
+for(Ls in Ls_list){
+  sub = paste(names(Ls_list)[Ls_index], " (Ls = ", Ls, "°)", sep="")
+  diurnal_insolation_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, T_step=T_step, sub=sub, xlim=xlim, ylim=ylim, points=include_points, smooth=smooth_lines, plot_type=plot_type)
+  
+  # Add a legend
+  if(Ls_index == 1){
+    if(plot_type == 1){
+      legend("topright",
+             I_eqs_labels,
+             col = I_eqs_cols,
+             cex=1, bty="n", lty=1)
+    }else{
+      legend("topright",
+             if(plot_type == 2) I_eqs_labels[-1] else I_eqs_labels,
+             fill = if(plot_type == 2) I_eqs_cols[-1] else I_eqs_cols,
+             cex=1, bty="n")
+    }   
+  }
+  Ls_index = Ls_index + 1
+}
+mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
+
 
 ######################################################################################################################
 # Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different optical depths. #
@@ -74,12 +103,12 @@ for(tau in taus){
   # Add a legend
   if(tau_index == 1){
     if(plot_type == 1){
-      legend("topleft",
+      legend("topright",
              I_eqs_labels,
              col = I_eqs_cols,
              cex=1, bty="n", lty=1)
     }else{
-      legend("topleft",
+      legend("topright",
              if(plot_type == 2) I_eqs_labels[-1] else I_eqs_labels,
              fill = if(plot_type == 2) I_eqs_cols[-1] else I_eqs_cols,
              cex=1, bty="n")

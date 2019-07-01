@@ -85,7 +85,7 @@ plot_diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points
   }
 }
 
-plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, xlim, ylim, x_labels, beside){
+plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, beside){
   
   # For stacked bars, only want to plot beam and diffuse. Not global.
   data = if(isTRUE(beside)) data_matrix else data_matrix[-1,]
@@ -111,6 +111,7 @@ plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, xlim, ylim, x_lab
   
   barplot(data, col=col,
           beside=beside,
+          ylim=ylim,
           xlab="Solar Time Range [h]",
           ylab=paste("Insolation [Wh/m2", "-", ylab_h, "h]", sep=""),
           sub=sub,
@@ -122,7 +123,7 @@ plot_diurnal_bubble_grid = function(){
   #http://chartartistry.blogspot.com/2016/02/dot-charts-alternative-to-stacked.html
 }
 
-function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim=c(0,550), points=TRUE, smooth=TRUE, plot_type){
+function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=TRUE, smooth=TRUE, plot_type){
   # Empty data matrix that will contain calculate insolation values..
   data_matrix = matrix(NA, nrow = 3, ncol = 24/T_step)
   
@@ -161,9 +162,9 @@ function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim=c(0,550),
   }
   
   if(plot_type == 2){
-    plot_diurnal_stacked_bars(data_matrix, T_step, sub, xlim, ylim, x_labels, FALSE)
+    plot_diurnal_stacked_bars(data_matrix, T_step, sub, ylim, x_labels, FALSE)
     
   }else if(plot_type == 3){
-    plot_diurnal_stacked_bars(data_matrix, T_step, sub, xlim, ylim, x_labels, TRUE)
+    plot_diurnal_stacked_bars(data_matrix, T_step, sub, ylim, x_labels, TRUE)
   }
 } 

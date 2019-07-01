@@ -97,9 +97,9 @@ function(Ls, phi, tau, T_start, T_end, al=NULL, nfft){
     }
   }
 
-  # Can this ever happen?
+  # When applying sunrise and sunset constraint has resulted in the start time being after or equal to the solar end time.
   if(T_start >= T_end){
-    stop("Applying sunrise and sunset constraint has resulted in the start time being after or equal to the solar end time.")
+    return(0)
   }
 
   # The interand for Equation 19 (1990).
