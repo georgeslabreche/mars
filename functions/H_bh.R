@@ -1,4 +1,5 @@
-# Beam daily insolation on Mars horizontal surface.
+# Beam daily insolation on Mars horizontal surface  [Wh/m2-day].
+#
 # Obtained by integrating Equation 19 (1990), beam hourly insolation on Mars horizontal surface,
 # over the period from sunrise to sunset
 #
@@ -7,6 +8,10 @@
 #   https://ntrs.nasa.gov/?R=19890018252
 #
 
-function(){
-  stop("Not yet implemented.")
+# Global hourly insolation on Mars horizontal surface [W/m2-hr].
+Ibh_eq = dget(here("functions", "I_bh.R"))
+
+function(Ls, phi, tau, nfft){
+  # H_bh is obtained by integrating I_bh over the period from sunrise to sunset.
+  Ibh_eq(Ls, phi, tau, 0, 24, nfft)
 }
