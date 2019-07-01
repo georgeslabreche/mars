@@ -5,6 +5,7 @@
 #   https://ntrs.nasa.gov/?R=19890018252
 #
 
-function(){
-  stop("Not yet implemented.")
+function(Ls, phi, tau, T_start, T_end, nfft){
+  #stop("Not yet implemented.")
+  return(0)
 }

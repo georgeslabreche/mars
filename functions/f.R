@@ -90,17 +90,23 @@ f_90 = function(Z, tau, al=0.1){
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990. NASA STI/Recon Technical Report N. 91. 15117-.
 #   https://www.researchgate.net/publication/259222079_Solar_radiation_on_Mars_Update_1990
+#
 f_analytical = function(Z, tau, al=0.1){
   # Check for and warn against parameters that would result in lagest errors (max. 7%).
   if(tau > 5){
-    warning(paste("Large error encountered with τ=", tau, " greater than 5 (maximum error is 7%). ", 
+    warning(paste("Large error encountered with τ = ", tau, " greater than 5 (maximum error is 7%). ", 
                   "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
                   sep="")
     )
   }
   
-  if(Z == 80 || Z == 85){
-    warning(paste("Large error encountered with Z=", Z, "° (maximum error is 7%). ", 
+  # if(Z == 80 || Z == 85){
+  #   warning(paste("Large error encountered with Z = ", Z, "° (maximum error is 7%). ", 
+  #                 "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
+  #                 sep="")
+  #   )
+  if(Z >= 80){
+    warning(paste("Possibly large error encountered with Z = ", Z, "° (maximum error is 7% for Z = 80° or Z = 85°). ",
                   "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
                   sep="")
     )
@@ -124,17 +130,28 @@ f_analytical = function(Z, tau, al=0.1){
 #   tau   - Optical depth tau factor.
 #   al    - Albedo (ranges from 0.1 to 0.4).
 function(Z, tau, al=0.1, pub_year=NULL){
-
+  net_flux = NULL
+  
   if(is.null(pub_year)){
-    f_analytical(Z, tau, al)
+    net_flux = f_analytical(Z, tau, al)
     
   }else if(pub_year == 1989){
-    f_89(Z, tau, al)
+    net_flux = f_89(Z, tau, al)
     
   }else if(pub_year == 1990){
-    f_90(Z, tau, al)
+    net_flux = f_90(Z, tau, al)
     
   }else{
     stop("Usupported publication year, should either be 1989 for the original pulication or 1990 for its 1990 update")
+  }
+  
+  if(is.null(net_flux)){
+    stop(paste("Sun zenith angle Z = ", Z ,"° is not available in the net flux look-up table. Consider using the analytical function instead.", sep=""))
+    
+  }else if(is.na(net_flux)){
+    stop(paste("Optical depth tau factor τ = ", tau," is not available in the net flux look-up table. Consider using the analytical function instead.", sep=""))
+  
+  }else{
+    return(net_flux) 
   }
 }

@@ -1,4 +1,4 @@
-# Equation 6: Zenith angle of the incident solar radiation [deg]
+# Equation 6: Zenith angle of the incident solar radiation [deg].
 #
 # Based on equations presented in the following publication:
 # Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 

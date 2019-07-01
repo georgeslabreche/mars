@@ -113,7 +113,7 @@ function(Ls, phi, tau, T_start, T_end, nfft){
   }
   
   # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.
-  I_bh = integrate(Vectorize(interand), T_start, T_end)
+  I_bh = integrate(interand, T_start, T_end)
   
   return(I_bh$value)
 }

@@ -1,23 +1,8 @@
-# Global hourly insolation on Mars horizontal surface [W/m2-hr].
-#
-# Based on equations presented in the following publication:
-#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-#   https://ntrs.nasa.gov/?R=19890018252
-#
-
-# Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
-Gob_eq = dget(here("functions", "G_ob.R"))
-
-# Equation 6: Zenith angle of the incident solar radiation [deg]
-Z_eq = dget(here("functions", "Z.R"))
-
-f = dget(here("functions", "f.R"))
 
 # Mars obliquity of rotation axis [W/m2].
 delta_0 = 24.936
 
-function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
-{
+function(Ls, phi, T_start, T_end){
   if(T_start >= T_end){
     stop("Solar start time cannot be after or equal to the solar end time.")
   }
@@ -37,6 +22,7 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
   # If polar night.
   if(polar_flag < -1){
     # No solar irradiance.
+    # FIXME: Figure out how to deal with this situation in this util function.
     return(0);
   }
   # If polar day.
@@ -65,10 +51,12 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
     
     # If start time is after the sunset, then there is no insolation.
     if(T_start > T_ss){
+      # FIXME: Figure out how to deal with this situation in this util function.
       return(0)
     }
     # If end time is before the sunrise, then there is no insolation.
     else if(T_end < T_sr){
+      # FIXME: Figure out how to deal with this situation in this util function.
       return(0)
       
     }else{
@@ -90,41 +78,5 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
     }
   }
   
-  # Can this ever happen?
-  if(T_start >= T_end){
-    stop("Applying sunrise and sunset constraint has resulted in the start time being after or equal to the solar end time.")
-  }
-  
-  # The interand for Equation 19 (1990).
-  interand = function(T_s){
-    Z = Z_eq(Ls, T_s, phi*180/pi, nfft)
-    
-    if(nfft == 1){
-      net_flux = f(Z, tau, al, pub_year=1989)
-      
-    }else if(nfft == 2){
-      net_flux = f(Z, tau, al, pub_year=1990)
-      
-    }else if(nfft == 3){
-      net_flux = f(Z, tau, al)
-      
-    }else{
-      stop("Unsupported net flux function type. Should be 1 for the original 1989 lookup table publication, 2 for the 1990/1991 lookup table update, or 3 for the analytical expression.")
-    }
-    
-    I_obh = Gob_eq(Ls) * cos(Z*pi/180)
-    I_h = I_obh * (net_flux/(1-al))
-    
-    return(I_h)
-  }
-  
-  # Global hourly insolation on Mars horizontal surface.
-  I_h = integrate(Vectorize(interand), T_start, T_end)
-  
-  return(I_h$value)
+  return(c(T_start, T_end))
 }
-
-
-
-
-
