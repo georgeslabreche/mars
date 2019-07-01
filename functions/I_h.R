@@ -119,7 +119,7 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
   }
   
   # Global hourly insolation on Mars horizontal surface.
-  I_h = integrate(Vectorize(interand), T_start, T_end)
+  I_h = integrate(interand, T_start, T_end)
   
   return(I_h$value)
 }
