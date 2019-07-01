@@ -11,7 +11,7 @@ library(testthat)
 library(here)
 
 Iobh_eq = dget(here("functions", "I_obh.R"))
-tolerance = 3
+tolerance = 10
 
 # Expected Iobh at different hours for different areocentric longitudes.
 expected_results = list(

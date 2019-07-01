@@ -3,4 +3,4 @@
 library(here)
 library(testthat) 
 
-test_results = test_dir(here("test"), reporter="summary")
+test_results = test_dir(here("test"),reporter="minimal")
