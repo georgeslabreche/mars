@@ -48,7 +48,7 @@ xlim = c(T_step, 24)
 include_points = TRUE
 smooth_lines = TRUE
 
-plot_type = 3
+plot_type = 2
 
 ##############################################################################################################################
 # Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different areocentric longitudes. #
@@ -76,8 +76,15 @@ for(Ls in Ls_list){
   }
   Ls_index = Ls_index + 1
 }
-mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 
+# Build and place the plot title.
+title_template = "Diurnal variation of {{insolation}} irradiance on Mars horizontal surface for different areocentric longitudes\n(τ={{tau}}, ϕ={{phi}}°)"
+title_data = list(insolation=if(plot_type == 2) "beam and diffuse" else "global, beam, and diffuse",
+                  tau=tau,
+                  phi=phi)
+
+title = whisker.render(title_template, title_data)
+mtext(title, side=3, line=-3, outer=TRUE)
 
 ######################################################################################################################
 # Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different optical depths. #
@@ -119,10 +126,59 @@ for(tau in taus){
 }
 
 # Build and place the plot title.
-title_template = "Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different optical depths\n(Ls={{Ls}}°, ϕ={{phi}}°)"
+title_template = "Diurnal variation of {{insolation}} insolation on Mars horizontal surface for different optical depths\n(Ls={{Ls}}°, ϕ={{phi}}°)"
+title_data = list(insolation=if(plot_type == 2) "beam and diffuse" else "global, beam, and diffuse",
+                  Ls=Ls,
+                  phi=phi)
 
-title_data = list(Ls=Ls, phi=phi)
 title = whisker.render(title_template, title_data)
-
 mtext(title, side=3, line=-3, outer=TRUE)
+
+#################################################################################################################
+# Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes. #
+#################################################################################################################
+
+# Select an areocentric longitude.
+Ls = Ls_list$Aphelion
+
+# Select an optical depth tau factor.
+tau = 0.5
+
+# Select planetary latitudes
+phis = seq(-30, 20, 10)
+
+dev.new()
+par(mfrow=c(2,3))
+
+phi_index = 1
+for(phi in phis){
+  sub = paste("ϕ = ", phi, sep="")
+  diurnal_insolation_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, T_step=T_step, sub=sub, xlim=xlim, ylim=ylim, points=include_points, smooth=smooth_lines, plot_type=plot_type)
+  
+  # Add a legend
+  if(phi_index == 1){
+    if(plot_type == 1){
+      legend("topright",
+             I_eqs_labels,
+             col = I_eqs_cols,
+             cex=1, bty="n", lty=1)
+    }else{
+      legend("topright",
+             if(plot_type == 2) I_eqs_labels[-1] else I_eqs_labels,
+             fill = if(plot_type == 2) I_eqs_cols[-1] else I_eqs_cols,
+             cex=1, bty="n")
+    }   
+  }
+  
+  phi_index = phi_index + 1
+}
+
+title_template = "Diurnal variation of {{insolation}} irradiance on Mars horizontal surface for different latitudes\n(Ls={{Ls}}°, τ={{tau}})"
+title_data = list(insolation=if(plot_type == 2) "beam and diffuse" else "global, beam, and diffuse",
+                  Ls=Ls,
+                  tau=tau)
+
+title = whisker.render(title_template, title_data)
+mtext(title, side=3, line=-3, outer=TRUE)
+
 

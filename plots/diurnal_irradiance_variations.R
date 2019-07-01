@@ -95,9 +95,9 @@ legend("topleft",
        col = G_eqs_cols,
        cex=1, bty="n", lty=1)
 
-######################################################################################################################
-# Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths. #
-######################################################################################################################
+################################################################################################################
+# Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitude. #
+################################################################################################################
 
 # Select an areocentric longitude.
 Ls = Ls_A

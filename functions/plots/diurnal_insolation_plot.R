@@ -114,13 +114,10 @@ plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, b
           ylim=ylim,
           xlab="Solar Time Range [h]",
           ylab=paste("Insolation [Wh/m2", "-", ylab_h, "h]", sep=""),
+          las=2,
           sub=sub,
           font.sub=2,
           cex.sub=1.2)
-}
-
-plot_diurnal_bubble_grid = function(){
-  #http://chartartistry.blogspot.com/2016/02/dot-charts-alternative-to-stacked.html
 }
 
 function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=TRUE, smooth=TRUE, plot_type){
