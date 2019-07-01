@@ -1,4 +1,4 @@
-# Equation 19 (1990): Beam hourly insolation on Mars horizontal surface [W/m2-hr].
+# Equation 19 (1990): Beam hourly insolation on Mars horizontal surface [Wh/m2].
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 

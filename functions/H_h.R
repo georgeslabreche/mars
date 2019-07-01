@@ -10,7 +10,7 @@
 
 library(here)
 
-# Global hourly insolation on Mars horizontal surface [W/m2-hr].
+# Global hourly insolation on Mars horizontal surface [W/m2-h].
 Ih_eq = dget(here("functions", "I_h.R"))
 
 function(Ls, phi, tau, al=0.1, nfft){

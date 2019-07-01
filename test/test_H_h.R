@@ -1,4 +1,4 @@
-# Global daily insolation on Mars horizontal surface.
+# Global daily insolation on Mars horizontal surface [Wh/m2-day].
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 

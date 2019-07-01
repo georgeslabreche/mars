@@ -1,4 +1,4 @@
-# Equation 19 (1990): Beam hourly insolation on Mars horizontal surface [W/m2-hr].
+# Equation 19 (1990): Beam hourly insolation on Mars horizontal surface [Wh/m2].
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
@@ -17,7 +17,7 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 # Equation 6: Zenith angle of the incident solar radiation [deg].
 Z_eq = dget(here("functions", "Z.R"))
 
-# Mars obliquity of rotation axis [W/m2].
+# Mars obliquity of rotation axis [deg].
 delta_0 = 24.936
 
 # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.
@@ -59,7 +59,7 @@ function(Ls, phi, tau, T_start, T_end, nfft){
     # Due to symmetry, it's just the sign opposite of the sunrise angle.
     omega_ss = acos(-tan(phi) * tan(delta)) * 180/pi
 
-    # Equation 8 (1990): Hour angle. Determine the Surise and Sunset times [hr].
+    # Equation 8 (1990): Hour angle. Determine the Surise and Sunset times [h].
     # From Appelbaum, Joseph & Flood, Dennis. (1990):
     #   The ratio of Mars to Earth length of day is 24.65/24.
     #   It is convenient, for calculation purposes, to define a Mar hour

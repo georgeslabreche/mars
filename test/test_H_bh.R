@@ -14,13 +14,13 @@ Hbh_eq = dget(here("functions", "H_bh.R"))
 
 # Test with expected results from TABLE V.
 test_that("H_bh.", {
-  tolerance = 40
+  tolerance = 41
   
   phi = 22.3
   nfft = 3
   
   expected_results = list(
-    "69" = c(0.65, 1768), # FIXME: Larger error.
+    "69" = c(0.65, 1768), # FIXME: Larger error (40).
     "120" = c(0.40, 2534),
     "153" = c(0.50, 2308),
     "249" = c(1.40, 314),
