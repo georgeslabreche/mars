@@ -21,7 +21,9 @@ Z_eq = dget(here("functions", "Z.R"))
 delta_0 = 24.936
 
 # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.
-function(Ls, phi, tau, T_start, T_end, nfft){
+#
+#   al  - NOT NEEDED - Included for looping convenience with other functions.
+function(Ls, phi, tau, T_start, T_end, al=NULL, nfft){
   
   if(T_start >= T_end){
     stop("Solar start time cannot be after or equal to the solar end time.")

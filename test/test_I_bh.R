@@ -11,6 +11,7 @@ library(testthat)
 library(here)
 
 Ibh_eq = dget(here("functions", "I_bh.R"))
+al = 0.1
 nfft = 3
 tolerance = 10
 
@@ -47,7 +48,7 @@ test_that("Equation 19 (1990): I_bh.", {
     hour_index = 1
     for(T_start in 12:18){
     
-      Ibh = Ibh_eq(Ls=Ls, phi=22.3, tau=tau, T_start=T_start, T_end=T_start+1, nfft=nfft)
+      Ibh = Ibh_eq(Ls=Ls, phi=22.3, tau=tau, T_start=T_start, T_end=T_start+1, al=al, nfft=nfft)
       Ibh_expected = expected_result[hour_index, 2]
       
       expect_equal(Ibh, Ibh_expected, tolerance=tolerance, scale=1)

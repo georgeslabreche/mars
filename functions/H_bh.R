@@ -13,5 +13,5 @@ Ibh_eq = dget(here("functions", "I_bh.R"))
 
 function(Ls, phi, tau, nfft){
   # H_bh is obtained by integrating I_bh over the period from sunrise to sunset.
-  Ibh_eq(Ls, phi, tau, 0, 24, nfft)
+  Ibh_eq(Ls, phi, tau, 0, 24, NULL, nfft)
 }

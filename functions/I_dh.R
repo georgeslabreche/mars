@@ -13,5 +13,5 @@ Ih_eq = dget(here("functions", "I_h.R"))
 Ibh_eq = dget(here("functions", "I_bh.R"))
 
 function(Ls, phi, tau, T_start, T_end, al, nfft){
-  Ih_eq(Ls, phi, tau, T_start, T_end, al, nfft) - Ibh_eq(Ls, phi, tau, T_start, T_end, nfft)
+  Ih_eq(Ls, phi, tau, T_start, T_end, al, nfft) - Ibh_eq(Ls, phi, tau, T_start, T_end, al, nfft)
 }
