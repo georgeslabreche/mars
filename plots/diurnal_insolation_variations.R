@@ -59,12 +59,12 @@ Ls = Ls_list$Aphelion
 
 # Select optical depth tau factors.
 taus = taus_limited_range
-taus = c(0.5)
+#taus = c(0.5)
 
 dev.new()
 #par(mfrow=c(3,4))
-#par(mfrow=c(2,2))
-par(mfrow=c(1,1)) # For a single tau.
+par(mfrow=c(2,2))
+#par(mfrow=c(1,1)) # For a single tau.
 
 tau_index = 1
 for(tau in taus){

@@ -86,14 +86,24 @@ plot_diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points
 }
 
 plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, xlim, ylim, x_labels, beside){
-
+  
   # For stacked bars, only want to plot beam and diffuse. Not global.
   data = if(isTRUE(beside)) data_matrix else data_matrix[-1,]
+  
+  # Constrain label and color vectors accordingly
   #bar_labels = if(isTRUE(beside)) I_eqs_labels else I_eqs_labels[-1,]
-  col = if(isTRUE(beside)) I_eqs_cols else I_eqs_cols[-1,]
+  col = if(isTRUE(beside)) I_eqs_cols else I_eqs_cols[-1]
   
   colnames(data) = x_labels
   #rownames(data) = bar_labels
+  
+  # There is no need to plot zero insolation.
+  # Filter out data points where global insolation is 0.
+  if(isTRUE(beside)){
+    data = data[, data[1,] > 0]
+  }else{
+    data = data[, data[1,] + data[2,] > 0]
+  }
   
   # Plot
   # Label the unit correctly based on the desired insolation time range.
