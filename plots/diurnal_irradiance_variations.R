@@ -2,14 +2,14 @@
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-#   https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+#   https://ntrs.nasa.gov/?R=19890018252
 
 # Load libraries
 library(here)
 library(wesanderson)
 
 # Plot function.
-diurnal_plot = dget(here("functions/plots", "diurnal_plot.R"))
+diurnal_irradiance_plot = dget(here("functions/plots", "diurnal_irradiance_plot.R"))
 
 # Legend labels and colors.
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
@@ -58,7 +58,7 @@ par(mfrow=c(2,4))
 Ls_index = 1
 for(Ls in Ls_seq){
   sub = paste(Ls_lbl_seq [Ls_index], " (Ls = ", Ls, "°)", sep="")
-  diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
+  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
   Ls_index = Ls_index + 1
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
@@ -84,7 +84,7 @@ dev.new()
 par(mfrow=c(3,4))
 for(tau in taus){
   sub = paste("τ = ", tau, sep="")
-  diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
+  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths\n", paste("(Ls=", Ls, "°, ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 
@@ -112,7 +112,7 @@ dev.new()
 par(mfrow=c(3,4))
 for(phi in phis){
   sub = paste("ϕ = ", phi, sep="")
-  diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
+  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
 }
 mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes\n", paste("(Ls=", Ls, "°, τ=", tau, "°)", sep="")), side = 3, line = -3, outer = TRUE)
 

@@ -1,8 +1,8 @@
 # This is Shiny web application to plot variation of global, beam, and diffuse irradiance on Mars horizontal surface.
 #
 # Based on equations presented in the following publication:
-# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+#   https://ntrs.nasa.gov/?R=19890018252
 #
 library(here)
 library(wesanderson)
@@ -13,7 +13,7 @@ library(shinyWidgets)
 f_all_taus = dget(here("functions", "f_all_taus.R"))
 
 # Plot function.
-diurnal_plot = dget(here("functions/plots", "diurnal_plot.R"))
+diurnal_irradiance_plot = dget(here("functions/plots", "diurnal_irradiance_plot.R"))
 
 # Legend labels and colors.
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
@@ -111,7 +111,7 @@ server <- function(input, output) {
         legendLocation = input$legendLocation
         
         # Plot.
-        diurnal_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al,
+        diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al,
                      Ts=Ts, T_step=T_step,
                      sub=sub, xlim=xlim, ylim=ylim,
                      points=include_points, smooth=smooth_lines)
