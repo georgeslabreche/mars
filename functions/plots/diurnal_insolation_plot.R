@@ -43,7 +43,7 @@ diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smo
     lines(Ts+T_step, I_seq, col=I_eqs_cols[I_index])
   }
   
-  if(isFALSE(new_plot)){
+  if(!isTRUE(new_plot)){
     points(if(isTRUE(points)) Ts+T_step else NULL, 
            if(isTRUE(points)) I_seq else NULL, 
            pch=3,
@@ -91,7 +91,7 @@ plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, b
   data = if(isTRUE(beside)) data_matrix else data_matrix[-1,]
   
   # Constrain label and color vectors accordingly
-  #bar_labels = if(isTRUE(beside)) I_eqs_labels else I_eqs_labels[-1,]
+  #bar_labels = if(isTRUE(beside)) I_eqs_labels else I_eqs_labels[-1]
   col = if(isTRUE(beside)) I_eqs_cols else I_eqs_cols[-1]
   
   colnames(data) = x_labels
@@ -120,6 +120,10 @@ plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, b
           cex.sub=1.2)
 }
 
+# plot_type options:
+#   1 - Line.
+#   2 - Stacked bars.
+#   3 - Besides bars.
 function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=TRUE, smooth=TRUE, plot_type){
   # Empty data matrix that will contain calculate insolation values..
   data_matrix = matrix(NA, nrow = 3, ncol = 24/T_step)

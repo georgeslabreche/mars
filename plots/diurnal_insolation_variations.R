@@ -48,7 +48,11 @@ xlim = c(T_step, 24)
 include_points = TRUE
 smooth_lines = TRUE
 
-plot_type = 2
+# Plot type options:
+#   1 - Line.
+#   2 - Stacked bars.
+#   3 - Besides bars.
+plot_type = 1
 
 ##############################################################################################################################
 # Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different areocentric longitudes. #
@@ -78,7 +82,7 @@ for(Ls in Ls_list){
 }
 
 # Build and place the plot title.
-title_template = "Diurnal variation of {{insolation}} irradiance on Mars horizontal surface for different areocentric longitudes\n(τ={{tau}}, ϕ={{phi}}°)"
+title_template = "Diurnal variation of {{insolation}} insolation on Mars horizontal surface for different areocentric longitudes\n(τ={{tau}}, ϕ={{phi}}°)"
 title_data = list(insolation=if(plot_type == 2) "beam and diffuse" else "global, beam, and diffuse",
                   tau=tau,
                   phi=phi)
@@ -135,7 +139,7 @@ title = whisker.render(title_template, title_data)
 mtext(title, side=3, line=-3, outer=TRUE)
 
 #################################################################################################################
-# Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes. #
+# Diurnal variation of global, beam, and diffuse insolation on Mars horizontal surface for different latitudes. #
 #################################################################################################################
 
 # Select an areocentric longitude.
@@ -173,7 +177,7 @@ for(phi in phis){
   phi_index = phi_index + 1
 }
 
-title_template = "Diurnal variation of {{insolation}} irradiance on Mars horizontal surface for different latitudes\n(Ls={{Ls}}°, τ={{tau}})"
+title_template = "Variation of {{insolation}} insolation on Mars horizontal surface for different latitudes\n(Ls={{Ls}}°, τ={{tau}})"
 title_data = list(insolation=if(plot_type == 2) "beam and diffuse" else "global, beam, and diffuse",
                   Ls=Ls,
                   tau=tau)
