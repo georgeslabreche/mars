@@ -93,10 +93,10 @@ function(nfft, Ls, phi, tau, al, Ts=NULL, T_step=1, sub="", xlim=NULL, ylim=c(0,
     # Calculate the irradiance for each given parameters.
     # Store the results in a sequence that will be used in the plot() function.
     for(T_solar in Ts){
-      Z = Z_eq(Ls, T_solar, phi, nfft)
+      Z = Z_eq(Ls=Ls, T_s=T_solar, phi=phi, nfft=nfft)
       
       # FIXME: Update G_eq so that they figure out if its a polar night or day on their own.
-      G = if(polar_flag > 1) 0 else G_eq(Ls, Z, tau, al, nfft)  
+      G = if(polar_flag > 1) 0 else G_eq(Ls=Ls, Z=Z, tau=tau, al=al, nfft=nfft)  
       G_seq = c(G_seq, G)
     }
     

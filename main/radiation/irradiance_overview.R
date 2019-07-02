@@ -70,7 +70,7 @@ for(G_eq in G_eqs){
     color_index = 1
   
     for(Z in zenith_angles){
-      curve(G_eq(x, Z, tau, al, nfft), 0, 360, 360,
+      curve(G_eq(Ls=x, Z=Z, tau=tau, al=al, nfft=nfft), 0, 360, 360,
             add=ifelse(color_index>1, TRUE, FALSE),
             ylim=c(0, 700),
             xlab="Ls [deg]", ylab="Gh [W/m2]",
@@ -107,7 +107,7 @@ for(G_eq in G_eqs){
     color_index = 1
 
     for(tau in taus){
-      curve(G_eq(x, Z, tau, al, nfft), 0, 360, 360,
+      curve(G_eq(Ls=x, Z=Z, tau=tau, al=al, nfft=nfft), 0, 360, 360,
             add=ifelse(color_index>1, TRUE, FALSE),
             ylim=c(0, 700),
             xlab="Ls [deg]", ylab="Gh [W/m2]",
@@ -142,7 +142,7 @@ for(G_eq in G_eqs){
     index = 1
     for(tau in taus){
       if(index == 1){
-        plot(zenith_angles, G_eq(Ls, zenith_angles, tau, al, nfft),
+        plot(zenith_angles, G_eq(Ls=Ls, Z=zenith_angles, tau=tau, al=al, nfft=nfft),
              ylim=c(0, 700),
              xlab="Z [deg]", ylab="Gh [W/m2]",
              sub=paste("Ls = ", Ls, "°", sep=""),
@@ -151,7 +151,7 @@ for(G_eq in G_eqs){
              type="l",
              col=wes_palette("FantasticFox1", length(taus), type = "continuous")[index])
       }else{
-        lines(zenith_angles, G_eq(Ls, zenith_angles, tau, al, nfft),
+        lines(zenith_angles, G_eq(Ls, Z=zenith_angles, tau=tau, al=al, nfft=nfft),
               sub=paste("Ls = ", Ls, "°", sep=""),
               font.sub=2,
               cex.sub=1.2,
@@ -184,7 +184,7 @@ for(G_eq in G_eqs){
     index = 1
     for(zenith_angle in zenith_angles){
       if(index == 1){
-        plot(taus, G_eq(Ls, zenith_angle, taus, al, nfft),
+        plot(taus, G_eq(Ls=Ls, Z=zenith_angle, tau=taus, al=al, nfft=nfft),
              ylim=c(0, 700),
              xlab="τ", ylab="Gh [W/m2]",
              sub=paste("Ls = ", Ls, "°", sep=""),
@@ -193,7 +193,7 @@ for(G_eq in G_eqs){
              type="l",
              col=wes_palette("FantasticFox1", length(zenith_angles), type = "continuous")[index])
       }else{
-        lines(taus, G_eq(Ls, zenith_angle, taus, al, nfft),
+        lines(taus, G_eq(Ls=Ls, Z=zenith_angle, tau=taus, al=al, nfft=nfft),
               sub=paste("Ls = ", Ls, "°", sep=""),
               font.sub=2,
               cex.sub=1.2,

@@ -14,6 +14,9 @@ library(here)
 # Equation 17 (1990):  Global irradiance on Mars horizontal surface [W/m2].
 Gh_eq = dget(here("functions", "G_h.R"))
 
+# Equation 6: Zenith angle of the incident solar radiation [deg].
+Z_eq = dget(here("functions", "Z.r"))
+
 # Equation 18 (1990):  Beam irradiance on Mars horizontal surface [W/m2].
 Gbh_eq = dget(here("functions", "G_bh.R"))
 
@@ -27,6 +30,6 @@ Gbh_eq = dget(here("functions", "G_bh.R"))
 #                 - 1 for f_89.
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
-function(Ls, Z, tau, al, nfft){
-  Gh_eq(Ls, Z, tau, al, nfft) - Gbh_eq(Ls, Z, tau)
+function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al, nfft){
+  Gh_eq(Ls=Ls, Z=Z, tau=tau, al=al, nfft=nfft) - Gbh_eq(Ls=Ls, Z=Z, tau=tau)
 } 

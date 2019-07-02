@@ -11,13 +11,16 @@ library(here)
 # Equation 4: Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
 
+# Equation 6: Zenith angle of the incident solar radiation [deg].
+Z_eq = dget(here("functions", "Z.r"))
+
 # Equation 18: Beam irradiance on Mars horizontal surface [W/m2].
 #
 #   Ls        - Areocentric longitude [deg].
 #   Z         - Sun zenith angle [deg].
 #   tau       - Optical depth.
 #   al        - NOT NEEDED - Included for looping convenience with other functions.
-#   nfft      - NOT NEEDED - Included for looping convenience with other functions.
-function(Ls, Z, tau, al=NULL, nfft=NULL){
+#   nfft      - Net flux calculation type.
+function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al=NULL, nfft){
   Gob_eq(Ls) * cos(Z * pi/180) * exp(-tau / cos(Z * pi/180))
 } 

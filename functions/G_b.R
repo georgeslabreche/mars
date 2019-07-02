@@ -14,10 +14,13 @@ library(here)
 # Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
 
+# Equation 6: Zenith angle of the incident solar radiation [deg].
+Z_eq = dget(here("functions", "Z.r"))
+
 # Equation 14 (1990): Beam irradiance on Mars surface [W/m2]
 #   Ls    - Areocentric Longitude.
 #   Z     - Sun Zenith Angle.
 #   tau   - Optical Depth.
-function(Ls, Z, tau){
+function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, nfft){
   Gob_eq(Ls) * exp(-tau / cos(Z * pi/180))
 }

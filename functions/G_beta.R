@@ -44,10 +44,10 @@ delta_0 = 24.936
 #                 - 1 for f_89.
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
-function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
+function(Ls, T_s, phi, tau, al, beta, gamma_c, nfft){
   
   # Equation 6 (1990): Zenith angle of the incident solar radiation [deg].
-  Z = Z_eq(Ls, omega, phi, nfft)
+  Z = Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft)
   
   # Equation 7 (1990): Declination angle [rad].
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
@@ -63,7 +63,7 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   #   It is convenient, for calculation purposes, to define a Mar hour
   #   by dividing the Martian day into 24 hr. Using the same relationship
   #   between the Mars solar time T and the hour angle as for the Earth.
-  omega_deg = 15 * omega - 180
+  omega_deg = 15 * T_s - 180
   
   # Angle of solar elevation [deg]
   # Source [p.10]: http://mypages.iit.edu/~maslanka/SolarGeo.pdf
@@ -109,9 +109,17 @@ function(Ls, omega, phi, tau, al, beta, gamma_c, nfft){
   # print(paste("Sun Angle of Incidence, θ = ", teta * 180/pi, "°", sep=""))
   # print(paste("Sun Zenith Angle, Z = ", Z, "°", sep=""))
 
-  a = Gb_eq(Ls, Z, tau) * cos(teta)  
-  b = Gdh_eq(Ls, Z, tau, al, nfft) * cos((beta*pi/180) / 2)^2
-  c = al * Gh_eq(Ls, Z, tau, al, nfft) * sin((beta*pi/180) / 2)^2
+  # Equation 6 (1990): Zenith angle of the incident solar radiation [deg].
+  Z = Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft)
+
+  a = Gb_eq(Ls=Ls, Z=Z, tau=tau) * cos(teta)
+  b = Gdh_eq(Ls=Ls, Z=Z, tau=tau, al=al, nfft=nfft) * cos((beta*pi/180) / 2)^2
+  c = al * Gh_eq(Ls=Ls, Z=Z, tau=tau, al=al, nfft=nfft) * sin((beta*pi/180) / 2)^2
+  
+  # FIXME: Use this to account for polar nights and polar days as well as sunrise and sunset times.
+  # a = Gb_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, nfft=nfft) * cos(teta)  
+  # b = Gdh_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, nfft=nfft) * cos((beta*pi/180) / 2)^2
+  # c = al * Gh_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, nfft=nfft) * sin((beta*pi/180) / 2)^2
   
   result = a + b + c
   

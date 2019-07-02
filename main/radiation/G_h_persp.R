@@ -45,11 +45,11 @@ zenith_angles = f_all_Zs(nfft)
 # So we write our own function.
 outer_matrix = function(Ls, zenith_angles, taus){
   # 1. Build first row of the outer vector
-  outer_vector = Gh_eq(Ls, zenith_angles, taus[1], al, nfft)
+  outer_vector = Gh_eq(Ls=Ls, Z=zenith_angles, tau=taus[1], al=al, nfft=nfft)
   
   # 2. Build the rest and concatenate to the vector, we will split in the end.
   for(tau in tail(taus, -1)){
-    row = Gh_eq(Ls, zenith_angles, tau, al, nfft)
+    row = Gh_eq(Ls=Ls, Z=zenith_angles, tau=tau, al=al, nfft=nfft)
     outer_vector = c(outer_vector, row)
   }
   # 3. Build the outer matrix.

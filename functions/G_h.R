@@ -11,11 +11,16 @@ library(here)
 # Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
 
+# Equation 6: Zenith angle of the incident solar radiation [deg].
+Z_eq = dget(here("functions", "Z.r"))
+
 # The normalized net flux function
 f = dget(here("functions", "f.R"))
 
 # Equation 17 (1990): Global irradiance on Mars horizontal surface [W/m2].
 #   Ls        - Areocentric longitude [deg].
+#   phi       - Planetary latitude [deg].
+#   Ts        - Solar Time [h].
 #   Z         - Sun zenith angle [deg].
 #   tau       - Optical depth.
 #   al        - Albedo.
@@ -23,7 +28,7 @@ f = dget(here("functions", "f.R"))
 #                 - 1 for f_89.
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
-function(Ls, Z, tau, al, nfft){
+function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al, nfft){
   if(nfft == 1){
     net_flux = f(Z, tau, al, pub_year=1989)
     

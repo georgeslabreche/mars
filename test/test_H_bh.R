@@ -33,7 +33,7 @@ test_that("H_bh.", {
     tau = expected_result[1]
     H_bh_expected = expected_result[2]
     
-    H_bh = Hbh_eq(Ls, phi, tau, nfft)
+    H_bh = Hbh_eq(Ls=Ls, phi=phi, tau=tau, nfft=nfft)
     expect_equal(H_bh, H_bh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1

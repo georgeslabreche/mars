@@ -97,7 +97,7 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
   
   # The interand for Equation 19 (1990).
   interand = function(T_s){
-    Z = Z_eq(Ls, T_s, phi*180/pi, nfft)
+    Z = Z_eq(Ls=Ls, T_s=T_s, phi=phi*180/pi, nfft=nfft)
     
     if(nfft == 1){
       net_flux = f(Z, tau, al, pub_year=1989)
