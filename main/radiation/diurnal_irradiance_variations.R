@@ -22,7 +22,8 @@ al = 0.1
 #   1 for 1989 lookup table.
 #   2 for 1990 lookup table.
 #   3 for the analytical expresion.
-nfft = 1  
+# FIXME: Why doesn't option 2 work
+nfft = 1
 
 # Tau list options
 taus_clear_day = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
@@ -38,17 +39,16 @@ Ls_WS = 270     # Winter Solstice - Dust Storm Season.
 Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE, Ls_P, Ls_WS)
 Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
 
-tau = 0.5
-phi = 22.3 # Latitude of at Viking Lander VL1 [deg]. a
+
+# Default Mars environment parameters.
+tau = 0.5 # Optical depth tau factor.
+phi = 22.3 # Latitude of at Viking Lander VL1 [deg].
 
 # Default plotting parameters.
-Ts=0:24
-T_step=1
-xlim=NULL
+T_step = 1
+xlim = NULL
 include_points = TRUE
 smooth_lines = TRUE
-
-# Calculate irradiances.
 
 ##############################################################################################################################
 # Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes. #
@@ -58,10 +58,11 @@ par(mfrow=c(2,4))
 Ls_index = 1
 for(Ls in Ls_seq){
   sub = paste(Ls_lbl_seq [Ls_index], " (Ls = ", Ls, "°)", sep="")
-  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
+  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
   Ls_index = Ls_index + 1
 }
-mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
+mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different areocentric longitudes\n", paste("(τ=", tau, ", ϕ=", phi, "°)", sep="")),
+      side=3, line=-3, outer=TRUE)
 
 # Add a legend
 plot.new()
@@ -84,9 +85,10 @@ dev.new()
 par(mfrow=c(3,4))
 for(tau in taus){
   sub = paste("τ = ", tau, sep="")
-  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
+  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
 }
-mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths\n", paste("(Ls=", Ls, "°, ϕ=", phi, "°)", sep="")), side = 3, line = -3, outer = TRUE)
+mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different optical depths\n", paste("(Ls=", Ls, "°, ϕ=", phi, "°)", sep="")),
+      side=3, line=-3, outer=TRUE)
 
 # Add a legend
 plot.new()
@@ -112,9 +114,10 @@ dev.new()
 par(mfrow=c(3,4))
 for(phi in phis){
   sub = paste("ϕ = ", phi, sep="")
-  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, Ts=Ts, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
+  diurnal_irradiance_plot(nfft=nfft, Ls=Ls, phi=phi, tau=tau, al=al, T_step=T_step, sub=sub, xlim=xlim, points=include_points, smooth=smooth_lines)
 }
-mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes\n", paste("(Ls=", Ls, "°, τ=", tau, "°)", sep="")), side = 3, line = -3, outer = TRUE)
+mtext(paste("Diurnal variation of global, beam, and diffuse irradiance on Mars horizontal surface for different latitudes\n", paste("(Ls=", Ls, "°, τ=", tau, "°)", sep="")),
+      side=3, line=-3, outer=TRUE)
 
 # Add a legend
 plot.new()

@@ -1,12 +1,16 @@
+# Get the moment in which the sunset occurs.
+
 library(here)
+
+# Equation 8 (1993): Sunrise hour angle [rad].
 sunrise = dget(here("utils", "sunrise.R"))
 
 # The function.
 #   Ls    - Areocentric longitude.
 #   phi   - Planetary latitude.
 #   unit  - Unit to return:
-#           - 1 for radians
-#           - 2 for degrees
+#           - 1 for radians.
+#           - 2 for degrees.
 #           - 3 for solar hour.
 function(Ls, phi, unit=1){
   
@@ -26,7 +30,7 @@ function(Ls, phi, unit=1){
   #   It is convenient, for calculation purposes, to define a Mar hour
   #   by dividing the Martian day into 24 hr. Using the same relationship
   #   between the Mars solar time T and the hour angle as for the Earth.
-  Ts = (omega_deg + 180) / 15
+  T_s = (omega_deg + 180) / 15
   
   if(unit == 1){
     return(omega_rad)
@@ -35,7 +39,7 @@ function(Ls, phi, unit=1){
     return(omega_deg)
     
   }else if(unit == 3){
-    return(Ts)
+    return(T_s)
     
   }else{
     stop("Sunrise option must either be 1 for radians, 2 for degrees, or 3 for solar hour.")

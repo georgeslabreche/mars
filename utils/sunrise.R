@@ -1,3 +1,5 @@
+# Get the moment in which the sunrise occurs.
+
 # Mars obliquity of rotation axis [deg].
 delta_0 = 24.936
 
@@ -5,8 +7,8 @@ delta_0 = 24.936
 #   Ls    - Areocentric longitude.
 #   phi   - Planetary latitude.
 #   unit  - Unit to return:
-#           - 1 for radians
-#           - 2 for degrees
+#           - 1 for radians.
+#           - 2 for degrees.
 #           - 3 for solar hour.
 function(Ls, phi, unit=1){
   # Convert Ls and phi into radians.

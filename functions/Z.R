@@ -1,10 +1,10 @@
 # Equation 6: Zenith angle of the incident solar radiation [deg].
 #
 # Based on equations presented in the following publication:
-# Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
-# https://www.researchgate.net/publication/256334925_Solar_radiation_on_Mars
+#   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
+#   https://ntrs.nasa.gov/?R=19890018252
 
-# Mars obliquity of rotation axis [deg]
+# Mars obliquity of rotation axis [deg].
 delta_0 = 24.936
 
 # Ls      - Areocentric longitude [deg].
@@ -16,7 +16,7 @@ function(Ls, T_s, phi, nfft){
   ########################################
   # Equation 7: Declination angle [rad]. #
   ########################################
-  delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
+  delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
   
   # Alternative equation for delta.
   # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
@@ -35,8 +35,8 @@ function(Ls, T_s, phi, nfft){
   ##################################################################
   # Equation 6: Zenith angle of the incident solar radiation [deg] #
   ##################################################################
-  a = sin(phi * pi/180) * sin(delta)
-  b = cos(phi * pi/180) * cos(delta) * cos(omega * pi/180)
+  a = sin(phi*pi/180) * sin(delta)
+  b = cos(phi*pi/180) * cos(delta) * cos(omega * pi/180)
   
   Z = acos(a + b) * 180/pi
   

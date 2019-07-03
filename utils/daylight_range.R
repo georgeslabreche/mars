@@ -1,0 +1,46 @@
+# Get a solar time range from sunrise to sunset [h].
+#
+# TODO: 
+#   Range in solar angle radians and degrees?
+
+# Equation 8 (1993): Sunrise.
+sunrise = dget(here("utils", "sunrise.R"))
+
+# Equation 9 (1990): Sunset.
+sunset = dget(here("utils", "sunset.R"))
+
+# Mars obliquity of rotation axis [deg].
+delta_0 = 24.936
+
+daylight_range = function(Ls, phi, T_step=1, T_min=0, T_max=24){
+  
+  # Equation 7 (1990): Declination angle [rad].
+  delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
+  
+  # Equations 16 (Update 1991): Figure out if it is polar night or polar day.
+  #   Polar night (polar_flag < -1), no solar irradiance.
+  #   Polar day (polar_flag > 1), constant solar irradiance.
+  polar_flag = -tan(delta) * tan(phi*pi/180)
+  
+  # Polar night, no solar irradiance.
+  if(polar_flag < -1){
+    stop("No solar irradiance during polar nights.")
+    
+  }else if(polar_flag > 1){
+    # Polar day, constant solar irradiance.
+    return(seq(T_min, T_max, T_step))
+    
+  }else{
+    # For non polar nights or non polar days.
+    # Bound time range with sunrise and sunset times.
+    
+    T_sr = sunrise(Ls, phi, 3)
+    T_ss = sunset(Ls, phi, 3)
+    
+    Ts_range = seq(T_sr, T_ss, T_step)
+    Ts_range = Ts_range[Ts_range >= T_min]
+    Ts_range = Ts_range[Ts_range <= T_max]
+    
+    return(Ts_range)
+  }
+}
