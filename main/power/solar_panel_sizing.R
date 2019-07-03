@@ -10,8 +10,8 @@ Hh_eq = dget(here("functions", "H_h.R"))
 # Equation 6: Zenith angle of the incident solar radiation [deg].
 Z_eq = dget(here("functions", "Z.R")) 
 
-sunrise = dget(here("utils", "sunrise.R"))
-sunset = dget(here("utils", "sunset.R")) 
+# Daylight range.
+daylight_range = dget(here("utils", "daylight_range.R"))
 
 # InSight generated 4,588 watt-hours on its first sol.
 # Phoenix lander generated around 1,800 watt-hours in a day.
@@ -169,42 +169,37 @@ tau_w = if(Hh_w1$Hh < Hh_w2$Hh) Hh_w1$tau else Hh_w2$tau
 # Total solar panel area [m2].
 A = 3
 
-Ts_start = sunrise(Ls_w, phi, unit=3)
-Ts_end = sunset(Ls_w, phi, unit=3)
 
-Ts_range = Ts_start:Ts_end
+# Get solar time range when there is daylight
+Ts_range = daylight_range(Ls=Ls_w, phi=phi, T_step=1)
+
 data_matrix = matrix(NA, nrow=4, ncol=length(Ts_range))
 rownames(data_matrix) = c('Ts', 'Z', 'Gh', 'E')
 
-Gh = Gh_eq(Ls_w, tau=0.5, al=0.1, T_s=12, phi=5, nfft=3) 
-print(Gh)
+Ts_index = 1
+for(T_s in Ts_range){
+  # Irradiance [W/m2].
+  Gh = Gh_eq(Ls=Ls_w, phi=phi, T_s=T_s, tau=tau_w, al=0.1, nfft=3)
 
-# Ts_index = 1
-# for(Ts in Ts_range){
-#   Z = Z_eq(Ls_w, Ts, phi, nfft=3)
-#   
-#   # Irradiance [W/m2].
-#   Gh = Gh_eq(Ls_w, Z=Z, tau=tau_w, al=0.1, nfft=3) 
-#   
-#   # Energy generated from solar panels [Wh].
-#   E = A * e * Gh * PR
-#   
-#   #FIXME: First Gh is negative
-#   data_matrix[1, Ts_index] = Ts
-#   data_matrix[2, Ts_index] = Z
-#   data_matrix[3, Ts_index] = Gh
-#   data_matrix[4, Ts_index] = E
-#   
-#   Ts_index = Ts_index + 1
-# }
-# 
-# dev.new()
-# plot(round(Ts_range), data_matrix['E',],
-#      xlab="Solar Time, T [h]",
-#      ylab="Energy, E [Wh]",
-#      type="l",
-#      font.sub=2,
-#      cex.sub=1.2)
+  # Energy generated from solar panels [Wh].
+  E = A * e * Gh * PR
+
+  #FIXME: First Gh is negative
+  data_matrix[1, Ts_index] = Ts
+  data_matrix[2, Ts_index] = Z
+  data_matrix[3, Ts_index] = Gh
+  data_matrix[4, Ts_index] = E
+
+  Ts_index = Ts_index + 1
+}
+
+dev.new()
+plot(round(Ts_range), data_matrix['E',],
+     xlab="Solar Time, T [h]",
+     ylab="Energy, E [Wh]",
+     type="l",
+     font.sub=2,
+     cex.sub=1.2)
 
 #print(data_matrix)
 

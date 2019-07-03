@@ -33,11 +33,16 @@ daylight_range = function(Ls, phi, T_step=1, T_min=0, T_max=24){
   }else{
     # For non polar nights or non polar days.
     # Bound time range with sunrise and sunset times.
-    
     T_sr = sunrise(Ls, phi, 3)
     T_ss = sunset(Ls, phi, 3)
     
+    # Include max solar time if it isn't included already.
     Ts_range = seq(T_sr, T_ss, T_step)
+    if(!(T_ss %in% Ts_range)){
+      Ts_range = c(Ts_range, T_ss)
+    }
+    
+    # Further bound by desired min and max values.
     Ts_range = Ts_range[Ts_range >= T_min]
     Ts_range = Ts_range[Ts_range <= T_max]
     
