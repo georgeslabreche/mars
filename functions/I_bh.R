@@ -5,9 +5,10 @@
 #   https://ntrs.nasa.gov/?R=19890018252
 #
 
-# FIXME - Account for:
-#   - Polar nights. See Equation 14 (Update 1990) and refinements in Equations 16 (Update 1991).
-#   - Polar days. See Equation 14 (Update 1990) and refinements in Equations 16 (Update 1991).
+# FIXME:
+#   - Use sunrise, sunset, and is_irradiance util functions.
+#   - Account for polar nights. See Equation 14 (Update 1990) and refinements in Equations 16 (Update 1991).
+#   - Account for polar days. See Equation 14 (Update 1990) and refinements in Equations 16 (Update 1991).
 
 library(here)
 

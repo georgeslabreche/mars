@@ -4,6 +4,7 @@
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://ntrs.nasa.gov/?R=19890018252
 #
+# FIXME: Use sunrise, sunset, and is_irradiance util functions
 
 # Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
@@ -12,6 +13,9 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 Z_eq = dget(here("functions", "Z.R"))
 
 f = dget(here("functions", "f.R"))
+
+# Check if there is irradiance based on the givent moment.
+is_irradiated = dget(here("utils", "is_irradiated.R"))
 
 # Mars obliquity of rotation axis [deg].
 delta_0 = 24.936
