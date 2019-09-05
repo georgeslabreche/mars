@@ -50,7 +50,7 @@ data_matrix = matrix(NA, nrow=3, ncol=length(Ls_seq))
 H_index = 1
 for(H_eq in H_eqs){
   for(Ls in Ls_seq){
-    H_h = H_eq(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
+    H_h = H_eq(Ls, phi, tau, al, nfft)
     # Populate data matrix.
     data_matrix[H_index, Ls] = H_h
   }

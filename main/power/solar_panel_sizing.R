@@ -1,6 +1,9 @@
 # InSight generated 4,588 watt-hours on its first sol.
 # Phoenix lander generated around 1,800 watt-hours in a day.
 
+# Validate with Opportunity solar array energy production data:
+#   https://en.wikipedia.org/wiki/Opportunity_(rover)#Examples
+
 library(here)
 library(whisker)
 library(wesanderson)
@@ -60,19 +63,17 @@ Ls_list = list(
   "Dust Storm Season Ends" = 330)
 
 phi_list = list(
+  'Victoria Crater' = -2.05,
   'Nanedi Vallis' = 5.2,
   'Naktong Vallis' = 5.3,
   'Melas Coprates' = -10.4,
   'Kasei Valles' = 24.6
 )
 
-phi = phi_list$'Nanedi Vallis'
-
 Ls_global_dust_storm_season = Ls_list$'Dust Storm Season Begins':Ls_list$'Dust Storm Season Ends'
 Ls_non_global_dust_storm_season = c(1:Ls_list$'Dust Storm Season Begins', Ls_list$'Dust Storm Season Ends':360)
 
-e = 29  # Solar panel efficiency [%].
-G = 0   # Solar flux / Irradiance [W/m2].
+e = 0.29  # Solar panel efficiency.
 
 # Performance ratio / coefficient for losses is determined based on literature:
 #
@@ -97,6 +98,7 @@ G = 0   # Solar flux / Irradiance [W/m2].
 PR = 1 - (0.03 + 0.05 + 0.30)
 
 # FIXME: During storm, we get different values if nfft=1 or nfft=2
+# Get the worst global irradiance on Mars horizontal surface [W/m2].
 Gh_worst = function(Ls_range, Z, tau, al=0.1, nfft=3, verbose=FALSE){
   Gh_worst = 600
   Ls_worst = -1
@@ -122,6 +124,7 @@ Gh_worst = function(Ls_range, Z, tau, al=0.1, nfft=3, verbose=FALSE){
     "tau" = tau))
 }
 
+# Get the worst global daily insolation on Mars horizontal surface [Wh/m2-day].
 Hh_worst = function(Ls_range, phi, tau, al=0.1, nfft=3, verbose=FALSE){
   Hh_worst = 50000
   Ls_worst = -1
@@ -148,7 +151,8 @@ Hh_worst = function(Ls_range, phi, tau, al=0.1, nfft=3, verbose=FALSE){
     "tau" = tau))
 }
 
-get_worst_irradiance = function(A, Ls_range, phi, tau, nfft=3, verbose=FALSE){
+# Get the worst irradiance
+get_worst_energy_profile = function(A, Ls_range, phi, tau, nfft=3, verbose=FALSE){
   # Get the worst insolation.
   Hh_w = Hh_worst(Ls_range=Ls_range, phi=phi, tau=tau, nfft=nfft, verbose=verbose)
   
@@ -182,8 +186,6 @@ get_worst_irradiance = function(A, Ls_range, phi, tau, nfft=3, verbose=FALSE){
   return(data_matrix)
 }
 
-# Get the worst moment during a year without global storm
-tau = 0.5
 
 #print('During a year with no global storms:')
 #Hh_w1 = Hh_worst(Ls_range=1:360, phi, tau)
@@ -194,7 +196,7 @@ tau = 0.5
 # Get worst moment during global storm season.
 #tau = 5 # Jeremiah McNatt et al.
 
-print('During global storms season:')
+#print('During global storms season:')
 #Hh_w2 = Hh_worst(Ls_range=Ls_global_dust_storm_season, phi, tau)
 #Gh_w2 = Gh_worst(Ls_range=Ls_global_dust_storm_season, Z=0, tau=tau)
 
@@ -203,24 +205,33 @@ print('During global storms season:')
 #tau_w = if(Hh_w1$Hh < Hh_w2$Hh) Hh_w1$tau else Hh_w2$tau
 
 # Total solar panel area [m2].
-A = 1
+A = 1.3
+phi = phi_list$'Victoria Crater'
 
 ###############################
 # Without global dust storms. #
 ###############################
-Ls_range = 1:360
-tau = 1
-data_matrix = get_worst_irradiance(A, Ls_range, phi, tau, nfft=3, verbose=TRUE)
+Ls_range = Ls_non_global_dust_storm_season
+tau = 0.5
 
-# PLot
+data_matrix = get_worst_energy_profile(A, Ls_range, phi, tau, nfft=3, verbose=TRUE)
+
+# Plot
 dev.new()
 plot(round(data_matrix['Ts',]), data_matrix['E',],
      xlab="Solar Time, T [h]",
      ylab="Energy, E [Wh]",
+     ylim=c(0,100),
      type="l",
      col=E_cols[1],
      font.sub=2,
      cex.sub=1.2)
+
+# Threshold
+lines(c(9, 15), c(60, 60),
+      lty=2,
+      col="blue")
+
 
 
 ############################
@@ -228,12 +239,22 @@ plot(round(data_matrix['Ts',]), data_matrix['E',],
 ############################
 Ls_range = Ls_global_dust_storm_season
 tau = 5
-data_matrix = get_worst_irradiance(A, Ls_range, phi, tau, nfft=3, verbose=TRUE)
 
-lines(round(data_matrix['Ts',]), data_matrix['E',],
-      col=E_cols[2])
+data_matrix = get_worst_energy_profile(A, Ls_range, phi, tau, nfft=3, verbose=TRUE)
 
-#print(data_matrix)
+dev.new()
+plot(round(data_matrix['Ts',]), data_matrix['E',],
+     xlab="Solar Time, T [h]",
+     ylab="Energy, E [Wh]",
+     ylim=c(0,100),
+     type="l",
+     col=E_cols[1],
+     font.sub=2,
+     cex.sub=1.2)
 
-# Get sunrise time.
-# Get sunset time.
+# Threshold
+lines(c(9.7, 14.4), c(60, 60),
+      lty=2,
+      col="blue")
+
+# TODO: CALIBRATE based on passed missions and estimates.
