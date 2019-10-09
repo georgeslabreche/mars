@@ -19,6 +19,14 @@ H_eqs = c(Hh_eq, Hbh_eq, Hdh_eq)
 H_eqs_labels = c("Global", "Beam", "Diffuse")
 H_eqs_cols = wes_palette("Darjeeling1", 3)
 
+phi_list = list(
+  'Victoria Crater' = -2.05,
+  'Nanedi Vallis' = 5.2,
+  'Naktong Vallis' = 5.3,
+  'Melas Coprates' = -10.4,
+  'Kasei Valles' = 24.6
+)
+
 # Albedo.
 al = 0.1    
 
@@ -29,12 +37,12 @@ al = 0.1
 nfft = 3
 
 # Function parameters.
-phi = 22.3
+phi = phi_list$'Victoria Crater'
 al = 0.1
-tau = 0.5
+tau = 5
 Ls_seq = 1:360
 
-ylim = c(1000, 4000)
+ylim = c(1000, 5000)
 
 # Plot type options:
 #   1 - Line.
@@ -78,10 +86,11 @@ if(plot_type == 1){
        type="l",
        col=H_eqs_cols[1],
        font.sub=2,
-       cex.sub=1.2)
+       cex.sub=1.2,
+       lwd=3)
   
-  lines(Ls_seq, data['Beam',], col=H_eqs_cols[2])
-  lines(Ls_seq, data['Diffuse',], col=H_eqs_cols[3])
+  lines(Ls_seq, data['Beam',], col=H_eqs_cols[2], lwd=3)
+  lines(Ls_seq, data['Diffuse',], col=H_eqs_cols[3], lwd=3)
   
 }else{
   barplot(data, col=col,
@@ -99,7 +108,7 @@ if(plot_type == 1){
   legend("topright",
          H_eqs_labels,
          col = H_eqs_cols,
-         cex=1, bty="n", lty=1)
+         cex=1, bty="n", lty=1, lwd=3)
 }else{
   legend("topright",
          if(plot_type == 2) H_eqs_labels[-1] else H_eqs_labels,

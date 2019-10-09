@@ -8,13 +8,9 @@ Gh_eq = dget(here("functions", "G_h.R"))
 # Global hourly insolation on Mars horizontal surface [W/m2-h].
 Ih_eq = dget(here("functions", "I_h.R"))
 
-Ls = 81       # Areocentric longitude.
-phi = -2.05   # Planetary latitude of Victoria crater.
-tau = 1       # Atmospheric opacity.
+# Daylight range.
+daylight_range = dget(here("utils", "daylight_range.R"))
 
-A = 1.2     # Solar array area.
-e = 0.29    # Solar panel efficiency.
-PR = 1 - (0.03 + 0.05 + 0.30) # Solar array performance ratio.
 
 # Calculate the generated energy [Wh] given the solar panel area [m2] and global insolation [Wh/m2].
 #   A   - Solar panel area [m2].
@@ -30,8 +26,8 @@ power = function(A, Gh){
   P = A * e * Gh * PR
 }
 
-# Build the generated energy profile.
-get_energy_profile = function(A, Ls, phi, tau, nfft=3, T_step, verbose=FALSE){
+# Build the irradiance, energy, and power profiles.
+get_profiles = function(A, Ls, phi, tau, nfft=3, T_step, verbose=FALSE){
   
   # Get the daylight solar time range for the Ls.
   Ts_range = daylight_range(Ls=Ls, phi=phi, T_step=T_step) 
@@ -76,17 +72,23 @@ get_energy_profile = function(A, Ls, phi, tau, nfft=3, T_step, verbose=FALSE){
   )
 }
 
+Ls = 81       # Areocentric longitude.
+phi = -2.05   # Planetary latitude of Victoria crater.
+tau = 1       # Atmospheric opacity.
+
+A = 1.2     # Solar array area.
+e = 0.29    # Solar panel efficiency.
+PR = 1 - (0.03 + 0.05 + 0.30) # Solar array performance ratio.
 
 # Get insolation values.
 T_step = 1 # hours.
-profile = get_energy_profile(A=A, Ls=Ls, phi=phi, tau=tau, nfft=3,
+profiles = get_profiles(A=A, Ls=Ls, phi=phi, tau=tau, nfft=3,
                                T_step=T_step,
                                verbose=FALSE)
 
-
 dev.new()
-plot(x=profile$Ts,
-     y=profile$Gh,
+plot(x=profiles$Ts,
+     y=profiles$Gh,
      xlab="Solar Time, T [h]",
      ylab="Global Irradiance [W/m2]",
      type="l",
@@ -96,8 +98,8 @@ plot(x=profile$Ts,
 
 
 dev.new()
-plot(x=profile$Ts,
-     y=profile$Ec,
+plot(x=profiles$Ts,
+     y=profiles$Ec,
      xlab="Solar Time, T [h]",
      ylab="Energy [Wh]",
      type="l",
@@ -106,17 +108,16 @@ plot(x=profile$Ts,
      main='Energy Collected')
 
 dev.new()
-barplot(profile$E,
+barplot(profiles$E,
         names.arg=seq(round(profile$Ts[1]), round(profile$Ts[length(profile$Ts)]), T_step),
         xlab="Solar Time, T [h]",
         ylab="Energy [Wh]",
         cex.names=0.7,
         main='Energy Collected - Hourly')
 
-
 dev.new()
-plot(x=profile$Ts,
-     y=profile$P,
+plot(x=profiles$Ts,
+     y=profiles$P,
      xlab="Solar Time, T [h]",
      ylab="Power [W]",
      type="l",

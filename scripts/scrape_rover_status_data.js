@@ -1,4 +1,6 @@
-// Scrape rover status data from the Opportunity rover's mission update side:
+// A scraper written in Javascript.
+//
+// It scrapes rover status data from the Opportunity rover's mission update side:
 //  https://mars.nasa.gov/mer/mission/rover-status/opportunity
 //
 // Made to work only for entries from 2009 and onwards.
