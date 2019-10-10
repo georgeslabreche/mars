@@ -87,18 +87,21 @@ function(){
     
     # Determine Martian year based on sol
     if(sol >= 1939 && sol <= 2042){
-      MarsYears = c(MarsYears, 29)
+      MarsYears = c(MarsYears, 28)
       
     }else if(sol >= 2049 && sol <= 2709){
-      MarsYears = c(MarsYears, 30)
+      MarsYears = c(MarsYears, 29)
       
     }else if(sol >= 2716 && sol <= 3384){
-      MarsYears = c(MarsYears, 31)
+      MarsYears = c(MarsYears, 30)
       
     }else if(sol >= 3390 && sol <= 3437){
-      MarsYears = c(MarsYears, 32)
+      MarsYears = c(MarsYears, 31)
       
     }else if(sol >= 3444 && sol <= 4037){
+      MarsYears = c(MarsYears, 32)
+      
+    }else if(sol >= 4055 && sol <= 4718){
       MarsYears = c(MarsYears, 33)
       
     }else{
@@ -120,7 +123,10 @@ function(){
     Wh = oppy_status$Wh[i]
     
     # Get the Areocentric longitude [deg] based on the date.
-    Ls = get_Ls(date_terrestial, "%d-%b-%Y")
+    Ls = get_Ls(date=date_terrestial,
+                format="%d-%b-%Y",
+                force_bounding=TRUE)
+    
     Ls_seq = c(Ls_seq, Ls)
     
     if(!is.na(Ls) && !is.na(tau) && !is.na(dust_factor)){

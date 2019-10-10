@@ -14,9 +14,10 @@ Sys.setlocale("LC_TIME", "C");
 # The function.
 #
 # Paremeters:
-#   date    - terrestial date. e.g. 9-Apr-1984.
-#   format  - date pattern. e.g. %d-%b-%Y.
-function(date, format){
+#   date            - terrestial date. e.g. 9-Apr-1984.
+#   format          - date pattern. e.g. %d-%b-%Y.
+#   force_bounding  - force value to be beween 0 and 360 degrees.
+function(date, format, force_bounding=FALSE){
   
   # Convert given date into date something that can be cast into a numeric.
   date = as.Date(date, format)
@@ -62,6 +63,17 @@ function(date, format){
   
   # The Areocentric Longitude [deg].
   Ls = alpha_FMS + (nu - M)
+  
+  if(isTRUE(force_bounding)){
+    # Handle negative Ls values (should not exist).
+    if(Ls < 0){
+      Ls = Ls + 360
+      
+    # Handle Ls values that are greater than 360 degrees.
+    }else if(Ls > 360){
+      Ls = Ls - 360
+    }
+  }
   
   return(Ls)
 }

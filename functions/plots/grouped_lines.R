@@ -21,17 +21,17 @@
 #   if x = 388 then x = x - c_ceil so that x = 28
 #
 # Parameters:
-#   x                   - Vector of x-axis data. Incremental cylcle of numericals.
-#   y                   - Vector of y-axis data.
-#   x_floor             - Lower bound to be enforced on x values.
-#   x_ceil              - Upper bound to be enforced on y values.
-#   force_x_bounds      - TRUE: Converting x values that fit within the x_floor and x_ceil boundary.
-#                         FALSE: Drop x values that are not withing the x_floor and x_ceil boundary.
-#   i                   - A vector with values that relate to those in the x vector.
-#                         Used as a second source of data to define x value subrange that should be processed.
-#   ilim                - From which i value should the x vector start and stop being read.
-#   include_iterations  - Selecively plot the resulting x subgroups by indicating their indices.
-#   cols                - Line colors.
+#   x                       - Vector of x-axis data. Incremental cylcle of numericals.
+#   y                       - Vector of y-axis data.
+#   x_floor                 - Lower bound to be enforced on x values.
+#   x_ceil                  - Upper bound to be enforced on y values.
+#   force_x_inside_bounds   - TRUE: Converting x values that fit within the x_floor and x_ceil boundary.
+#                             FALSE: Drop x values that are not withing the x_floor and x_ceil boundary.
+#   i                       - A vector with values that relate to those in the x vector.
+#                             Used as a second source of data to define x value subrange that should be processed.
+#   ilim                    - From which i value should the x vector start and stop being read.
+#   include_iterations      - Selecively plot the resulting x subgroups by indicating their indices.
+#   cols                    - Line colors.
 #
 #
 # TODO:
@@ -129,3 +129,4 @@ grouped_lines = function(
     }
   }
 }
+

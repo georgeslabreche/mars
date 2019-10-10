@@ -70,12 +70,18 @@ plot_divergences = function(x, y, i, ylab, ylim, ilim=NULL,
          col=cols, lty=1, lwd=4)
 }
 
-# From MY29 to MY34 (Data from Sol 1939 to 4718.)
-legend=paste("MY", unique(energy_divergences$MarsYear), sep="")
+# From MY28 to MY34 (i.e. data from Sol 1939 to 5100).
+legend_MY28_to_MY34 = paste("MY", unique(energy_divergences$MarsYear), sep="")
 
-###################################################
-# Plot measured Tau Factor from Sol 1939 to 4718. #
-###################################################
+# From MY28 to MY33 (i.e. data from Sol 1939 to 4718).
+legend_MY28_to_MY33=paste("MY", unique(energy_divergences$MarsYear)[1:6], sep="")
+
+# From MY28 to MY32 (i.e. data from Sol 1939 to 4037).
+legend_MY28_to_MY32=paste("MY", unique(energy_divergences$MarsYear)[1:5], sep="")
+
+###############################################
+# Plot measured Tau Factor from MY29 to MY34. #
+###############################################
 dev.new()
 plot_divergences(
   x=energy_divergences$Ls,
@@ -84,12 +90,12 @@ plot_divergences(
   ylim=c(0, 2),
   ylab="Tau Factor",
   title="Opportunity's Measured Tau Factor",
-  legend=legend)
+  legend=legend_MY29_to_MY34)
 
 
-################################################################
-# Plot measured Solar Array Dust Factor from Sol 1939 to 4718. #
-################################################################
+############################################################
+# Plot measured Solar Array Dust Factor from MY29 to MY34. #
+############################################################
 dev.new()
 plot_divergences(
   x=energy_divergences$Ls,
@@ -98,12 +104,47 @@ plot_divergences(
   ylim=c(0.4, 1),
   ylab="Solar Array Dust Factor",
   title="Opportunity's Measured Solar Array Dust Factor",
-  legend=legend)
+  legend=legend_MY28_to_MY34)
+
+##############################################################
+# Plot predicted and measured energy, one plot per Mars Year #
+##############################################################
+dev.new()
+par(mfrow = c(3, 2))  # 3 rows and 2 columns
+
+# Create sequence of Mars Years we are interested to plot.
+mars_years = unique(energy_divergences$MarsYear)
+
+# Remove data from years 28 and 31, not enough data to be interesting.
+mars_years = mars_years[!mars_years %in% c(28, 31)]
+
+for (mars_year in mars_years) {
+  year_energy_divergences = energy_divergences[energy_divergences$MarsYear == mars_year,]
+  
+  # Measured energy [Wh].
+  plot(x=year_energy_divergences$Ls,
+       y=year_energy_divergences$WhMeasured,
+       xlab="Ls [deg]",
+       ylab="Energy [Wh]",
+       xlim=c(0, 360),
+       ylim=c(200, 800),
+       type="l",
+       col=brewer.pal(n=3, name="RdYlGn")[1],
+       main=paste("MY", mars_year, sep=""))
+
+  # Predicted energy [Wh].
+  lines(x=year_energy_divergences$Ls,
+        y=year_energy_divergences$WhPredicted,
+        lty=2,
+        col=brewer.pal(n=3, name="RdYlGn")[3])
+  
+  # TODO: Draw legend.
+}
 
 
-#############################################################
-# Plot predicted and measured energy from Sol 1939 to 4718. #
-#############################################################
+#########################################################
+# Plot predicted and measured energy from MY29 to MY34. #
+#########################################################
 
 # Plot predicted energy [Wh].
 dev.new()
@@ -114,7 +155,7 @@ plot_divergences(
   ylim=c(200, 800),
   ylab="Measured Energy [Wh]",
   title="Opportunity's Predicted Energy",
-  legend=legend)
+  legend=legend_MY28_to_MY34)
 
 # Plot measured energy [Wh].
 dev.new()
@@ -125,11 +166,11 @@ plot_divergences(
   ylim=c(200, 800),
   ylab="Measured Energy [Wh]",
   title="Opportunity's Measured Energy",
-  legend=legend)
+  legend=legend_MY28_to_MY34)
 
-#################################################
-# Plot energy divergence from Sol 1939 to 4718. #
-#################################################
+#############################################
+# Plot energy divergence from MY29 to MY34. #
+#############################################
 title="Opportunity's Predicted Energy Divergences from Daily Measurements"
 
 # Plot divergence in Wh.
@@ -141,7 +182,7 @@ plot_divergences(
   ylim=c(-100, 220),
   ylab="Energy Divergence [Wh]",
   title=title,
-  legend=legend)
+  legend=legend_MY28_to_MY34)
 
 # Plot divergence in percentage increase/decrease.
 dev.new()
@@ -152,14 +193,12 @@ plot_divergences(
   ylim=c(-20, 50),
   ylab="Energy Divergence [%]",
   title=title,
-  legend=legend)
+  legend=legend_MY28_to_MY34)
 
 
-################################################
-# Plot energy divergence from Sol 1939 to 4037 #
-################################################
-# From MY29 to MY33 (Data from Sol 1939 to 4037)
-legend=legend=paste("MY", unique(energy_divergences$MarsYear)[1:5], sep="")
+############################################
+# Plot energy divergence from MY29 to MY33 #
+############################################
 
 # Plot divergence in Wh.
 dev.new()
@@ -171,7 +210,7 @@ plot_divergences(
   ilim=c(1939, 4056),
   ylab="Energy Divergence [Wh]",
   title=title,
-  legend=legend)
+  legend=legend_MY28_to_MY33)
 
 # Plot divergence in percentage increase/decrease.
 dev.new()
@@ -183,6 +222,6 @@ plot_divergences(
   ilim=c(1939, 4056),
   ylab="Energy Divergence [%]",
   title=title,
-  legend=legend)
+  legend=legend_MY28_to_MY33)
 
 

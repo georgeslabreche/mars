@@ -17,8 +17,16 @@
 library(here)
 library(wesanderson)
 
+# Daylight range.
+daylight_range = dget(here("utils", "daylight_range.R"))
 
-# Global insolation
+# Equation 17 (1990): Global irradiance on Mars horizontal surface [W/m2].
+Gh_eq = dget(here("functions", "G_h.R"))
+
+# Equation 6: Zenith angle of the incident solar radiation [deg].
+Z_eq = dget(here("functions", "Z.R"))
+
+# Global daily insolation on Mars horizontal surface [Wh/m2-day].
 Hh_eq = dget(here("functions", "H_h.R"))
 
 # Daylight range
@@ -56,19 +64,19 @@ for(Ls in Ls_seq){
   Ls_index = Ls_index + 1
 }
 
-dev.new()
-plot(x=data_matrix[, 'Ls'], y=data_matrix[, 'Daylight'],
-     type='l',
-     xlab='Areocentric Longitude, Ls [deg]',
-     ylab='Daylight [h]',
-     main='Daylight hours as a function of Areocentric Longitude')
+# dev.new()
+# plot(x=data_matrix[, 'Ls'], y=data_matrix[, 'Daylight'],
+#      type='l',
+#      xlab='Areocentric Longitude, Ls [deg]',
+#      ylab='Daylight [h]',
+#      main='Daylight hours as a function of Areocentric Longitude')
+# 
+# dev.new()
+# plot(x=data_matrix[, 'Ls'], y=data_matrix[, 'Insolation'],
+#      type='l',
+#      xlab='Areocentric Longitude, Ls [deg]',
+#      ylab='Insolation [Wh/m2-deg]',
+#      main='Global Insolation as a function of Areocentric Longitude')
 
-dev.new()
-plot(x=data_matrix[, 'Ls'], y=data_matrix[, 'Insolation'],
-     type='l',
-     xlab='Areocentric Longitude, Ls [deg]',
-     ylab='Insolation [Wh/m2-deg]',
-     main='Global Insolation as a function of Areocentric Longitude')
 
 
-  
