@@ -29,8 +29,7 @@
 #                         FALSE: Drop x values that are not withing the x_floor and x_ceil boundary.
 #   i                   - A vector with values that relate to those in the x vector.
 #                         Used as a second source of data to define x value subrange that should be processed.
-#   i_start             - From which i value should the x vector start being read.
-#   i_end               - From which i value should the x vector stop being read.
+#   ilim                - From which i value should the x vector start and stop being read.
 #   include_iterations  - Selecively plot the resulting x subgroups by indicating their indices.
 #   cols                - Line colors.
 #
@@ -43,13 +42,30 @@ grouped_lines = function(
   x_ceil=max(x),
   force_x_inside_bounds=TRUE,
   i=NULL,
-  i_start=ifelse(is.null(i), NULL, min(i)),
-  i_end=ifelse(is.null(i), NULL, max(i)),
+  ilim=NULL,
   include_iterations=NULL,
-  cols=NULL){
+  cols=NULL,
+  lwd=1, lty=1){
   
+  # Set i_start.
+  i_start = NULL
+  if(length(ilim) == 2 && is.numeric(ilim[1])){
+    i_start = ilim[1]
+  }else if(!is.null(i)){
+    i_start = min(i)
+  }
+  
+  # Set i_end.
+  i_end = NULL
+  if(length(ilim) == 2 && is.numeric(ilim[2])){
+    i_end = ilim[2]
+  }else if(!is.null(i)){
+    i_end = max(i)
+  }
+  
+  # Init group data tracker.
   x_group = c()
-  #i_group = c()
+  i_group = c()
   y_group = c()
   
   x_previous = NULL
@@ -86,12 +102,15 @@ grouped_lines = function(
           if(!is.null(x_group)){
             if(is.null(include_iterations) || group_count %in% include_iterations){
               lines(x_group, y_group, type = "l",
-                    col= if(is.null(cols)) "black" else cols[group_count])
+                    col= if(is.null(cols)) "black" else cols[group_count-1],
+                    lwd=lwd, lty=lty)
             }
           }
           
+          #print(paste(min(i_group), "–", max(i_group)))
+          
           x_group = c(x_current)
-          #i_group = c(i[index])
+          i_group = c(i[index])
           y_group = c(y[index])
           
           group_count = group_count + 1
@@ -99,7 +118,7 @@ grouped_lines = function(
         }else{
           # Still in the same group.
           x_group = c(x_group, x_current)
-          #i_group = c(i_group, i[index])
+          i_group = c(i_group, i[index])
           y_group = c(y_group, y[index])
         }
         

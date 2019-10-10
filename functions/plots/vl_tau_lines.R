@@ -12,7 +12,7 @@
 library(here)
 tau_lines = dget(here("functions/plots", "grouped_lines.R"))
 
-vl_tau_lines = function(lander_id="VL1", sol_start=0, sol_end=1147, include_years=NULL, sub=NULL, cols=NULL) {
+vl_tau_lines = function(lander_id="VL1", sol_lim=c(0, 1147), include_years=NULL, sub=NULL, cols=NULL) {
   vl_data_url = "https://atmos.nmsu.edu/pdsd/archive/data/vl1vl2-m-lcs-5-atmos-optical-depth-v10/vl_1001/data/vl_opac.dat"
   
   if(!(toupper(lander_id) %in% c("VL-1", "VL1", "VL-2", "VL2", "Viking 1", "Viking 2", "Viking-1", "Viking-2"))){
@@ -38,5 +38,5 @@ vl_tau_lines = function(lander_id="VL1", sol_start=0, sol_end=1147, include_year
   taus = unlist(data[7])
   
   # Plot lines.
-  tau_lines(x=Ls_vect, y=taus, x_floor=0, x_ceil=360, i=Sols, i_start=sol_start, i_end=sol_end, cols=cols)
+  tau_lines(x=Ls_vect, y=taus, x_floor=0, x_ceil=360, i=Sols, ilim=sol_lim, cols=cols)
 }
