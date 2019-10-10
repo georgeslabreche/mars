@@ -27,11 +27,26 @@ Ih_eq = dget(here("functions", "I_h.R"))
 # Function to get Mars' Areocentric Longitude given a terrestrial date.
 get_Ls = dget(here('utils', 'get_Ls.R'))
 
+# Function to plot a vector of data into different groups of lines.
+grouped_lines = dget(here("functions/plots", "grouped_lines.R"))
+
 oppy_status = read.csv(file=here("test", "data/oppy_status.csv"), header=TRUE, sep=",")
 
-# Solar panel area is 1.3 m2 but actual cell area is 1.21 m2.
-# Source: http://www.unmannedspaceflight.com/index.php?showtopic=1502
-A = 1.21
+# Solar panel area has been cited as 1.3 m2 but we need the actual solar cell coverage area.
+#
+# There is a total of 499 cells:
+#   165 on the left wing.
+#   167 on the right wing.
+#   102 on the rear wing.
+#   65 on the body.
+#
+# The cell size is 3.95 cm x 6.89 cm with two cropped corners. This provides an active area of 26.6 cm2.
+# The CIC size is 3.97 cm x 6.91 cm.The slight difference is the small amount of coverglass overhang.
+#   Source: E-mail exchange with Richard C. Ewell (NASA/JPL)
+#
+# The solar cell coverage area is thus 499 * 26.6 cm2 = 13273.4 cm2 = 1.32734 m2
+# It turns out that the cited solar panel area is in actuality the solar cell coverage area.
+A = 1.3
 
 # Solar panel efficiency of MER solar array.
 # GaInP/GaAs/Ge triple-junction solar cells 
@@ -89,9 +104,6 @@ for(i in 1:length(oppy_status$Sol)){
   }
 }
 
-
-
-
 # Build new data table to present results.
 # Remove rows that contain NA values.
 results_df = na.omit(data.frame(
@@ -105,68 +117,7 @@ results_df = na.omit(data.frame(
   Wh_diff = E_pr - oppy_status$Wh
 ))
 
-# Plot differences between the predicted and ground truth Energy.
-# dev.new()
-# index = 1
-# indices = c()
-# for(Ls in results_df$Ls){
-#   
-#   if(Ls <= 360){
-#     indices = c(indices, index)
-#     index = index + 1
-#     
-#   }else{
-#     # Plot line for the year
-#     
-#     # Reset index
-#     index = 1
-#   }
-# }
-
-
-tau_lines = function(Ls_vect, Sols, taus, sol_start, sol_end, include_years=NULL, cols=NULL){
-  Ls_yr = c()
-  Sols_yr = c()
-  taus_yr = c()
-  
-  Ls_prev = 999
-  year_count = 0
-  index = 1
-  
-  for(sol in Sols){
-    if(sol >= sol_start && sol <= sol_end){
-      # Handle negative values of Ls.
-      Ls = ifelse(c(Ls_vect[index])<0, c(Ls_vect[index])+360, c(Ls_vect[index]))
-      
-      # New year, Gone from Ls=360-ish to Ls=0-ish.
-      if(Ls < Ls_prev){
-        
-        if(!is.null(Ls_yr)){
-          if(is.null(include_years) || year_count %in% include_years){
-            lines(Ls_yr, taus_yr, type = "l",
-                  col= if(is.null(cols)) "black" else cols[year_count+1])
-          }
-        }
-        
-        Ls_yr = c(Ls)
-        Sols_yr = c(Sols[index])
-        taus_yr = c(taus[index])
-        
-        year_count = year_count + 1
-        
-      }else{
-        # Still in the same year.
-        Ls_yr = c(Ls_yr, Ls)
-        Sols_yr = c(Sols_yr, Sols[index])
-        taus_yr = c(taus_yr, taus[index])
-      }
-      
-      Ls_prev = Ls
-      index = index + 1
-    }
-  }
-}
-
+# Prepare empty plot.
 dev.new()
 plot(1,
      xlab="Ls [deg]",
@@ -177,7 +128,8 @@ plot(1,
      lty=1,
      col="red")
 
-tau_lines(Ls_vect=results_df$Ls, Sols=results_df$Sol, taus=results_df$Wh_diff, sol_start=min(results_df$Sol), sol_end=max(results_df$Sol))
+# Plot Wh differences between predicted and measured.
+grouped_lines(x=results_df$Ls, y=results_df$Wh_diff, x_floor=0, x_ceil=360, i=results_df$Sol)
 
 
 # Write CSV

@@ -10,7 +10,7 @@
 #   https://pds.nasa.gov/datastandards/pds3/citing-pds3-data.shtml
 
 library(here)
-tau_lines = dget(here("functions/plots", "tau_lines.R"))
+tau_lines = dget(here("functions/plots", "grouped_lines.R"))
 
 vl_tau_lines = function(lander_id="VL1", sol_start=0, sol_end=1147, include_years=NULL, sub=NULL, cols=NULL) {
   vl_data_url = "https://atmos.nmsu.edu/pdsd/archive/data/vl1vl2-m-lcs-5-atmos-optical-depth-v10/vl_1001/data/vl_opac.dat"
@@ -37,5 +37,6 @@ vl_tau_lines = function(lander_id="VL1", sol_start=0, sol_end=1147, include_year
   Sols = unlist(data[4])
   taus = unlist(data[7])
   
-  tau_lines(Ls_vect, Sols, taus, sol_start, sol_end, include_years, cols=cols)
+  # Plot lines.
+  tau_lines(x=Ls_vect, y=taus, x_floor=0, x_ceil=360, i=Sols, i_start=sol_start, i_end=sol_end, cols=cols)
 }

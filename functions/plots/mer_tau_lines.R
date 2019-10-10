@@ -9,7 +9,7 @@
 #   https://pds.nasa.gov/datastandards/pds3/citing-pds3-data.shtml
 
 library(here)
-tau_lines = dget(here("functions/plots", "tau_lines.R"))
+tau_lines = dget(here("functions/plots", "grouped_lines.R"))
 
 mer_tau_lines = function(rover_id="MER-A", sol_start=0, sol_end=5106, include_years=NULL, sub=NULL, cols=NULL) {
   mer_data_url = "http://pds-geosciences.wustl.edu/mer/mer1_mer2-m-pancam-5-atmos-opacity-v1/merao_1xxx/data/"
@@ -56,6 +56,7 @@ mer_tau_lines = function(rover_id="MER-A", sol_start=0, sol_end=5106, include_ye
   Ls_vect = unlist(data[2])
   Sols = unlist(data[4])
   taus = unlist(data[7])
-  
-  tau_lines(Ls_vect, Sols, taus, sol_start, sol_end, include_years, cols=cols)
+
+  # Plot lines.
+  tau_lines(x=Ls_vect, y=taus, x_floor=0, x_ceil=360, i=Sols, i_start=sol_start, i_end=sol_end, cols=cols)
 }
