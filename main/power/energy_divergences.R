@@ -65,18 +65,13 @@ plot_divergences = function(x, y, i, ylab, ylim, ilim=NULL,
                 cols=cols, lwd=4)
   
   # Draw legend
-  legend("topleft", title="Sols Range",
+  legend("topleft", title="Mars Years",
          legend=legend,
          col=cols, lty=1, lwd=4)
 }
 
-# Entire timespan of data.
-legend = c("1939 – 2042",
-           "2049 – 2709",
-           "2716 – 3384",
-           "3390 – 3437",
-           "3444 – 4037",
-           "4055 – 4718")
+# From MY29 to MY34 (Data from Sol 1939 to 4718.)
+legend=paste("MY", unique(energy_divergences$MarsYear), sep="")
 
 ###################################################
 # Plot measured Tau Factor from Sol 1939 to 4718. #
@@ -163,11 +158,8 @@ plot_divergences(
 ################################################
 # Plot energy divergence from Sol 1939 to 4037 #
 ################################################
-legend=c("1939 – 2042",
-         "2049 – 2709",
-         "2716 – 3384",
-         "3390 – 3437",
-         "3444 – 4037")
+# From MY29 to MY33 (Data from Sol 1939 to 4037)
+legend=legend=paste("MY", unique(energy_divergences$MarsYear)[1:5], sep="")
 
 # Plot divergence in Wh.
 dev.new()

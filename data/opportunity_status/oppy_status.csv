@@ -1,4 +1,4 @@
-Sol,Date,Wh,TauFactor,SADustFactor
+Sol,TerrestialDate,Wh,TauFactor,SADustFactor
 1939,8-JUL-2009,429,0.438,0.519
 1946,15-JUL-2009,414,0.476,0.52
 1952,21-JUL-2009,493,0.462,0.559
