@@ -58,7 +58,7 @@ plot_divergences = function(x, y, i, ylab, ylim, ilim=NULL,
        main=title)
   
   # Color options: BrBG PiYG PRGn PuOr RdBu RdGy RdYlBu RdYlGn
-  cols = rev(brewer.pal(n=6, name="RdYlGn"))
+  cols = rev(brewer.pal(n=7, name="RdYlGn"))
   
   # Draw lines.
   grouped_lines(x=x, y=y, x_floor=0, x_ceil=360, i=i, ilim=ilim,
@@ -120,7 +120,7 @@ mars_years = mars_years[!mars_years %in% c(28, 31)]
 
 for (mars_year in mars_years) {
   year_energy_divergences = energy_divergences[energy_divergences$MarsYear == mars_year,]
-  
+
   # Measured energy [Wh].
   plot(x=year_energy_divergences$Ls,
        y=year_energy_divergences$WhMeasured,
@@ -137,7 +137,7 @@ for (mars_year in mars_years) {
         y=year_energy_divergences$WhPredicted,
         lty=2,
         col=brewer.pal(n=3, name="RdYlGn")[3])
-  
+
   # TODO: Draw legend.
 }
 

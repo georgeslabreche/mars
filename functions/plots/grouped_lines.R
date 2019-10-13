@@ -104,11 +104,11 @@ grouped_lines = function(
               lines(x_group, y_group, type = "l",
                     col= if(is.null(cols)) "black" else cols[group_count-1],
                     lwd=lwd, lty=lty)
+              
             }
           }
           
-          #print(paste(min(i_group), "–", max(i_group)))
-          
+          # Start new plot data sequences
           x_group = c(x_current)
           i_group = c(i[index])
           y_group = c(y[index])
@@ -126,6 +126,15 @@ grouped_lines = function(
         index = index + 1
 
       }
+    }
+  }
+  
+  # Plot the remaining data.
+  if(!is.null(x_group)){
+    if(is.null(include_iterations) || group_count %in% include_iterations){
+      lines(x_group, y_group, type = "l",
+            col= if(is.null(cols)) "black" else cols[group_count-1],
+            lwd=lwd, lty=lty)
     }
   }
 }
