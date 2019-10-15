@@ -7,6 +7,8 @@
 #
 # Ground truth of Opportunity energy [Wh] was scraped from the rover's status update page: 
 #   https://mars.nasa.gov/mer/mission/rover-status/opportunity
+#
+# TODO: unit test % divergence.
 
 library(testthat)
 library(here)

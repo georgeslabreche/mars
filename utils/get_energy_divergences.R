@@ -14,7 +14,10 @@ Ih_eq = dget(here("functions", "I_h.R"))
 get_Ls = dget(here('utils', 'get_Ls.R'))
 
 # Opportunity status data will be read from a CSV file.
-oppy_status = read.csv(file=here("data", "opportunity_status/oppy_status.csv"), header=TRUE, sep=",")
+# Don't bother reading it again if this has been done already
+if(exists('oppy_status') == FALSE){
+  oppy_status = read.csv(file=here("data", "opportunity_status/oppy_status.csv"), header=TRUE, sep=",")
+}
 
 # Solar panel area has been cited as 1.3 m2 but we need the actual solar cell coverage area.
 #
@@ -40,11 +43,15 @@ e = 0.22
 # Opportunity's latitude location on Mars [deg].
 phi = -2.05
 
+#
+# Fetch Energy data from Opportunity status report.
+# Compare it with predicted values and calculate divergences.
+#
 # Performance ratio / coefficient for losses is determined based on literature:
 #
 #   1. Thomas W. Kerslake et al.:
 #       On a given day, cell efficiency varies 3% due to changing temperature and
-#       red-  shift spectral losses through the day time-period.
+#       red - shift spectral losses through the day time-period.
 #
 #   2. Geoffrey A. Landis et al.: 
 #       2.1 Dust deposition on the solar arrays was measured on the Pathfinder
@@ -60,21 +67,24 @@ phi = -2.05
 #   4. Paul M. Stella et al.
 #       Dust performance degradation is about 30%.
 #
-# Use [1] and [3].
-# Use dust factor measurements taken by Opportunity instead of [2] and [4] 
+# By default, use [1] and [3].
+# Also use dust factor measurements taken by Opportunity instead of [2] and [4].
 # Assume 5% loss due to shadowing onthe panels (e.g. from the mastcam).
-#
-Loss_temp_redshit = 0.03    # 3% from [1].
-Loss_permanent_dust = 0.05  # 5% from [3].
-Loss_shadowing = 0.05       # 5% assumption.
-
-# Dust factor adjustment of 8% to bound the difference between min and max diverences
-# to an error margin from -20% to +20%.
-DustFactor_adjustment = 0.08
-
-# Fetch Energy data from Opportunity status report.
-# Compare it with predicted values and calculate divergences.
-function(){
+# 
+#   Loss_temp_redshit:      Cell efficiency varies due to changing temperature and red shift.
+#   Loss_permanent_dust:    After deployment, a permanent dust power loss is added to the assumption
+#                           with more accumulated dust removed periodically.
+#   Loss_shadowing:         Loss due to shadows on the solar call cast devices such as the rover mast and mastcam.
+#   DustFactor_adjustment:  The Dust factor adjustment is a percentage value that can be used
+#                           to bound the difference between min and max diverences.
+#                           e.g. A dust factor adjustment of 8% will bound the divergence between
+#                           predicted energy and measured energy to an error margin from -20% to +20%.
+function(
+  Loss_temp_redshit = 0.03,    # 3% from [1].
+  Loss_permanent_dust = 0.05,  # 5% from [3].
+  Loss_shadowing = 0.05,       # 5% assumption.
+  DustFactor_adjustment = 0){
+  
   # Prep results vector.
   E_pr = c()
   Ls_seq = c()
@@ -85,7 +95,7 @@ function(){
     # Get sol.
     sol = oppy_status$Sol[i]
     
-    # Determine Martian year based on sol
+    # Determine Martian year based on given Sol.
     if(sol >= 1939 && sol <= 2042){
       MarsYears = c(MarsYears, 28)
       
@@ -159,7 +169,7 @@ function(){
     WhPredicted = E_pr,
     WhMeasured = oppy_status$Wh,
     WhDiff = E_pr - oppy_status$Wh,
-    WhDiffPercentage = ((E_pr - oppy_status$Wh) / oppy_status$Wh) * 100
+    WhDiffPercentage = ((oppy_status$Wh - E_pr) / oppy_status$Wh) * 100
   ))
   
   return(divergences)
