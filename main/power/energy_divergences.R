@@ -28,7 +28,7 @@
 #
 # Comments on top 5 outliers (For dust factor adjustment of 0%):
 #   1. What happened in Sol 2204 (Ls 74, 6-APR-2010) of Mars Year 29?
-#      Huge divergence in energy for Sols 2185 (+16%),  2199 (+31%), 2204 (peak at +32%), 2211 (+27%), 2218 (+26%), and 2226 (+16%).
+#      Huge divergence in energy for Sols 2185 (-16%),  2199 (-31%), 2204 (peak at -32%), 2211 (-27%), 2218 (-26%), and 2226 (-16%).
 #
 #     Traverse map:
 #       Sol 2199: https://mars.nasa.gov/mer/mission/tm-opportunity/images/MERB_Sol2199_1.jpg
@@ -48,7 +48,7 @@
 #     problems. With these sharp turns, the rover's wheels must impart more thrust. When the wheel thrust
 #     exceeds the shear strength of the terrain, slip occurs."
 #
-#   2.  What happened in Sol 2519 (Ls 242, 23-FEB-2011) of Mars Year 29? Divergence of +25%.
+#   2.  What happened in Sol 2519 (Ls 242, 23-FEB-2011) of Mars Year 29? Divergence of -25%.
 #
 #       Traverse map:
 #         Sol 2478: https://mars.nasa.gov/mer/mission/tm-opportunity/images/MERB_Sol2478_1.jpg
@@ -60,7 +60,7 @@
 #       "One objective is to position the rover further counter-clockwise around the southeast region of 
 #        Santa Maria to collect more wide-baseline stereo imaging of the crater interior."
 #
-#   3.  Sol 3901 (Ls 271, 13-JAN-2015) of Mars Year 32? Divergence of +21%.
+#   3.  Sol 3901 (Ls 271, 13-JAN-2015) of Mars Year 32? Divergence of -21%.
 #
 #       Traverse Map: https://mars.nasa.gov/mer/mission/tm-opportunity/images/MERB_Sol3908_1.jpg
 #
@@ -68,7 +68,7 @@
 #
 #       "Rover Reaches the Summit of 'Cape Tribulation' After Several Drives this Week.'"
 #
-#   4.  Sol 3820 (Ls 217, 20-OCT-2014) of Mars Year 32? Divergence of +16%.
+#   4.  Sol 3820 (Ls 217, 20-OCT-2014) of Mars Year 32? Divergence of -16%.
 #       
 #       Traverse Map: https://mars.nasa.gov/mer/mission/tm-opportunity/images/MERB_Sol3825_1.jpg
 #
@@ -77,7 +77,7 @@
 #       "Regional dust storms have elevated the atmospheric opacity with tau values 
 #        above 2 for several sols." - Calculated with Tau Factor 1.75.
 #
-#   5.  Sol 3894 (Ls 277, 6-JAN-2015) of Mars Year 32? Divergence of +16%.
+#   5.  Sol 3894 (Ls 277, 6-JAN-2015) of Mars Year 32? Divergence of -16%.
 #
 #       Traverse Map: https://mars.nasa.gov/mer/mission/tm-opportunity/images/MERB_Sol3908_1.jpg#
 #

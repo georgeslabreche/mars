@@ -75,6 +75,8 @@ phi = -2.05
 #   Loss_permanent_dust:    After deployment, a permanent dust power loss is added to the assumption
 #                           with more accumulated dust removed periodically.
 #   Loss_shadowing:         Loss due to shadows on the solar call cast devices such as the rover mast and mastcam.
+#   SolarArray_DustFactor:  Perfectly clean solar arrays would have a dust factor of 1.0, so the larger the dust factor,
+#                           the cleaner the arrays.
 #   DustFactor_adjustment:  The Dust factor adjustment is a percentage value that can be used
 #                           to bound the difference between min and max diverences.
 #                           e.g. A dust factor adjustment of 8% will bound the divergence between
@@ -83,6 +85,7 @@ function(
   Loss_temp_redshit = 0.03,    # 3% from [1].
   Loss_permanent_dust = 0.05,  # 5% from [3].
   Loss_shadowing = 0.05,       # 5% assumption.
+  SolarArray_DustFactor = NULL,
   DustFactor_adjustment = 0){
   
   # Prep results vector.
@@ -127,7 +130,11 @@ function(
     
     # Solar array dust factor.
     # Perfectly clean solar arrays would have a dust factor of 1.0, so the larger the dust factor, the cleaner the arrays.
-    dust_factor = oppy_status$SADustFactor[i]
+    if(is.null(SolarArray_DustFactor)){
+      SA_DustFactor = oppy_status$SADustFactor[i]
+    }else{
+      SA_DustFactor = SolarArray_DustFactor
+    }
     
     # Generated energy for the day [Wh]
     Wh = oppy_status$Wh[i]
@@ -139,12 +146,12 @@ function(
     
     Ls_seq = c(Ls_seq, Ls)
     
-    if(!is.na(Ls) && !is.na(tau) && !is.na(dust_factor)){
+    if(!is.na(Ls) && !is.na(tau) && !is.na(SA_DustFactor)){
       # Global hourly insolation on Mars horizontal surface [Wh/m2].
       Ih = Ih_eq(Ls=Ls, phi=phi, tau=tau, T_start=0, T_end=24, al=0.1, nfft=3)
       
       # Performance ratio.
-      PR = 1 - (Loss_temp_redshit + Loss_permanent_dust + (1-(dust_factor*(1-DustFactor_adjustment))) + Loss_shadowing)
+      PR = 1 - (Loss_temp_redshit + Loss_permanent_dust + (1-(SA_DustFactor*(1-DustFactor_adjustment))) + Loss_shadowing)
       
       # Calculate the generated energy [Wh] given the solar panel area [m2] and global insolation [Wh/m2].
       E = A * e * Ih * PR

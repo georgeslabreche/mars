@@ -1,11 +1,19 @@
 # Using MER Opportunity data, figure out which dust factor adjustments need to be
 # applied for different target error margin bounds.
 #
-# e.g. A dust factor adjustment of 8% will bound the divergence between predicted
-# energy and measured energy to an error margin from -20% to +20%.
+# Results:
 #
-# If we want all measured energy production to fit within a -15%/+23% error margin
-# Then we need to apply an 8% dust factor adjustment.
+# -15%/+21% for a dust factor adjustment of 9.5% and shadowing loss of 5%.
+# -15%/+21% for a dust factor adjustment of 7.35% and shadowing loss of 6%.
+#
+# -10%/+25% for a dust factor adjustment of 12.5% and shadowing loss of 5%.
+# -10%/+25% for a dust factor adjustment of 10.25% and shadowing loss of 6%.
+# -10%/+25% for a dust factor adjustment of 8.25% and shadowing loss of 7%.
+#
+# -23%/+15% for a dust factor adjustment of 4.9% and shadowing loss of 5%.
+# -22%/+16% for a dust factor adjustment of 5.5% and shadowing loss of 5%.
+
+# -20%/+18% for a dust factor adjustment of 5% and shadowing loss of 0%. 
 
 library(whisker)
 
@@ -17,26 +25,8 @@ result_message_template = 'For a {{DustFactor_adjustment}}% Dust Factor adjustme
 < {{lower_bound}}%: {{out_of_lower_bound}}
 '
 
-target_error_margin_lowest = -0.18
-target_error_margin_highest = 0.19
-
-# -21%/+15% for a dust factor adjustment of 9.5% and shadowing loss of 5%.
-# -21%/+15% for a dust factor adjustment of 7.35% and shadowing loss of 6%.
-
-# -25%/+10% for a dust factor adjustment of 12.5% and shadowing loss of 5%.
-# -25%/+10% for a dust factor adjustment of 10.25% and shadowing loss of 6%.
-# -25%/+10% for a dust factor adjustment of 8.25% and shadowing loss of 7%.
-
-# -15%/+23% for a dust factor adjustment of 4.9% and shadowing loss of 5%.
-# -16%/+22% for a dust factor adjustment of 5.5% and shadowing loss of 5%.
-
-# -18%/+20% for a dust factor adjustment of 5% and shadowing loss of 0%. 
-results_all = c()
-
-# Try with shadow loss range from 0% to 10%
-#for(ls in seq(0.02, 0.1, 0.005)){
-  
-  #print(paste('LOSS SHADOWING: ', ls*100, '%', sep=''))
+target_error_margin_lowest = -0.15
+target_error_margin_highest = 0.21
   
 # Try with dust factor adjustment from 0% to 15%
 for(dfa in seq(0, 0.15, 0.005)){
@@ -65,13 +55,6 @@ for(dfa in seq(0, 0.15, 0.005)){
     out_of_upper_bound = length(divs_out_of_upper_bound$Ls),
     out_of_lower_bound =  length(divs_out_of_lower_bound$Ls)
   )
-  
-  results_all = c(results_all, results)
-  
-  if(out_of_bounds == 0){
-    print("BINGO BINGOOOOOOO")
-    cat(whisker.render(result_message_template, results))
-  }
+
   cat(whisker.render(result_message_template, results))
 }
-#}
