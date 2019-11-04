@@ -6,7 +6,12 @@
 
 # Load
 library(here)
-library(wesanderson)
+library(configr)
+library(slugify)
+library(RColorBrewer)
+
+config_filepath = here('main', 'config.yml')
+config = read.config(file=config_filepath)
 
 # Equation 4: Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
@@ -21,29 +26,34 @@ Ls_WS = 270     # Winter Solstice - Dust Storm Season.
 Ls_seq = c(Ls_VE, Ls_A, Ls_SS, Ls_AE,  Ls_P, Ls_WS)
 Ls_lbl_seq = c('Vernal Equinox', 'Aphelion', 'Summer Solstice', 'Autumn Equinox', 'Periphelion', 'Winter Solstice')
 
+# Color blind friendly colors.
+cols = brewer.pal(n=3, name="PuOr")
+
 dev.new()
+par(bg='white')
 curve(Gob_eq, 0, 360, 360,
-  ylab="Beam irradiance at top of Mars atmosphere [W/m2]",
+  ylab="Irradiance [W/m2]",
   xlab="Areocentric Longitude [deg]",
   xaxt='n',
   yaxt='n',
   ylim=c(450, 750),
   type="l",
-  col="blue")
+  lwd=5,
+  col=cols[1])
 axis(1, seq(0, 360, 60))
 axis(2, seq(450, 800, 50))
 
 points(Ls_seq, ceiling(Gob_eq(Ls_seq)),
        pch="+",
-       col="red")
+       col=cols[3])
 
 for(Ls in Ls_seq){
   lines(c(Ls, Ls), c(0, ceiling(Gob_eq(Ls))),
         lty=2,
-        col="red")
+        col=cols[3])
   lines(c(-15, Ls), c(ceiling(Gob_eq(Ls)), ceiling(Gob_eq(Ls))),
         lty=2,
-        col="red")
+        col=cols[3])
 }
 
 text(Ls_seq, Gob_eq(Ls_seq),
@@ -51,4 +61,8 @@ text(Ls_seq, Gob_eq(Ls_seq),
      cex=0.7,
      pos=4)
 
-title(main="Beam irradiance at top of Mars atmosphere\nas a function of Areocentric Longitude")
+plot_title = "Beam irradiance at top of Mars atmosphere\nas a function of Areocentric Longitude"
+title(main=plot_title)
+
+dev.copy(png, paste(config$output$marsenv, slugify(plot_title, space_replace="-"), ".png", sep=""))
+dev.off()

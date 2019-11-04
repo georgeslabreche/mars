@@ -18,7 +18,8 @@ I_eqs = c(Ih_eq, Ibh_eq, Idh_eq)
 I_eqs_labels = c("Global insolation", "Beam insolation", "Diffuse insolation")
 I_eqs_cols = wes_palette("Darjeeling1", 3)
 
-diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, new_plot){
+# TODO: Parametize cols
+diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, pch=3, lwd=1, new_plot){
   # Label the unit correctly based on the desired insolation time range.
   ylab_h = if(T_step==1) "" else T_step
   
@@ -28,7 +29,8 @@ diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smo
          if(isTRUE(points)) I_seq else NULL,
          xlab="Solar Time Range [h]", ylab=paste("Insolation [Wh/m2", "-", ylab_h, "h]", sep=""),
          xlim=xlim, ylim=ylim,
-         pch=3,
+         pch=pch,
+         lwd=lwd,
          col=I_eqs_cols[I_index],
          sub=sub,
          font.sub=2,
@@ -37,31 +39,31 @@ diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smo
   
   if(isTRUE(smooth)){
     smooth_line = smooth.spline(Ts+T_step, I_seq, spar=0.35)
-    lines(smooth_line, col=I_eqs_cols[I_index])
+    lines(smooth_line, col=I_eqs_cols[I_index], lwd=lwd)
     
   }else{
-    lines(Ts+T_step, I_seq, col=I_eqs_cols[I_index])
+    lines(Ts+T_step, I_seq, col=I_eqs_cols[I_index], lwd=lwd)
   }
   
   if(!isTRUE(new_plot)){
     points(if(isTRUE(points)) Ts+T_step else NULL, 
            if(isTRUE(points)) I_seq else NULL, 
-           pch=3,
+           pch=pch,
            col=I_eqs_cols[I_index])
   }
 }
 
-plot_diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth){
+plot_diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, pch=3, lwd=1){
   if(length(Ts) == length(I_seq)){
     if(I_index == 1){
       
       # New Plot
-      diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, TRUE)
+      diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, pch, lwd, TRUE)
       
     }else{
       # Make sure we are plotting on a new plot when needed.
       tryCatch({
-        diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, FALSE)
+        diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, pch, lwd, FALSE)
       },
       warning = function(w) {
         # Do nothing
@@ -69,7 +71,7 @@ plot_diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points
       error = function(e) {
         # Enter here when following error occurs: plot.new has not been called yet.
         # Plot
-        diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, TRUE)
+        diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, pch, lwd, TRUE)
       },
       finally = {
         # Do nothing
@@ -85,7 +87,7 @@ plot_diurnal_line = function(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points
   }
 }
 
-plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, beside){
+plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, beside, lwd=1){
   
   # For stacked bars, only want to plot beam and diffuse. Not global.
   data = if(isTRUE(beside)) data_matrix else data_matrix[-1,]
@@ -114,6 +116,7 @@ plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, b
           ylim=ylim,
           xlab="Solar Time Range [h]",
           ylab=paste("Insolation [Wh/m2", "-", ylab_h, "h]", sep=""),
+          lwd=lwd,
           las=2,
           sub=sub,
           font.sub=2,
@@ -124,7 +127,7 @@ plot_diurnal_stacked_bars = function(data_matrix, T_step, sub, ylim, x_labels, b
 #   1 - Line.
 #   2 - Stacked bars.
 #   3 - Besides bars.
-function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=TRUE, smooth=TRUE, plot_type){
+function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=TRUE, smooth=TRUE,  pch=3, lwd=1, plot_type){
   # Empty data matrix that will contain calculate insolation values..
   data_matrix = matrix(NA, nrow = 3, ncol = 24/T_step)
   
@@ -152,7 +155,7 @@ function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=T
     # Plot
     if(plot_type == 1){
       I_seq = data_matrix[I_index,]
-      plot_diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth)
+      plot_diurnal_line(Ts, I_seq, T_step, I_index, sub, xlim, ylim, points, smooth, pch, lwd)
     }
     
     if(I_index == 3){
@@ -163,9 +166,9 @@ function(nfft, Ls, phi, tau, al, T_step=1, sub="", xlim=c(0, 24), ylim, points=T
   }
   
   if(plot_type == 2){
-    plot_diurnal_stacked_bars(data_matrix, T_step, sub, ylim, x_labels, FALSE)
+    plot_diurnal_stacked_bars(data_matrix, T_step, sub, ylim, x_labels, FALSE, lwd)
     
   }else if(plot_type == 3){
-    plot_diurnal_stacked_bars(data_matrix, T_step, sub, ylim, x_labels, TRUE)
+    plot_diurnal_stacked_bars(data_matrix, T_step, sub, ylim, x_labels, TRUE, lwd)
   }
 } 

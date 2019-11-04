@@ -9,6 +9,9 @@ library(here)
 library(wesanderson)
 library(whisker)
 
+config_filepath = here('main', 'config.yml')
+config = read.config(file=config_filepath)
+
 Hh_eq = dget(here("functions", "H_h.R"))
 Hbh_eq = dget(here("functions", "H_bh.R"))
 Hdh_eq = dget(here("functions", "H_dh.R"))
@@ -42,7 +45,7 @@ al = 0.1
 tau = 5
 Ls_seq = 1:360
 
-ylim = c(1000, 5000)
+ylim = c(100, 5000)
 
 # Plot type options:
 #   1 - Line.
@@ -51,6 +54,7 @@ ylim = c(1000, 5000)
 plot_type = 1
 
 dev.new()
+par(bg='white')
 
 # Empty data matrix that will contain calculate insolation values..
 data_matrix = matrix(NA, nrow=3, ncol=length(Ls_seq))
@@ -108,20 +112,27 @@ if(plot_type == 1){
   legend("topright",
          H_eqs_labels,
          col = H_eqs_cols,
-         cex=1, bty="n", lty=1, lwd=3)
+         cex=1, lty=1, lwd=3)
 }else{
   legend("topright",
          if(plot_type == 2) H_eqs_labels[-1] else H_eqs_labels,
          fill = if(plot_type == 2) H_eqs_cols[-1] else H_eqs_cols,
-         cex=1, bty="n")
+         cex=1)
 }   
 
-title_template = "Variation of {{insolation}} insolation on Mars horizontal surface as a function of Areocentric Longitude\n(τ={{tau}}, ϕ={{phi}}°)"
+title_template = "Variation of {{insolation}} insolation on Mars horizontal surface\nas a function of Areocentric Longitude for τ={{tau}} and ϕ={{phi}}°"
 title_data = list(insolation=if(plot_type == 2) "beam and diffuse" else "global, beam, and diffuse",
                   phi=phi,
                   tau=tau)
 
 title = whisker.render(title_template, title_data)
-mtext(title, side=3, line=-3, outer=TRUE)
+#mtext(title, side=3, line=-3, outer=TRUE)
+
+# Write to image file.
+filename_title = gsub("τ", "tau", title)
+filename_title = gsub("ϕ", "phi", filename_title)
+plot_filepath = paste(config$output$marsenv, slugify(filename_title, space_replace="-"), ".png", sep="")
+dev.copy(png, plot_filepath)
+dev.off()
 
 

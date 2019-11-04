@@ -9,8 +9,12 @@ sunrise = dget(here("utils", "sunrise.R"))
 # Equation 9 (1990): Sunset.
 sunset = dget(here("utils", "sunset.R"))
 
-# Mars obliquity of rotation axis [deg].
-delta_0 = 24.936
+# Polar day.
+is_polar_day = dget(here("utils", "is_polar_day.R"))
+
+# Polar night.
+is_polar_night = dget(here("utils", "is_polar_night.R"))
+
 
 function(Ls, phi, T_s, Z=Z_eq(Ls, T_s, phi, nfft), nfft){
   
@@ -24,30 +28,22 @@ function(Ls, phi, T_s, Z=Z_eq(Ls, T_s, phi, nfft), nfft){
     warning("A latitude phi [deg] or a solar time T_s [h] has been given but not needed because a Sun zenith angle Z [deg] has been given as well.")
     
   }else if(!is.null(phi) && !is.null(T_s)){
-    
-    # Equation 7 (1990): Declination angle [rad].
-    delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
-    
-    # Equations 16 (Update 1991): Figure out if it is polar night or polar day.
-    #   Polar night (polar_flag < -1), no solar irradiance.
-    #   Polar day (polar_flag > 1), constant solar irradiance. 
-    polar_flag = -tan(delta) * tan(phi*pi/180)
-    
+ 
     # There is no irradiance during polar nights.
-    if(polar_flag < -1){
+    if(is_polar_night(Ls, phi)){
       return(FALSE)
       
-    }else if(polar_flag > 1){
+    }else if(is_polar_day(Ls, phi)){
       # Constant solar irradiance during polar day.
       # The sun is out all the time.
       return(TRUE)
       
     }else{
       # There is no irradiance if the solar time is before sunrise or after sunset.
-      sr = sunrise(Ls, phi, 3)
-      ss = sunset(Ls, phi, 3)
+      T_sr = sunrise(Ls, phi, 3)
+      T_ss = sunset(Ls, phi, 3)
       
-      if(T_s < sr || T_s > ss){
+      if(T_s < T_sr || T_s > T_ss){
         return(FALSE)
         
       }else{

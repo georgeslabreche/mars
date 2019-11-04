@@ -4,12 +4,11 @@
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://ntrs.nasa.gov/?R=19890018252
 #
-# TODO:
-#   - Ls, phi, and nfft arguments to calculate Z. No need for irradiance check at top of atmosphere.
 library(here)
 
-Gob_eq = dget(here("functions", "G_ob.r"))
+Gob_eq = dget(here("functions", "G_ob.R"))
+Z_eq = dget(here("functions", "Z.R"))
 
-function(Ls, Z){
+function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), nfft=1){
   Gob_eq(Ls) * cos(Z*pi/180)
 }

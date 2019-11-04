@@ -25,7 +25,7 @@ G_eqs = c(Gh_eq, Gbh_eq, Gdh_eq)
 G_eqs_labels = c("Global irradiance", "Beam irradiance", "Diffuse irradiance")
 G_eqs_cols = wes_palette("Darjeeling1", 3)
 
-function(nfft, Ls, phi, tau, al, T_step=1, T_min=0, T_max=24, sub="", xlim=NULL, ylim=c(0,550), points=TRUE, smooth=TRUE){
+function(nfft, Ls, phi, tau, al, T_step=1, T_min=0, T_max=24, sub="", xlim=c(0, 24), ylim=c(0, 700), points=TRUE, smooth=TRUE, cols=G_eqs_cols, lwd=1, pch=3){
   
   # Get solar time range when there is daylight
   Ts_range = daylight_range(Ls=Ls, phi=phi, T_step=T_step, T_min=T_min, T_max=T_max)
@@ -51,18 +51,19 @@ function(nfft, Ls, phi, tau, al, T_step=1, T_min=0, T_max=24, sub="", xlim=NULL,
              if(isTRUE(points)) G_seq else NULL, 
              xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
              xlim=xlim, ylim=ylim,
-             pch=3,
-             col=G_eqs_cols[G_index],
+             pch=pch,
+             lwd=lwd,
+             col=cols[G_index],
              sub=sub,
              font.sub=2,
              cex.sub=1.2)
         
         if(isTRUE(smooth)){
           smooth_line = smooth.spline(Ts_range, G_seq, spar=0.35)
-          lines(smooth_line, col=G_eqs_cols[G_index])
+          lines(smooth_line, col=cols[G_index], lwd=lwd)
           
         }else{
-          lines(Ts_range, G_seq, col=G_eqs_cols[G_index])
+          lines(Ts_range, G_seq, col=cols[G_index], lwd=lwd)
         }
         
         new_plot_initialized = TRUE
@@ -72,16 +73,16 @@ function(nfft, Ls, phi, tau, al, T_step=1, T_min=0, T_max=24, sub="", xlim=NULL,
           if(new_plot_initialized == TRUE){
             if(isTRUE(smooth)){
               smooth_line = smooth.spline(Ts_range, G_seq, spar=0.35)
-              lines(smooth_line, col=G_eqs_cols[G_index])
+              lines(smooth_line, col=cols[G_index], lwd=lwd)
               
             }else{
-              lines(Ts_range, G_seq, col=G_eqs_cols[G_index])
+              lines(Ts_range, G_seq, col=cols[G_index], lwd=lwd)
             }
             
             points(if(isTRUE(points)) Ts_range else NULL, 
                    if(isTRUE(points)) G_seq else NULL, 
-                   pch=3,
-                   col=G_eqs_cols[G_index])
+                   pch=pch,
+                   col=cols[G_index])
           }else{
             stop("New plot has not been initialized.")
           }
@@ -94,18 +95,19 @@ function(nfft, Ls, phi, tau, al, T_step=1, T_min=0, T_max=24, sub="", xlim=NULL,
           plot(Ts_range, G_seq,
                xlab="Solar Time [h]", ylab="Irradiance [W/m2]",
                xlim=xlim, ylim=ylim,
-               pch=3,
-               col=G_eqs_cols[G_index],
+               pch=pch,
+               lwd=lwd,
+               col=cols[G_index],
                sub=sub,
                font.sub=2,
                cex.sub=1.2)
           
           if(isTRUE(smooth)){
             smooth_line = smooth.spline(Ts_range, G_seq, spar=0.35)
-            lines(smooth_line, col=G_eqs_cols[G_index])
+            lines(smooth_line, col=cols[G_index], lwd=lwd)
             
           }else{
-            lines(Ts_range, G_seq, col=G_eqs_cols[G_index])
+            lines(Ts_range, G_seq, col=cols[G_index], lwd=lwd)
           }
           
           new_plot_initialized = TRUE

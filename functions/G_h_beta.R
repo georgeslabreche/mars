@@ -1,8 +1,8 @@
-# Equation 3 (1994): Global irradiance on an inclined surface [W/m2].
+# Equation 3 (1994): Global irradiance on Mars inclined surface [W/m2].
 #
 # Based on equations presented in the following publication:
 #   Appelbaum, Joseph & Flood, Dennis & Norambuena, Marcos. (1994). Solar radiation on Mars: Tracking photovoltaic array. Journal of Propulsion and Power. 12. 10.2514/3.24044 
-#   https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array
+#   https://ntrs.nasa.gov/?R=19950004977
 
 # FIXME: Update this function so that it figures out if its a polar night or day.
 
@@ -17,10 +17,10 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 # Equation 6 (1990): Zenith angle of the incident solar radiation [deg].
 Z_eq = dget(here("functions", "Z.R"))
 
-# Equation 14 (1990): Beam irradiance on Mars surface [W/m2].
+# Equation 14 (1990): Direct beam irradiance on the Mars surface normal to the solar rays [W/m2].
 Gb_eq = dget(here("functions", "G_b.R"))
 
-# Equation 16 (1990): The solar irradiance components on a horizontal Martian surface [W/m2].
+# Equation 16 (1990): Diffuse irrafiance on a horizontal Martian surface [W/m2].
 Gdh_eq = dget(here("functions", "G_dh.R"))
 
 # Equation 17 (1990): Global irradiance on Mars horizontal surface [W/m2].

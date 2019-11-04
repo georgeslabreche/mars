@@ -103,7 +103,10 @@ grouped_lines = dget(here("functions/plots", "grouped_lines.R"))
 get_energy_divergences = dget(here("utils", "get_energy_divergences.R"))
 
 # Get data frame.
-energy_divergences = get_energy_divergences()
+energy_divergences = get_energy_divergences(
+  #Loss_shadowing = 0.07,
+  #DustFactor_adjustment = 0.0825
+)
 
 
 # Plot divergences between predicted and measured.
@@ -300,8 +303,10 @@ plot_divergences(
   y=energy_divergences_minus_MY33$WhDiffPercentage,
   i=energy_divergences_minus_MY33$Sol,
   ylim=c(-35, 10),
+  #ylim=c(-10, 25),
   ylab="Energy Divergence [%]",
   cols=cols_all_minus_MY33,
   title=title,
   legend=legend_MY28_to_MY34_minusMY33,
   legend_position="bottomright")
+

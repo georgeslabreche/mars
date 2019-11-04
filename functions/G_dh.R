@@ -1,4 +1,4 @@
-# Equation 16 (1990):  The solar irradiance components on a horizontal Martian surface 
+# Equation 16 (1990):  The diffuse irradiance on a horizontal Martian surface.
 #
 # Gh = Gbh + Gdh
 # Determine an expression for the diffuse irradiance based on Eq. 17 and Eq. 18.

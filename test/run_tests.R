@@ -9,8 +9,8 @@ library(testthat)
 # print("I_obh:")
 # test_file(here("test", "test_I_obh.R"), reporter="minimal")
 # 
-# print("I_h:")
-# test_file(here("test", "test_I_h.R"), reporter="minimal")
+#print("I_h:")
+#test_file(here("test", "test_I_h.R"), reporter="minimal")
 # 
 # print("I_bh:")
 # test_file(here("test", "test_I_bh.R"), reporter="minimal")
@@ -30,6 +30,5 @@ library(testthat)
 # print("H_dh:")
 # test_file(here("test", "test_H_dh.R"), reporter="minimal")
 
-print("Wh:")
-test_file(here("test", "test_Wh.R"), reporter="minimal")
-
+#print("G_h_beta:")
+#test_file(here("test", "test_G_h_beta.R"), reporter="minimal")
