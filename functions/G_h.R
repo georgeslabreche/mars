@@ -4,8 +4,6 @@
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://ntrs.nasa.gov/?R=19890018252
 
-# FIXME: Update this function so that it figures out if its a polar night or day.
-
 library(here)
 
 # Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
@@ -50,6 +48,8 @@ function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al, nfft){
       stop("Unsupported net flux function type. Should be 1 for the original 1989 lookup table publication, 2 for the 1990/1991 lookup table update, or 3 for the analytical expression.")
     }
     
-    Gob_eq(Ls) * cos(Z*pi/180) * (net_flux / (1-al))
+    G_h = Gob_eq(Ls) * cos(Z*pi/180) * (net_flux / (1-al))
+    
+    return(G_h)
   }
 }

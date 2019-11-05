@@ -4,16 +4,10 @@
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://ntrs.nasa.gov/?R=19890018252
 #
-# FIXME: Use is_irradiance util functions
+library(here)
 
 # Equation 17 (1990): Global irradiance on Mars horizontal surface [W/m2].
 Gh_eq = dget(here("functions", "G_h.R"))
-
-# Equation 6: Zenith angle of the incident solar radiation [deg]
-Z_eq = dget(here("functions", "Z.R"))
-
-# f function.
-f = dget(here("functions", "f.R"))
 
 # Sunrise.
 sunrise = dget(here("utils", "sunrise.R")) 
@@ -29,10 +23,15 @@ is_polar_night = dget(here("utils", "is_polar_night.R"))
 
 function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
 {
+  ##################################################################
+  # Constrain T_start and T_end based on sunrise and sunset times. #
+  # FIXME: Exclude this logic in utils function.                   #
+  #        Refactor this function and I_h_beta.R as well.          #
+  ##################################################################
+  
   if(T_start >= T_end){
     stop("Solar start time cannot be after or equal to the solar end time.")
   }
-  
   
   # If polar night.
   if(is_polar_night(Ls, phi)){
@@ -81,9 +80,13 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
     return(0)
   }
   
+  #########################
+  # Calculate insolation. #
+  #########################
+  
   # The interand for Equation 19 (1990).
   interand = function(T_s){
-    G_h = Gh_eq(Ls=Ls, phi=phi, T_s=T_s, Z=Z_eq(Ls, T_s, phi, nfft), tau=tau, al=al, nfft=nfft)
+    G_h = Gh_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, nfft=nfft)
     return(G_h)
   }
   
@@ -92,8 +95,3 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
   
   return(I_h$value)
 }
-
-
-
-
-

@@ -30,11 +30,11 @@ test_that("H_h.", {
     #"299" = c(3.25, 1024)) 
   
   index = 1
-  for(expected_result in expected_results){
+  for(er in expected_results){
     
     Ls = strtoi(names(expected_results)[index])
-    tau = expected_result[1]
-    H_h_expected = expected_result[2]
+    tau = er[1]
+    H_h_expected = er[2]
     
     H_h = Hh_eq(Ls, phi, tau, al=al, nfft)
     expect_equal(H_h, H_h_expected, tolerance=tolerance, scale=1)

@@ -17,7 +17,7 @@ is_polar_night = dget(here("utils", "is_polar_night.R"))
 
 
 function(Ls, phi, T_s, Z=Z_eq(Ls, T_s, phi, nfft), nfft){
-  
+
   if(isTRUE(identical(Z, numeric(0)))){
     stop("One of the following is required: i. Sun zenith angle Z [deg] or ii. Both latitude phi [deg] and solar time T_s [h].")
     
@@ -42,7 +42,7 @@ function(Ls, phi, T_s, Z=Z_eq(Ls, T_s, phi, nfft), nfft){
       # There is no irradiance if the solar time is before sunrise or after sunset.
       T_sr = sunrise(Ls, phi, 3)
       T_ss = sunset(Ls, phi, 3)
-      
+
       if(T_s < T_sr || T_s > T_ss){
         return(FALSE)
         
@@ -52,9 +52,13 @@ function(Ls, phi, T_s, Z=Z_eq(Ls, T_s, phi, nfft), nfft){
     }
   }
   
-  if(Z >= 90){
-    return(FALSE)
-    
+  # Only do this check if a Z scalar is given rather than a vector (e.g. from integrating to calculate daily insolation)
+  if(length(Z) == 1){
+    if(Z >= 90){
+      return(FALSE)
+    }else{
+      return(TRUE)
+    }
   }else{
     return(TRUE)
   }

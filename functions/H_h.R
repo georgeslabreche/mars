@@ -15,5 +15,6 @@ Ih_eq = dget(here("functions", "I_h.R"))
 
 function(Ls, phi, tau, al=0.1, nfft){
   # H_h is obtained by integrating I_h over the period from sunrise to sunset.
-  Ih_eq(Ls, phi, tau, 0, 24, al, nfft)
+  H_h = Ih_eq(Ls, phi, tau, 0, 24, al, nfft)
+  return(H_h)
 }

@@ -73,7 +73,7 @@ plot_a = function(Ls, phi, tau, al, Ts_range, betas, gammas, xTs=TRUE){
           x = c(x, Z)
         }
         
-        G = Gh_beta_eq(Ls=Ls, T_s=T_s, phi=phi, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+        G = Gh_beta_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
         y = c(y, G)
       }
       
