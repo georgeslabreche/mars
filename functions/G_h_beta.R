@@ -47,8 +47,7 @@ delta_0 = 24.936
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
 function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al, beta, gamma_c, nfft){
-  #print(Ls)
-  
+
   # Equation 7 (1990): Declination angle [rad].
   delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
   
@@ -82,14 +81,21 @@ function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al, beta
     return(gamma_s)
   } 
   
+  # Set to omega to exactly zero when omega near zero instead because sometimes it is essentially zero with values like -2.8421709430404e-14 deg.
+  for(i in 1:length(omega_deg)){
+    if(omega_deg[i] > -0.1 && omega_deg[i] < 0.1){
+      omega_deg[i] = 0
+    }
+  }
+  
   # From (32) in (1993): It is solar noon when omega is 0 deg. This translates to gamma_s = 0 deg.
   gamma_s = ifelse(omega_deg == 0, 0,  calculate_gamma_s())
-
+  
   # Equation 4 (1994): Sun Angle of Incidence # [rad]
   i = cos(beta * pi/180) * cos(Z * pi/180)
   j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
   teta = acos(i + j) # [rad]
-
+  
   
   # Equation 3 (1993): The global irradiance Gh_beta on an inclined surface with an angle beta.
   a = Gb_eq(Ls=Ls, Z=Z, tau=tau) * cos(teta)
@@ -102,9 +108,7 @@ function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al, beta
   # c = al * Gh_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, nfft=nfft) * sin((beta*pi/180) / 2)^2
   
   Gh_beta = a + b + c
-  
+
   return(Gh_beta)
 }
-
-
 

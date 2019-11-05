@@ -22,5 +22,23 @@ function(Ls, phi, tau, al=0.1, beta, gamma_c, nfft){
   return(H_h_beta)
 }
 
-#H_h_beta = Hh_beta_eq(Ls=200, phi=22.5, tau=0.5, al=0.1, beta=30.59082, gamma_c=0, nfft=3)
-#print(H_h_beta)
+# Ls = 220
+# 
+# # Mars obliquity of rotation axis [deg].
+# delta_0 = 24.936
+# 
+# tau = 0.5 # Optical depth.
+# phi = 22.3 # Geographic latitude.
+# nfft = 3
+# al=0.1 # Albedo.
+# 
+# gamma_c = 0
+# 
+# # Equation 7 (1990): Declination angle [deg].
+# delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180)) * 180/pi
+# 
+# # Slope angle.
+# beta = phi - delta
+# 
+# H_h_beta = Hh_beta_eq(Ls=Ls, phi=phi, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+# print(H_h_beta)

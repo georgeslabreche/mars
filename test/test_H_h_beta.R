@@ -5,14 +5,11 @@
 #   https://ntrs.nasa.gov/?R=19950004977
 #
 # Expected results taken from:
-#   Table 1: Daily insolation in Whr/m2 (global G, beam B, diffuse D, and albedo A)
-#            on a 2 axis tracking surface at VL1 for the observed opacities and for tau = 0.5.  
+#   Table 3: Daily insolation in Whr/m2 on a 2 axis tracking surface, horizontal surface (horiz),
+#            inclined surface with Beta = phi - delta, and four modes of single axis tracking surfaces
+#            at VL1 for clear skies with tau = 0.5.
 #
-#   Table 2: Daily insolation in Whr/m2 on a 2 axis tracking surface, horizontal surface (horiz),
-#            inclined surface with Beta = phi - delta, and four modes of single axis tracking surface
-#            at VL1 for the observed opacities.
-#
-
+#   TODO: Test against data from Table 2, with observed VL1 opacities.
 library(testthat) 
 library(here)
 
@@ -53,14 +50,14 @@ test_that("H_h_beta.", {
     "140" = c(4017.2, 4008.6),
     "160" = c(4067.5, 4083.3),
     "180" = c(3934.8, 4085.7),
-    #"200" = c(3668.9, 3985.4), # FIXME: Why is an error thrown for this Ls?
+    "200" = c(3668.9, 3985.4),
     "220" = c(3300.6, 3777.8),
     "240" = c(2929.5, 3511.6),
     "260" = c(2679.6, 3299.1),
     "280" = c(2620.3, 3226.1),
     "300" = c(2744.9, 3290.4),
-    #"320" = c(2981.9, 3413.0), # FIXME: Why is an error thrown for this Ls?
-    #"340" = c(3228.9, 3507.4), # FIXME: Why is an error thrown for this Ls?
+    "320" = c(2981.9, 3413.0),
+    "340" = c(3228.9, 3507.4),
     "355" = c(3380.1, 3544.9),
     "360" = c(3420.8, 3552.0))
   
@@ -84,7 +81,7 @@ test_that("H_h_beta.", {
     
     # Test assert global daily insolation on Mars horizontal surface.
     H_h_calculated = Hh_eq(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
-    #expect_equal(H_h_calculated, H_h_expected, tolerance=H_h_tol, scale=1)
+    expect_equal(H_h_calculated, H_h_expected, tolerance=H_h_tol, scale=1)
     
     # Test assert global daily insolation on Mars inclined surface.
     H_h_beta_calculated = Hh_beta_eq(Ls=Ls, phi=phi, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)

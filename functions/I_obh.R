@@ -48,7 +48,7 @@ function(Ls, phi, T_start, T_end){
   delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
     
   # Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
-  w = (12/pi) * Gob_eq(Ls)
+  w = (12/pi) * Gob_eq(Ls) # FIXME: Should this be 12.33/pi ?
   x = (2 * pi * (omega_end - omega_start)) / 360
   y = sin(phi * pi/180) * sin(delta)
   z = cos(phi * pi/180) * cos(delta) * (sin(omega_end * pi/180) - sin(omega_start * pi/180))
