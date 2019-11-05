@@ -1,3 +1,4 @@
+library(configr)
 library(here)
 library(wesanderson)
 library(whisker)

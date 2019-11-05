@@ -21,10 +21,10 @@ gamma_orientation_angles = list(
   "Southeast" = -45,
   "East" = -90,
   "Northeast" = -135,
-  "North" = -180,
-  "Northwest" = -225,
-  "West" = -270,
-  "Southwest" = -315)
+  "North" = 180,
+  "Northwest" = 135,
+  "West" = 90,
+  "Southwest" = 45)
 
 tau = 0   # Optical depth.
 al = 0.1  # Albedo.
@@ -160,7 +160,7 @@ plot_b = function(Ls, phis, tau, al, Ts_range, betas, gamma_c, xTs=TRUE){
           x = c(x, Z)
         }
 
-        G = Gh_beta_eq(Ls, T_s, phi, tau, al, beta, gamma_c, nfft)
+        G = Gh_beta_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
         y = c(y, G)
       }
 
@@ -249,7 +249,7 @@ plot_c = function(Ls, phis, tau, al, Ts_range, beta, gammas, xTs=TRUE){
           x = c(x, Z)
         }
 
-        G = Gh_beta_eq(Ls, T_s, phi, tau, al, beta, gamma_c, nfft)
+        G = Gh_beta_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
         y = c(y, G)
       }
 

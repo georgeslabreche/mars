@@ -5,21 +5,24 @@
 #   https://www.researchgate.net/publication/24286713_Solar_radiation_on_Mars_Tracking_photovoltaic_array
 
 # Load libraries.
+library(configr)
 library(here)
+library(whisker)
+library(slugify)
 library(wesanderson)
 library(imager)
 
 config_filepath = here('main', 'config.yml')
 config = read.config(file=config_filepath)
 
-Gbeta_eq = dget(here("functions", "G_beta.R"))
+G_h_beta_eq = dget(here("functions", "G_h_beta.R"))
 Z_eq = dget(here("functions", "Z.R"))
 
 gamma_orientation_angles = list(
   "South" = 0,
   "East" = -90,
-  "North" = -180,
-  "West" = -270)
+  "North" = 180,
+  "West" = 90)
 
 Ls = 248 # Periphelion.
 phi = -2 # Endeavour crater.
@@ -57,7 +60,7 @@ plot_a = function(Ls, phi, tau, al, Ts_range, betas, gammas, xTs=TRUE){
           x = c(x, Z)
         }
         
-        G = Gbeta_eq(Ls=Ls, T_s=T_s, phi=phi, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+        G = G_h_beta_eq(Ls=Ls, T_s=T_s, phi=phi, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
         y = c(y, G)
       }
       

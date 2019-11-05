@@ -5,6 +5,7 @@
 #   https://ntrs.nasa.gov/?R=19890018252
 
 # Load libraries
+library(configr)
 library(here)
 library(wesanderson)
 library(whisker)

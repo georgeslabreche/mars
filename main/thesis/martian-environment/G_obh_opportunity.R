@@ -1,5 +1,5 @@
-library(here)
 library(configr)
+library(here)
 library(slugify)
 library(RColorBrewer)
 

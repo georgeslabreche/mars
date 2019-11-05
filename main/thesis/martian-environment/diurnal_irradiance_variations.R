@@ -1,4 +1,5 @@
 # Load libraries
+library(configr)
 library(here)
 library(wesanderson)
 
