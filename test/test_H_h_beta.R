@@ -25,19 +25,19 @@ Hh_beta_eq = dget(here("functions", "H_h_beta.R"))
 # Mars obliquity of rotation axis [deg].
 delta_0 = 24.936
 
+tau = 0.5 # Optical depth.
+phi = 22.3 # Geographic latitude.
+nfft = 3
+al=0.1 # Albedo.
+
+gamma_c = 0
+
+# Unit test tolerance when comparing calculated result with expected result.
+# Value between 0 and 1 representing divergence tolerance in percentage.
+tolerance = 0.05
+
 # Test with expected results from TABLE V.
 test_that("H_h_beta.", {
-  
-  # Unit test tolerance when comparing calculated result with expected result.
-  # Value between 0 and 1 representing divergence tolerance in percentage.
-  tolerance = 0.05
-  
-  tau = 0.5 # Optical depth.
-  phi = 22.3 # Geographic latitude.
-  nfft = 3
-  al=0.1 # Albedo.
-  
-  gamma_c = 0
   
   # Expected results from Table 3:
   # Ls, Horiz, Beta
@@ -83,7 +83,7 @@ test_that("H_h_beta.", {
     H_h_beta_tol = H_h_beta_expected * tolerance
     
     # Test assert global daily insolation on Mars horizontal surface.
-    #H_h_calculated = Hh_eq(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
+    H_h_calculated = Hh_eq(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
     #expect_equal(H_h_calculated, H_h_expected, tolerance=H_h_tol, scale=1)
     
     # Test assert global daily insolation on Mars inclined surface.
