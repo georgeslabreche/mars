@@ -16,8 +16,12 @@ Hobh_eq = dget(here("functions", "H_obh.R"))
 # Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
 Iobh_eq = dget(here("functions", "I_obh.R"))
 
+phi = 22.3
+nfft = 3
+
 # Test with expected results from TABLE II.
 test_that("Equation 13 (1990): H_obh.", {
+  
   tolerance = 10
   
   expected_results = list(
@@ -30,7 +34,7 @@ test_that("Equation 13 (1990): H_obh.", {
   index = 1
   for(H_obh_expected in expected_results){
     Ls = strtoi(names(expected_results)[index])
-    H_obh = Hobh_eq(Ls, 22.3)
+    H_obh = Hobh_eq(Ls, phi)
 
     expect_equal(H_obh, H_obh_expected, tolerance=tolerance, scale=1)
     
@@ -45,8 +49,8 @@ test_that("Equation 13 (1990): H_obh (compared with I_obh from sunrise to sunset
   
   index = 1
   for(Ls in 0:360){
-    H_obh = Hobh_eq(Ls, 22.3)
-    I_obh_day = Iobh_eq(Ls, 22.3, 0, 24)
+    H_obh = Hobh_eq(Ls, phi)
+    I_obh_day = Iobh_eq(Ls, phi, 0, 24, nfft)
     
     expect_equal(H_obh, I_obh_day, tolerance=tolerance, scale=1)
     

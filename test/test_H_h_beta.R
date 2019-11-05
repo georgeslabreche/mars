@@ -19,6 +19,9 @@ Hh_eq = dget(here("functions", "H_h.R"))
 # Global daily insolation on Mars inclined surface [Wh/m2-day].
 Hh_beta_eq = dget(here("functions", "H_h_beta.R"))
 
+# Global hourly insolation on Mars inclined surface [Wh/m2].
+Ih_beta_eq = dget(here("functions", "I_h_beta.R"))
+
 # Mars obliquity of rotation axis [deg].
 delta_0 = 24.936
 
@@ -29,12 +32,12 @@ al=0.1 # Albedo.
 
 gamma_c = 0
 
-# Unit test tolerance when comparing calculated result with expected result.
-# Value between 0 and 1 representing divergence tolerance in percentage.
-tolerance = 0.05
-
-# Test with expected results from TABLE V.
+# Test with expected results from Table 3.
 test_that("H_h_beta.", {
+  
+  # Unit test tolerance when comparing calculated result with expected result.
+  # Value between 0 and 1 representing divergence tolerance in percentage.
+  tolerance = 0.05
   
   # Expected results from Table 3:
   # Ls, Horiz, Beta
@@ -89,4 +92,29 @@ test_that("H_h_beta.", {
     
     index = index + 1
   }
+})
+
+
+# H_obh is obtained by integrating I_obh over the period from sunrise to sunset.
+# So we can also test if this equality is true.
+test_that("H_h_beta compared with I_h_beta from sunrise to sunset.", {
+  tolerance = 1e-10
+  
+  # Areocentric Longitude [deg].
+  Ls = 180
+
+  for(b in seq(0, 90, 30)){ # Beta inclination angle.
+    for(gc in seq(-90, 90, 90)){ # Gamma orientation angle.
+    
+      # Daily insolation.
+      H_h_beta = Hh_beta_eq(Ls=Ls, phi=phi, tau=tau, al=al, beta=b, gamma_c=gc, nfft=nfft)
+      
+      # Insolation from 0h to 24h.
+      I_h_beta_day = Ih_beta_eq(Ls=Ls, phi=phi, tau=tau, T_start=0, T_end=24, al=al, beta=b, gamma_c=gc, nfft=nfft)
+      
+      expect_equal(H_h_beta, I_h_beta_day, tolerance=tolerance, scale=1)
+    
+    }
+  }
+
 })

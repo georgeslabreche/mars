@@ -11,6 +11,10 @@ library(testthat)
 library(here)
 
 Iobh_eq = dget(here("functions", "I_obh.R"))
+
+phi = 22.3
+nfft = 3
+
 tolerance = 10
 
 # Expected Iobh at different hours for different areocentric longitudes.
@@ -21,7 +25,7 @@ expected_results = list(
   "249" = c(496, 455, 376, 263, 126, 8, 0),
   "299" = c(478, 439, 364, 257, 127, 19, 0))
 
-test_that("Equation 12 (1990): I_obh.", {
+test_that("Equation 11 (1990): I_obh.", {
   
   expected_result_index = 1
   for(expected_result in expected_results){
@@ -29,7 +33,7 @@ test_that("Equation 12 (1990): I_obh.", {
     
     hour_index = 1
     for(T_start in 12:18){
-      Iobh = Iobh_eq(Ls=Ls, phi=22.3, T_start=T_start, T_end=T_start+1)
+      Iobh = Iobh_eq(Ls=Ls, phi=phi, T_start=T_start, T_end=T_start+1, nfft=nfft)
       Iobh_expected = expected_result[hour_index]
       
       expect_equal(Iobh, Iobh_expected, tolerance=tolerance, scale=1)
