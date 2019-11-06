@@ -16,9 +16,6 @@ Z_eq = dget(here("functions", "Z.R"))
 # Constrain T_start and T_end based on sunrise and sunset times.
 constrain_solar_time_range = dget(here("utils", "constrain_solar_time_range.R")) 
 
-# Mars obliquity of rotation axis [deg].
-#delta_0 = 24.936
-
 function(Ls, phi, T_start, T_end, nfft){
   
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
@@ -48,7 +45,7 @@ function(Ls, phi, T_start, T_end, nfft){
   # omega_end = 15 * T_end - 180
   # 
   # # Equation 7 (1990): Declination angle [rad].
-  # delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
+  # delta = declination(Ls)
   #   
   # # Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
   # w = (12/pi) * Gob_eq(Ls) # FIXME: Should this be 12.33/pi ?
@@ -57,7 +54,6 @@ function(Ls, phi, T_start, T_end, nfft){
   # z = cos(phi * pi/180) * cos(delta) * (sin(omega_end * pi/180) - sin(omega_start * pi/180))
   # 
   # Iobh = w * (x * y + z)
-  
   
   # The interand for Equation 11 (1990).
   interand = function(T_s){

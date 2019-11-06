@@ -14,13 +14,16 @@ Gh_beta_eq = dget(here("functions", "G_h_beta.R"))
 # Constrain T_start and T_end based on sunrise and sunset times.
 constrain_solar_time_range = dget(here("utils", "constrain_solar_time_range.R")) 
 
-function(Ls, phi, tau, T_start, T_end, al=0.1, beta, gamma_c, nfft)
-{
+function(Ls, phi, tau, T_start, T_end, al=0.1, beta, gamma_c, nfft){
+  
+  if(gamma_c > 180 || gamma_c < -180){
+    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+  }
   
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
   
   # Apply solar time range constraint.
-  T_range = constrain_solar_time_range(Ls, phi, T_start, T_end, gamma_c)
+  T_range = constrain_solar_time_range(Ls, phi, T_start, T_end, beta, gamma_c)
   
   # No solar irradiance within the contrained time range.
   if(is.null(T_range)){

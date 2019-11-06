@@ -22,8 +22,8 @@ Hh_beta_eq = dget(here("functions", "H_h_beta.R"))
 # Global hourly insolation on Mars inclined surface [Wh/m2].
 Ih_beta_eq = dget(here("functions", "I_h_beta.R"))
 
-# Mars obliquity of rotation axis [deg].
-delta_0 = 24.936
+# Equation 7 (1990): The declination angle.
+source(here("utils", "declination.R"))
 
 tau = 0.5 # Optical depth.
 phi = 22.3 # Geographic latitude.
@@ -34,11 +34,11 @@ gamma_c = 0
 
 # Test with expected results from Table 3.
 test_that("H_h_beta.", {
-  
+
   # Unit test tolerance when comparing calculated result with expected result.
   # Value between 0 and 1 representing divergence tolerance in percentage.
   tolerance = 0.05
-  
+
   # Expected results from Table 3:
   # Ls, Horiz, Beta
   expected_results_table_3 = list(
@@ -63,33 +63,33 @@ test_that("H_h_beta.", {
     "340" = c(3228.9, 3507.4),
     "355" = c(3380.1, 3544.9),
     "360" = c(3420.8, 3552.0))
-  
+
   index = 1
   for(er in expected_results_table_3){
     # Ls test parameter.
     Ls = strtoi(names(expected_results_table_3[index]))
-    
+
     # Equation 7 (1990): Declination angle [deg].
-    delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180)) * 180/pi
-    
+    delta = declination(Ls)
+
     # Slope angle.
     beta = phi - delta
-    
+
     # Expected values.
     H_h_expected = er[1]
     H_h_tol = H_h_expected * tolerance
-    
+
     H_h_beta_expected = er[2]
     H_h_beta_tol = H_h_beta_expected * tolerance
-    
+
     # Test assert global daily insolation on Mars horizontal surface.
     H_h_calculated = Hh_eq(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
     expect_equal(H_h_calculated, H_h_expected, tolerance=H_h_tol, scale=1)
-    
+
     # Test assert global daily insolation on Mars inclined surface.
     H_h_beta_calculated = Hh_beta_eq(Ls=Ls, phi=phi, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
     expect_equal(H_h_beta_calculated, H_h_beta_expected, tolerance=H_h_beta_tol, scale=1)
-    
+
     index = index + 1
   }
 })
@@ -104,7 +104,7 @@ test_that("H_h_beta compared with I_h_beta from sunrise to sunset.", {
   Ls = 180
 
   for(b in seq(0, 90, 30)){ # Beta inclination angle.
-    for(gc in seq(-90, 90, 90)){ # Gamma orientation angle.
+    for(gc in seq(-90, 90, 30)){ # Gamma orientation angle.
     
       # Daily insolation.
       H_h_beta = Hh_beta_eq(Ls=Ls, phi=phi, tau=tau, al=al, beta=b, gamma_c=gc, nfft=nfft)

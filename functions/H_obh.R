@@ -10,15 +10,15 @@ library(here)
 # Equation 4 (1990): Beam irridiance at the top of the Martian atmosphere [W/m2].
 Gob_eq = dget(here("functions", "G_ob.R"))
 
-# Mars obliquity of rotation axis [W/m2].
-delta_0 = 24.936
+# Equation 7 (1990): The declination angle.
+source(here("utils", "declination.R"))
 
 function(Ls, phi){
   # Convert phi into radians.
   phi = phi * pi/180
   
   # Equation 7 (1990): Declination angle [rad].
-  delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
+  delta = declination(Ls)
   
   # Equation 9 (1990): The sunset hour angle [rad].
   omega_ss = acos(-tan(phi) * tan(delta))

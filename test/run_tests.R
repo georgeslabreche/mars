@@ -11,6 +11,12 @@ reporters = list(
 
 reporter = reporters$minimal
 
+print("Sunrise:")
+test_file(here("test", "test_sunrise.R"), reporter=reporter)
+
+print("Declination (delta):")
+test_file(here("test", "test_declination.R"), reporter=reporter)
+
 print("H_obh:")
 test_file(here("test", "test_H_obh.R"), reporter=reporter)
 

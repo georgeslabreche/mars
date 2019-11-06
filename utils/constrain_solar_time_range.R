@@ -4,10 +4,10 @@
 library(here)
 
 # Sunrise.
-sunrise = dget(here("utils", "sunrise.R")) 
+source(here("utils", "sunrise.R")) 
 
 # Sunset.
-sunset = dget(here("utils", "sunset.R")) 
+source(here("utils", "sunset.R")) 
 
 # Polar day.
 is_polar_day = dget(here("utils", "is_polar_day.R"))
@@ -15,7 +15,7 @@ is_polar_day = dget(here("utils", "is_polar_day.R"))
 # Polar night.
 is_polar_night = dget(here("utils", "is_polar_night.R"))
 
-function(Ls, phi, T_start, T_end, gamma_c=NULL){
+function(Ls, phi, T_start, T_end, beta=NULL, gamma_c=NULL){
   if(T_start >= T_end){
     stop("Solar start time cannot be after or equal to the solar end time.")
   }
@@ -28,6 +28,8 @@ function(Ls, phi, T_start, T_end, gamma_c=NULL){
   # If polar day.
   else if(is_polar_day(Ls, phi)){
     # No constraining required: constant solar irradiance during polar day.
+    # FIXME: What about for inclined surface?
+    #        As in, what if the Sun is just above the horizon on the back of the inclined surface?
     return(
       list(T_start=T_start,
            T_end=T_end)
@@ -36,8 +38,8 @@ function(Ls, phi, T_start, T_end, gamma_c=NULL){
   # If non polar nights and non polar days.
   else{
     # Constrain T_start and T_end with respect to sunrise and sunset times.
-    T_sr = sunrise(Ls, phi, 3)
-    T_ss = sunset(Ls, phi, 3)
+    T_sr = sunrise(Ls, phi, 3, beta, gamma_c)
+    T_ss = sunset(Ls, phi, 3, beta, gamma_c)
     
     # If start time is after the sunset, then there is no solar irradiance.
     if(T_start > T_ss){

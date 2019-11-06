@@ -28,8 +28,8 @@ Gdh_eq = dget(here("functions", "G_dh.R"))
 # Equation 17 (1990): Global irradiance on Mars horizontal surface [W/m2].
 Gh_eq = dget(here("functions", "G_h.R"))
 
-# Mars obliquity of rotation axis [W/m2].
-delta_0 = 24.936
+# Equation 7 (1990): The declination angle.
+source(here("utils", "declination.R"))
 
 # Equation 3 (1994): Global irradiance on an inclined surface.
 #
@@ -47,14 +47,13 @@ delta_0 = 24.936
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
 function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al, beta, gamma_c, nfft){
+  
+  if(gamma_c > 180 || gamma_c < -180){
+    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+  }
 
   # Equation 7 (1990): Declination angle [rad].
-  delta = asin(sin(delta_0 * pi/180) * sin(Ls * pi/180))
-  
-  # Alternative equation for delta.
-  # But changing it here means also having to change it in Z.R.
-  # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-  #delta = asin(0.42565 * sin(Ls*pi/180)) + 0.25 * sin(Ls*pi/180)
+  delta = declination(Ls)
   
   # Equation 8 (1990): Hour angle [deg].
   # From Appelbaum, Joseph & Flood, Dennis. (1990):

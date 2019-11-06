@@ -9,13 +9,13 @@ sunrise = dget(here("utils", "sunrise.R"))
 # Equation 9 (1990): Sunset.
 sunset = dget(here("utils", "sunset.R"))
 
-# Mars obliquity of rotation axis [deg].
-delta_0 = 24.936
+# Equation 7 (1990): The declination angle.
+source(here("utils", "declination.R"))
 
 daylight_range = function(Ls, phi, T_step=1, T_min=0, T_max=24){
   
   # Equation 7 (1990): Declination angle [rad].
-  delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
+  delta = declination(Ls)
   
   # Equations 16 (Update 1991): Figure out if it is polar night or polar day.
   #   Polar night (polar_flag < -1), no solar irradiance.

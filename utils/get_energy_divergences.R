@@ -7,7 +7,7 @@
 
 library(here)
 
-# Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
+# Equation 12 (1990): Beam insolation on a horizontal surface at the top of Mars atmosphere [Wh/m2].
 Ih_eq = dget(here("functions", "I_h.R"))
 
 # Function to get Mars' Areocentric Longitude given a terrestrial date.

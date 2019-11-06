@@ -4,8 +4,8 @@
 #   Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars. Solar Energy. 45. 353–363. 10.1016/0038-092X(90)90156-7. 
 #   https://ntrs.nasa.gov/?R=19890018252
 
-# Mars obliquity of rotation axis [deg].
-delta_0 = 24.936
+# Equation 7 (1990): The declination angle.
+source(here("utils", "declination.R"))
 
 # Ls      - Areocentric longitude [deg].
 # T_s     - Solar time [h]. An integer belonging to [6, 18] if using f_89.R or f_90.R.
@@ -16,11 +16,7 @@ function(Ls, T_s, phi, nfft){
   ########################################
   # Equation 7: Declination angle [rad]. #
   ########################################
-  delta = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
-  
-  # Alternative equation for delta.
-  # Source: https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
-  #delta = asin(0.42565 * sin(Ls*pi/180)) + 0.25 * sin(Ls*pi/180)
+  delta = declination(Ls)
   
   #################################
   # Equation 8: Hour angle [deg]. #
