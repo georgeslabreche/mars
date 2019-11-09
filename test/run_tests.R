@@ -12,6 +12,7 @@ reporters = list(
 reporter = reporters$minimal
 
 print("Sunrise:")
+# FIXME: This test fails for high values of beta angles >= 40 deg.
 test_file(here("test", "test_sunrise.R"), reporter=reporter)
 
 print("Declination (delta):")
