@@ -252,15 +252,34 @@ sunrise = function(Ls, phi, beta=NULL, gamma_c=NULL, unit=1){
 #      xlab="<-- EAST      |      WEST -->")
 
 
+#######################################
+# Testing code. To eventually remove. #
+#######################################
+
 # "Ls: 5 - phi/beta: -60 - gamma_c: 180 - sunrise_c: 6.24 - sunrise_e: 6.24"
 # "Ls: 5 - phi/beta: -50 - gamma_c: 180 - sunrise_c: 6.17 - sunrise_e: 6.17"
 # "Ls: 5 - phi/beta: -40 - gamma_c: 180 - sunrise_c: 6.8 - sunrise_e: 6.12"
 # "Ls: 5 - phi/beta: -30 - gamma_c: 180 - sunrise_c: 6.24 - sunrise_e: 6.08"
 
-Ls = 5
-p = -40
-b = -40
-d = declination(Ls)
-g = 180
-sr = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=g, unit=3)
-print(sr)
+# Ls = 5
+# p = -40
+# b = -40
+# d = declination(Ls)
+# g = 180
+# sr = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=g, unit=3)
+# print(sr)
+
+#######################################
+# Testing code. To eventually remove. #
+#######################################
+
+# Warning message:
+# In sqrt(x^2 - y^2 + 1) : NaNs produced
+
+# Ls = 80
+# p = 30
+# b = 80
+# g = 165  #165, 165, 170, 175, 180
+# 
+# sr = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=g, unit=3)
+# print(sr)
