@@ -64,7 +64,7 @@ function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al, beta
   omega_deg = 15 * T_s - 180
   
   # Equation 6 (1993): Solar Azimuth Angle [deg]
-  calculate_gamma_s = function(){
+  solar_azimuth_angle = function(){
     x = sin(phi*pi/180) * cos(delta) * cos(omega_deg*pi/180)
     y = cos(phi*pi/180) * sin(delta)
     z = sin(Z*pi/180)
@@ -88,13 +88,37 @@ function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al, beta
   }
   
   # From (32) in (1993): It is solar noon when omega is 0 deg. This translates to gamma_s = 0 deg.
-  gamma_s = ifelse(omega_deg == 0, 0,  calculate_gamma_s())
+  gamma_s = ifelse(omega_deg == 0, 0, solar_azimuth_angle())
   
-  # Equation 4 (1994): Sun Angle of Incidence # [rad]
-  i = cos(beta * pi/180) * cos(Z * pi/180)
-  j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
-  teta = acos(i + j) # [rad]
   
+  # Sun Angle of Incidence [rad].
+  #   Equation 13 (1993): Inclined surface.
+  # FIXME: Equation 23 (1993): Vertical surface.
+  #        Equation 27 (1993): Facing the equator.
+  #        Equation 29 (1993): Beta = 0.
+  sun_angle_of_incidence = function(){
+    if(beta = 0){ # Equation 29 (1993): Beta = 0.
+      return(NULL)
+      
+    }else if(beta = 90){ #Equation 29 (1993): Beta = 0.
+      return(NULL)
+      
+    }else if(gamma_c == 0){ # Equation 27 (1993): Facing the equator.
+      return(NULL)
+      
+    }else{
+      #  Inclined surface.
+      i = cos(beta * pi/180) * cos(Z * pi/180)
+      j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
+      teta = acos(i + j) # [rad]
+    }
+    
+    return(teta)
+  }
+  
+  
+  # Sun Angle of Incidence [rad] on an inclined surface.
+  teta = sun_angle_of_incidence(Z, beta, gamma_s, gamma_c)
   
   # Equation 3 (1993): The global irradiance Gh_beta on an inclined surface with an angle beta.
   a = Gb_eq(Ls=Ls, Z=Z, tau=tau) * cos(teta)

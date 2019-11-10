@@ -10,7 +10,17 @@ source(here("utils", "sunrise.R"))
 # Equation 7 (1990): The declination angle.
 source(here("utils", "declination.R"))
 
-# (16) from (1993)
+# (31) in (1993).
+# Angles in rad.
+# TODO: Make this a hidden function.
+# Doesn't work for all cases, see Ls = 300, phi = 20, and beta = 45.
+sunset_for_inclined_surface_oriented_equator = function(phi, beta, delta){
+  omega_rad = acos(-tan(delta) * tan(phi-beta))
+  
+  return(omega_rad)
+}
+
+# (16) from (1993).
 # Angles in rad.
 # TODO: Make this a hidden function.
 sunset_for_inclined_surface_oriented_east = function(Ls, phi, beta, gamma_c, delta){
@@ -29,7 +39,7 @@ sunset_for_inclined_surface_oriented_east = function(Ls, phi, beta, gamma_c, del
   return(omega_rad)
 }
 
-# (18) from (1993)
+# (18) from (1993).
 # Angles in rad.
 # TODO: Make this a hidden function.
 sunset_for_inclined_surface_oriented_west = function(Ls, phi, beta, gamma_c, delta){
@@ -51,7 +61,8 @@ sunset_for_inclined_surface_oriented_west = function(Ls, phi, beta, gamma_c, del
 # Angles in rad.
 # TODO: Make this a hidden function.
 sunset_for_inclined_surface = function(Ls, phi, beta, gamma_c, delta){
-  # FIXME: When gammac_c is 0 then a divide by 0 is introduced because sin(0) = tan(0) = 0.
+  
+  # FIXME: See function - sunset_for_inclined_surface_oriented_equator.
   if(gamma_c == 0){
     gamma_c = 1e-10
   }
@@ -59,6 +70,12 @@ sunset_for_inclined_surface = function(Ls, phi, beta, gamma_c, delta){
   # Inclination angle is 0 degrees, this is equivalent to a horizontal surface.
   if(beta == 0){
     omega_rad = -sunrise(Ls=Ls, phi=phi, unit=1)
+    
+  }else if(gamma_c %in% c(0, -180) && phi > 0){ # Inclined surface is oriented South from the northern hemisphere (i.e. towards the equator).
+    omega_rad = sunset_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
+    
+  }else if(gamma_c == 180 && phi < 0){ #  Inclined surface is oriented North from the southern hemisphere (i.e. towards the equator).
+    omega_rad = sunset_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
   }else if(gamma_c < 0){ # Inclined surface is oriented towards the East.
     omega_rad = sunset_for_inclined_surface_oriented_east(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, delta=delta)
@@ -179,3 +196,4 @@ sunset = function(Ls, phi, unit=1, beta=NULL, gamma_c=NULL){
 # plot(orientation_angles, sunset_hours,
 #      ylab="<-- EARLIER      |      LATER -->",
 #      xlab="<-- EAST      |      WEST -->")
+
