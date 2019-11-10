@@ -4,7 +4,7 @@ library(here)
 # FIXME: NaNs are produced when calculating sqrt(x^2 - y^2 + 1) in some cases for large beta angles (for beta >= 40 when +30 > phi > -30).
 #        Where? In sunrise_for_inclined_surface_oriented_east and sunrise_for_inclined_surface_oriented_west:
 #       x ^2 - y^2 + 1 results in a negative number thus outputting NaN when calling sqrt().        
-sunrise = dget(here("utils", "sunrise.R"))
+source(here("utils", "sunrise.R"))
 
 # Test cases:
 #   1. At the equator, when phi = 0. omega_sr = pi/2.
@@ -63,26 +63,24 @@ test_that("Sunrise time on an inclined surface facing the equator.", {
     # The expected data was obtained with Phi = Beta. See Table I in (1993).
     for(phi_beta in seq(-90, 90, 10)){
       
-      # FIXME: Make sure we are facing the equator.
-      gamma_c = 0
-      # if(phi_beta == 0){
-      #   # Located on the equator.
-      #   gamma_c = 0 # FIXME: Does it matter?
-      # 
-      # }else if(phi_beta > 0){
-      #   # Located in the northern hemisphere: orient towards the south.
-      #   gamma_c = 0 # TODO: Can also be -180?
-      #   
-      # }else if(phi_beta < 0){
-      #   # Located in the southern hemisphere: orient towards the north
-      #   gamma_c = 180
-      # }
+      if(phi_beta == 0){
+        # Located on the equator.
+        gamma_c = 0 # FIXME: Does it matter?
+
+      }else if(phi_beta > 0){
+        # Located in the northern hemisphere: orient towards the south.
+        gamma_c = 0 # TODO: Can also be -180?
+
+      }else if(phi_beta < 0){
+        # Located in the southern hemisphere: orient towards the north
+        gamma_c = 180
+      }
   
       # Get expected sunrise time from test table.
       sunrise_expected = get_expected_sunrise_time(Ls, phi_beta)
       
       # Calculate sunrise time.
-      sunrise_calculated = sunrise(Ls=Ls, phi=phi_beta, unit=3, beta=phi_beta, gamma_c=gamma_c)
+      sunrise_calculated = sunrise(Ls=Ls, phi=phi_beta, beta=phi_beta, gamma_c=gamma_c, unit=3)
       sunrise_calculated = ifelse(is.na(sunrise_calculated), NA, round(sunrise_calculated, 2))
       
       # Due to floating point precision, days that are calculated to be just on the edge of polar day may not match with
@@ -93,7 +91,7 @@ test_that("Sunrise time on an inclined surface facing the equator.", {
         sunrise_expected = 6
       }
       
-      # print(paste("Ls", Ls, "phi/beta", phi_beta, "sunrise_c", sunrise_calculated, 2, "sunrise_e", sunrise_expected))
+      #print(paste("Ls:", Ls, "- phi/beta:", phi_beta, "- gamma_c:", gamma_c, "- sunrise_c:", sunrise_calculated, "- sunrise_e:", sunrise_expected))
       expect_equal(sunrise_calculated, sunrise_expected, tolerance=tolerance, scale=1)
       
     }

@@ -5,48 +5,28 @@
 
 library(here)
 
+# From (1993): 
+#   (19) for inclined and (25) for vertical surface. 
+#   (20) for inclined and (26) for vertical surface.
+source(here("utils", "xy_for_inclined_surface.R"))
+
 # Equation 7 (1990): The declination angle.
 source(here("utils", "declination.R"))
-
-# (19) for inclined and (25) for vertical surface. From (1993).
-# Angles in rad.
-# TODO: Make this a hidden function.
-# FIXME: x is Inf when gamma_c = 0.
-x_for_inclined_surface = function(phi, beta, gamma_c){
-  
-  # FIXME: When gammac_c is 0 then a divide by 0 is introduced because sin(0) = tan(0) = 0.
-  # a is zero for a vertical surface, i.e. beta = 90 deg. See (25) from (1993)
-  a = cos(phi) / (sin(gamma_c) * tan(beta)) 
-  b = sin(phi) / tan(gamma_c)
-  
-  x = a + b
-  
-  return(x)
-}
-
-
-# (20) for inclined and (26) for vertical surface. From (1993).
-# Angles in rad.
-# TODO: Make this a hidden function.
-# FIXME: x is NaN when gamma_c = 0.
-y_for_inclined_surface = function(phi, beta, gamma_c, delta){
-  
-  # FIXME: When gammac_c is 0 then a divide by 0 is introduced because sin(0) = tan(0) = 0.
-  # a is zero for a vertical surface, i.e. beta = 90 deg. See (26) from (1993)
-  a = ifelse(beta == 90*pi/180, 0, sin(phi) / (sin(gamma_c) * tan(beta)))
-  b = cos(phi) / tan(gamma_c)
-  
-  y = tan(delta) * (a - b)
-  
-  return(y)
-}
 
 # (30) in (1993).
 # Angles in rad.
 # TODO: Make this a hidden function.
-# FIXME: Doesn't work in all cases, e.g. Ls = 200, phi = 20, and beta = 45.
+# FIXME: Not exactly what is in (21) to determine omega_rad. 
 sunrise_for_inclined_surface_oriented_equator = function(phi, beta, delta){
-  omega_rad = -acos(-tan(delta) * tan(phi-beta))
+  
+  # (8) in (1993).
+  omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta)
+  
+  # (30) in (1993).
+  omega_rad_2 = -acos(-tan(delta) * tan(phi-beta))
+  
+  # From (21) in (1993) we want to grab the minium between (8) and (30).
+  omega_rad = -min(abs(omega_rad_1), abs(omega_rad_2)) 
   
   return(omega_rad)
 }
@@ -55,7 +35,7 @@ sunrise_for_inclined_surface_oriented_equator = function(phi, beta, delta){
 # Angles in rad.
 # TODO: Make this a hidden function.
 sunrise_for_inclined_surface_oriented_east = function(phi, beta, gamma_c, delta){
-  omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta, 1)
+  omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta)
   #print(paste("omega_rad_1", omega_rad_1))
   
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)
@@ -78,7 +58,7 @@ sunrise_for_inclined_surface_oriented_east = function(phi, beta, gamma_c, delta)
 # Angles in rad.
 # TODO: Make this a hidden function.
 sunrise_for_inclined_surface_oriented_west = function(phi, beta, gamma_c, delta){
-  omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta, 1)
+  omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta)
   
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)
   y = y_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c, delta=delta)
@@ -96,21 +76,26 @@ sunrise_for_inclined_surface_oriented_west = function(phi, beta, gamma_c, delta)
 
 # Angles in rad.
 # TODO: Make this a hidden function.
+sunrise_for_horizontal_surface = function(phi, delta){
+  
+  # Equation 8 (1993): Sunrise hour angle [rad].
+  omega_rad = -acos(-tan(delta) * tan(phi))
+  
+  return(omega_rad)
+}
+
+# Angles in rad.
+# TODO: Make this a hidden function.
 sunrise_for_inclined_surface = function(phi, beta, gamma_c, delta){
   
-  # FIXME: See function - sunrise_for_inclined_surface_oriented_equator.
-  if(gamma_c == 0){
-    gamma_c = 1e-10
-  }
-
   # Inclination angle is 0 degrees, this is equivalent to a horizontal surface.
   if(beta == 0){
-    omega_rad = sunrise_for_horizontal_surface(phi=phi, delta=delta, unit=unit)
+    omega_rad = sunrise_for_horizontal_surface(phi=phi, delta=delta)
     
-  }else if(gamma_c %in% c(0, -180) && phi > 0){ # Inclined surface is oriented South from the northern hemisphere (i.e. towards the equator).
+  }else if(phi > 0 && gamma_c == 0){ # Inclined surface is oriented South from the northern hemisphere (i.e. towards the equator).
     omega_rad = sunrise_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
-  }else if(gamma_c == 180 && phi < 0){ #  Inclined surface is oriented North from the southern hemisphere (i.e. towards the equator).
+  }else if(phi < 0 && abs(gamma_c) == pi){ # Inclined surface is oriented North from the southern hemisphere (i.e. towards the equator).
     omega_rad = sunrise_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
   }else if(gamma_c < 0){ # Inclined surface is oriented towards the East.
@@ -121,18 +106,9 @@ sunrise_for_inclined_surface = function(phi, beta, gamma_c, delta){
     
   }else{
     # This should not happen.
-    stop("An unknown error has occurred, could not determine sunrise hour angle for an incline surface.")
+    stop(paste("An unknown error has occurred. Could not determine sunrise hour angle for an inclined surface when phi=", phi, " beta=", beta, " and gamma_c=", gamma_c, ".", sep=""))
   } 
   
-  return(omega_rad)
-}
-
-# Angles in rad.
-# TODO: Make this a hidden function.
-sunrise_for_horizontal_surface = function(phi, delta, unit=1){
-  
-  # Equation 8 (1993): Sunrise hour angle [rad].
-  omega_rad = -acos(-tan(phi) * tan(delta))
   return(omega_rad)
 }
 
@@ -143,7 +119,7 @@ sunrise_for_horizontal_surface = function(phi, delta, unit=1){
 #           - 1 for radians.
 #           - 2 for degrees.
 #           - 3 for solar hour.
-sunrise = function(Ls, phi, unit=1, beta=NULL, gamma_c=NULL){
+sunrise = function(Ls, phi, beta=NULL, gamma_c=NULL, unit=1){
   
   if(!unit %in% c(1, 2, 3)){
     stop("Sunrise unit option must either be 1 for radians, 2 for degrees, or 3 for solar hour.")
@@ -168,11 +144,11 @@ sunrise = function(Ls, phi, unit=1, beta=NULL, gamma_c=NULL){
   }
   
   if((is.null(beta) && is.null(gamma_c))){
-    omega_rad = sunrise_for_horizontal_surface(phi=phi*pi/180, delta=delta_rad, unit=unit)
+    omega_rad = sunrise_for_horizontal_surface(phi=phi*pi/180, delta=delta_rad)
     
   }else if(!is.null(beta) && !is.null(gamma_c)){
     if(gamma_c > 180 || gamma_c < -180){
-      stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+      stop("Surface azimuth angle gamma_c must between -180 and 180 degrees with zero south, east negative, and west positive.")
     }
     
     omega_rad = sunrise_for_inclined_surface(phi=phi*pi/180, beta=beta*pi/180, gamma_c=gamma_c*pi/180, delta=delta_rad)
@@ -254,23 +230,37 @@ sunrise = function(Ls, phi, unit=1, beta=NULL, gamma_c=NULL){
 # Testing code. To eventually remove. #
 #######################################
 
-# Ls = 200
-# p = 20
-# b = 45
+# Ls = 5
+# p = -40
+# b = -40
 # d = declination(Ls)
-# 
+#
 # orientation_angles = seq(-180, 180, 1)
+# #orientation_angles = seq(-1, 1, 1)
 # sunrise_hours = c()
 # 
 # for(g in orientation_angles){
-#   sr = sunrise(Ls, p, unit=3, beta=b, gamma_c=g)
+#   sr = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=g, unit=3)
 #   sunrise_hours = c(sunrise_hours, sr)
 # }
 # 
 # 
 # dev.new()
 # plot(orientation_angles, sunrise_hours,
+#      type="l", lty=1, lwd=3,
 #      ylab="<-- EARLIER      |      LATER -->",
 #      xlab="<-- EAST      |      WEST -->")
 
 
+# "Ls: 5 - phi/beta: -60 - gamma_c: 180 - sunrise_c: 6.24 - sunrise_e: 6.24"
+# "Ls: 5 - phi/beta: -50 - gamma_c: 180 - sunrise_c: 6.17 - sunrise_e: 6.17"
+# "Ls: 5 - phi/beta: -40 - gamma_c: 180 - sunrise_c: 6.8 - sunrise_e: 6.12"
+# "Ls: 5 - phi/beta: -30 - gamma_c: 180 - sunrise_c: 6.24 - sunrise_e: 6.08"
+
+Ls = 5
+p = -40
+b = -40
+d = declination(Ls)
+g = 180
+sr = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=g, unit=3)
+print(sr)
