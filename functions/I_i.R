@@ -9,15 +9,17 @@
 library(here)
 
 # Equation 3 (1994): Global irradiance on Mars inclined surface [W/m2].
-Gh_beta_eq = dget(here("functions", "G_h_beta.R"))
+Gi_eq = dget(here("functions", "G_i.R"))
+
+source(here("functions", "albedo.R"))
 
 # Constrain T_start and T_end based on sunrise and sunset times.
 constrain_solar_time_range = dget(here("utils", "constrain_solar_time_range.R")) 
 
-function(Ls, phi, tau, T_start, T_end, al=0.1, beta, gamma_c, nfft){
+function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c, nfft){
   
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180 and 180 degres with zero south, east negative, and west positive.")
   }
   
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
@@ -39,13 +41,13 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, beta, gamma_c, nfft){
   
   # The interand for Equation 19 (1990).
   interand = function(T_s){
-    G_h_beta = Gh_beta_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
-    return(G_h_beta)
+    G_i = Gi_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+    return(G_i)
   }
   
-  # Global hourly insolation on Mars horizontal surface.
-  I_h_beta = integrate(interand, T_start, T_end)
+  # Global hourly insolation on Mars inclined surface.
+  I_i = integrate(interand, T_start, T_end)
   
   # Return integration result.
-  return(I_h_beta$value)
+  return(I_i$value)
 }

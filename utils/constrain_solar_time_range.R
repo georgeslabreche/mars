@@ -21,12 +21,12 @@ function(Ls, phi, T_start, T_end, beta=NULL, gamma_c=NULL){
   }
   
   # If polar night.
-  if(is_polar_night(Ls, phi)){
+  if(is_polar_night(Ls=Ls, phi=phi)){
     # No solar irradiance.
     return(NULL);
   }
   # If polar day.
-  else if(is_polar_day(Ls, phi)){
+  else if(is_polar_day(Ls=Ls, phi=phi)){
     # No constraining required: constant solar irradiance during polar day.
     # FIXME: What about for inclined surface?
     #        As in, what if the Sun is just above the horizon on the back of the inclined surface?
@@ -38,8 +38,8 @@ function(Ls, phi, T_start, T_end, beta=NULL, gamma_c=NULL){
   # If non polar nights and non polar days.
   else{
     # Constrain T_start and T_end with respect to sunrise and sunset times.
-    T_sr = sunrise(Ls, phi, 3, beta, gamma_c)
-    T_ss = sunset(Ls, phi, 3, beta, gamma_c)
+    T_sr = sunrise(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
+    T_ss = sunset(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
     
     # If start time is after the sunset, then there is no solar irradiance.
     if(T_start > T_ss){

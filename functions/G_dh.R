@@ -23,6 +23,8 @@ Gbh_eq = dget(here("functions", "G_bh.R"))
 # Check if there is irradiance based on the givent moment.
 is_irradiated = dget(here("utils", "is_irradiated.R"))
 
+source(here("functions", "albedo.R"))
+
 # Equation 16 (1990): The solar irradiance components on a horizontal Martian surface [W/m2].
 #
 #   Ls        - Areocentric longitude [deg].
@@ -33,12 +35,12 @@ is_irradiated = dget(here("utils", "is_irradiated.R"))
 #                 - 1 for f_89.
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
-function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al, nfft){
+function(Ls, phi, longitude, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), nfft){
   if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, Z=Z, nfft=nfft)){
     return(0)
     
   }else{
-    G_dh = Gh_eq(Ls=Ls, phi=phi, T_s=T_s, Z=Z, tau=tau, al=al, nfft=nfft) - Gbh_eq(Ls=Ls, phi=phi, T_s=T_s, Z=Z, tau=tau, nfft=nfft)
+    G_dh = Gh_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, Z=Z, tau=tau, al=al, nfft=nfft) - Gbh_eq(Ls=Ls, phi=phi, T_s=T_s, Z=Z, tau=tau, nfft=nfft)
     return(G_dh)
   }
 } 

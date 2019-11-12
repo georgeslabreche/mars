@@ -12,12 +12,15 @@ Gh_eq = dget(here("functions", "G_h.R"))
 # Constrain T_start and T_end based on sunrise and sunset times.
 constrain_solar_time_range = dget(here("utils", "constrain_solar_time_range.R"))
 
-function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
-{
+# Albedo function.
+source(here("functions", "albedo.R"))
+
+
+function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), nfft){
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
   
   # Apply solar time range constraint.
-  T_range = constrain_solar_time_range(Ls, phi, T_start, T_end)
+  T_range = constrain_solar_time_range(Ls=Ls, phi=phi, T_start=T_start, T_end=T_end)
   
   # No solar irradiance within the contrained time range.
   if(is.null(T_range)){
@@ -33,7 +36,7 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, nfft)
   
   # The interand for Equation 19 (1990).
   interand = function(T_s){
-    G_h = Gh_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, nfft=nfft)
+    G_h = Gh_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, nfft=nfft)
     return(G_h)
   }
   

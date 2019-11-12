@@ -48,7 +48,7 @@ test_that("Sunrise time on an inclined surface facing the equator.", {
     # Turn Ls value into row label value.
     Ls = toString(Ls)
 
-    # Turn beta/phi angle value into column label value.
+    # Turn beta/phi angle numeric value into column label string value.
     if(beta_phi == 0){
       beta_phi = toString(beta_phi)
 

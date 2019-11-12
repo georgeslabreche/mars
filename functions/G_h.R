@@ -15,6 +15,9 @@ Z_eq = dget(here("functions", "Z.R"))
 # The normalized net flux function.
 f = dget(here("functions", "f.R"))
 
+# Albedo.
+source(here("functions", "albedo.R"))
+
 # Check if there is irradiance based on the givent moment.
 is_irradiated = dget(here("utils", "is_irradiated.R"))
 
@@ -29,20 +32,23 @@ is_irradiated = dget(here("utils", "is_irradiated.R"))
 #                 - 1 for f_89.
 #                 - 2 for f_90.
 #                 - 3 for f_analytical.
-function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al, nfft){
+#
+# FIXME: Error check that albedo value is given and not calculated when using look up table for net_flux.
+function(Ls, phi, longitude, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), nfft){
+ 
   
   if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, Z=Z, nfft=nfft)){
     return(0)
     
   }else{
     if(nfft == 1){
-      net_flux = f(Z, tau, al, pub_year=1989)
-      
+      net_flux = f(Z=Z, tau=tau, al=al, pub_year=1989)
+
     }else if(nfft == 2){
-      net_flux = f(Z, tau, al, pub_year=1990)
+      net_flux = f(Z=Z, tau=tau, al=al, pub_year=1990)
       
     }else if(nfft == 3){
-      net_flux = f(Z, tau, al)
+      net_flux = f(Z=Z, tau=tau, al=al)
       
     }else{
       stop("Unsupported net flux function type. Should be 1 for the original 1989 lookup table publication, 2 for the 1990/1991 lookup table update, or 3 for the analytical expression.")

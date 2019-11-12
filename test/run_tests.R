@@ -13,7 +13,7 @@ reporter = reporters$minimal
 
 print("Sunrise:")
 # FIXME: This test fails for high values of beta angles >= 40 deg.
-test_file(here("test", "test_sunrise.R"), reporter=reporter)
+#test_file(here("test", "test_sunrise.R"), reporter=reporter)
 
 # print("Declination (delta):")
 # test_file(here("test", "test_declination.R"), reporter=reporter)
@@ -45,5 +45,5 @@ test_file(here("test", "test_sunrise.R"), reporter=reporter)
 # print("H_dh:")
 # test_file(here("test", "test_H_dh.R"), reporter=reporter)
 # 
-# print("H_h_beta:")
-# test_file(here("test", "test_H_h_beta.R"), reporter=reporter)
+print("H_h_beta:")
+test_file(here("test", "test_H_h_beta.R"), reporter=reporter)

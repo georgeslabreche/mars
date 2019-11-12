@@ -15,19 +15,19 @@
 
 # File with data from 1989 table which has 1990 in filename
 # because that's the official publication year for the original document written in 1989.
-nnff_01_1989 = read.csv(here("data/normalized_net_flux_function/", "table_III_1990.csv"))
-rownames(nnff_01_1989) = sprintf("%1.2f", nnff_01_1989[,1])
-nnff_01_1989 = nnff_01_1989[-c(1)]
+if(!exists("nnff_01_1989")){
+  nnff_01_1989 = read.csv(here("data/normalized_net_flux_function/", "table_III_1990.csv"))
+}
 
 # File with data from 1991 table which is the same as that of 1990.
-nnff_01_1991 = read.csv(here("data/normalized_net_flux_function/", "al_0-1_table_III_1991_update.csv"))
-rownames(nnff_01_1991) = sprintf("%1.2f", nnff_01_1991[,1])
-nnff_01_1991 = nnff_01_1991[-c(1)]
+if(!exists("nnff_01_1991")){
+  nnff_01_1991 = read.csv(here("data/normalized_net_flux_function/", "al_0-1_table_III_1991_update.csv"))
+}
 
 # File with data from 1991 table which is the same as that of 1990.
-nnff_04_1991 = read.csv(here("data/normalized_net_flux_function/", "al_0-4_table_III_1991_update.csv"))
-rownames(nnff_04_1991) = sprintf("%1.2f", nnff_04_1991[,1])
-nnff_04_1991 = nnff_04_1991[-c(1)]
+if(!exists("nnff_04_1991")){
+  nnff_04_1991 = read.csv(here("data/normalized_net_flux_function/", "al_0-4_table_III_1991_update.csv"))
+}
 
 # The function.
 #
@@ -59,7 +59,7 @@ function(al=0.1, pub_year=1989){
     }
     
   }else{
-    stop("Usupported publication year, should either be 1989 for the original pulication or 1990 for its 1990 update")
+    stop("Usupported publication year, should either be 1989 for the original pulication or 1990 for its 1990 update.")
   }
 }
 

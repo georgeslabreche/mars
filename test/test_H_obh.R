@@ -22,8 +22,9 @@ nfft = 3
 # Test with expected results from TABLE II.
 test_that("Equation 13 (1990): H_obh.", {
   
-  tolerance = 10
+  tolerance = 6
   
+  # Expected results: Ls and H_obh.
   expected_results = list(
     "69" = 4136,
     "120" = 4442,

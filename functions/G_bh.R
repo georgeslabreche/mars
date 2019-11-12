@@ -20,11 +20,13 @@ is_irradiated = dget(here("utils", "is_irradiated.R"))
 # Equation 18: Beam irradiance on Mars horizontal surface [W/m2].
 #
 #   Ls        - Areocentric longitude [deg].
+#   phi       -
+#   longitude - NOT NEEDED - Included for looping convenience with other functions.
 #   Z         - Sun zenith angle [deg].
 #   tau       - Optical depth.
 #   al        - NOT NEEDED - Included for looping convenience with other functions.
 #   nfft      - Net flux calculation type.
-function(Ls, phi=NULL, T_s=NULL, Z=Z_eq(Ls, T_s, phi, nfft), tau, al=NULL, nfft){
+function(Ls, phi, longitude=NULL, T_s, Z=Z_eq(Ls, T_s, phi, nfft), tau, al=NULL, nfft){
   if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, Z=Z, nfft=nfft)){
     return(0)
     

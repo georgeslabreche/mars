@@ -53,9 +53,20 @@ p = function(i, j, k){
 #   tau   - Optical depth tau factor.
 #   al    - Albedo. Can only be 0.1 for 1989 data.
 f_89 = function(Z, tau, al=0.1){
+  
+  if(al != 0.1){
+    stop("The albedo can only be 0.1 when using f_89 table lookup.")
+  }
+  
   # We build a dataframe representation of Table III referenced in Appelbaum, Joseph & Flood, Dennis. (1990):
   nnff = f_build_df(al=al, pub_year=1989)
-  return(nnff[sprintf("%1.2f", tau), paste("X", Z, sep="")])
+  
+  return(
+    unlist( # Unlist in case a sequence of Zs are given instead of a single value (i.e. in the case of integrations).
+      nnff[nnff$tau == tau, paste("X", Z, sep="")],
+      use.names=FALSE
+    )
+  )
 }
 
 # The normalized net flux function's lookup table lookup.
@@ -73,14 +84,22 @@ f_89 = function(Z, tau, al=0.1){
 #   al    - Albedo. Can be 0.1 or 0.4 for 1990 data.
 f_90 = function(Z, tau, al=0.1){
   # We build a dataframe representation of Table III and IV referenced in Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990.
+  
+  if(!(al %in% c(0.1, 0.4))){
+    stop("The albedo can only be 0.1 or 0.4 when using f_90 table lookup.")
+  }
+  
   nnff = f_build_df(al=al, pub_year=1990)
-  return(nnff[sprintf("%1.2f", tau), paste("X", Z, sep="")])
+  
+  return(
+    unlist( # Unlist in case a sequence of Zs are given instead of a single value (i.e. in the case of integrations).
+      nnff[nnff$tau == tau, paste("X", Z, sep="")],
+      use.names=FALSE
+    )
+  )
 }
 
 # Equation 20. The analytical expression of the normalized net flux function.
-#
-# TODO: 
-#   - Mars surface albedo value can be determined as a function of Longitude and Latitude (Table I.)
 #
 # From Appelbaum, Joseph & Flood, Dennis (1990) - Update 1990:
 #   The mean error is about 0.7 percent for the full range. For zenith angles up to 40° the error is much smaller.

@@ -39,15 +39,23 @@ function(Ls, T_s, phi, nfft){
   # We have to round the zenith angle to a power of ten because the
   # normalized net flux function only takes predetermined Z angle values.
   if(nfft == 1){
+    
+    # Round in multiples of 10.
     Z = round(Z, -1)
     
-    # In case we get 90, replace it with 85. It's actually much closer to 85 than 90 prior to the rounding.
-    # Also, we don't have 90 in our normalized net flux function table.
-    v1 <- unlist(Z)
-    Z = relist(replace(v1, v1==90, 85), skeleton=Z)
+    # There is no column for Z=90 in thenormalized net flux function table.
+    # In case Z=90, replace it with 85.
+    v = unlist(Z)
+    Z = relist(replace(v, v==90, 85), skeleton=Z)
     
   }else if(nfft == 2){
+    # Round in multiples of 5.
     Z = round(Z/5) * 5
+    
+    # There is no column for Z=90 in thenormalized net flux function table.
+    # In case Z=90, replace it with 85.
+    v = unlist(Z)
+    Z = relist(replace(v, v==90, 85), skeleton=Z)
     
   }else if(nfft != 3){
     stop(paste("Unsupported net flux function type, should be 1 for f_89, 2 for f_90, or 3 for f: ", nfft))

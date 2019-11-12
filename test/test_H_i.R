@@ -17,21 +17,47 @@ library(here)
 Hh_eq = dget(here("functions", "H_h.R"))
 
 # Global daily insolation on Mars inclined surface [Wh/m2-day].
-Hh_beta_eq = dget(here("functions", "H_h_beta.R"))
+Hi_eq = dget(here("functions", "H_i.R"))
 
 # Global hourly insolation on Mars inclined surface [Wh/m2].
-Ih_beta_eq = dget(here("functions", "I_h_beta.R"))
+Ii_eq = dget(here("functions", "I_i.R"))
+
+# Viking lander parameters.
+VL1 = list(
+  latitude=22.3,
+  longitude=-49.97
+)
+
+VL2 = list(
+  latitude=47.7,
+  longitude=134.29
+)
+
+# Constant test parameters.
+gamma_c=0
+nfft=3
+
 
 # Equation 7 (1990): The declination angle.
 source(here("utils", "declination.R"))
 
-tau = 0.5 # Optical depth.
-phi = 22.3 # Geographic latitude.
-nfft = 3
-al=0.1 # Albedo.
+# Surface Facing the Equator.
+test_that("H_i.", {
+  # Table III - for measured opacities.
+  H_i_calculated_vl1 = Hi_eq(Ls=0, phi=VL1$latitude, longitude=VL1$longitude, tau=1, beta=6.5, gamma_c=gamma_c, nfft=nfft)
+  expect_equal(H_i_calculated_vl1, 3322.7, tolerance=0, scale=1)
+  
+  H_i_calculated_vl2 = Hi_eq(Ls=0, phi=VL2$latitude, longitude=VL2$longitude, tau=1, beta=22, gamma_c=gamma_c, nfft=nfft)
+  expect_equal(H_i_calculated_vl2, 2217.9, tolerance=0, scale=1)
+})
 
-gamma_c = 0
-
+# tau = 0.5 # Optical depth.
+# phi = 22.3 # Geographic latitude.
+# nfft = 3
+# al=0.1 # Albedo.
+# 
+# gamma_c = 0
+#
 # # Test with expected results from Table 3.
 # test_that("H_h_beta.", {
 # 

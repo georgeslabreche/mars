@@ -13,16 +13,18 @@
 library(here)
 
 # Global hourly insolation on Mars inclined surface [W/m2-h].
-Ih_beta_eq = dget(here("functions", "I_h_beta.R"))
+Ii_eq = dget(here("functions", "I_i.R"))
 
-function(Ls, phi, tau, al=0.1, beta, gamma_c, nfft){
+source(here("functions", "albedo.R"))
+
+function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c, nfft){
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180 and 180 degrees with zero south, east negative, and west positive.")
   }
   
-  # H_h_beta is obtained by integrating I_h_beta over the period from sunrise to sunset.
-  H_h_beta = Ih_beta_eq(Ls=Ls, phi=phi, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+  # H_i is obtained by integrating I_i over the period from sunrise to sunset.
+  H_i = Ii_eq(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
   
   # Return result.
-  return(H_h_beta)
+  return(H_i)
 }

@@ -15,9 +15,10 @@ Iobh_eq = dget(here("functions", "I_obh.R"))
 phi = 22.3
 nfft = 3
 
-tolerance = 10
+tolerance = 9
 
-# Expected Iobh at different hours for different areocentric longitudes.
+# Expected hourly I_obh for different areocentric longitudes.
+# Test for the 1 hour time ranges at 12-13, 13-14, 14-15, 15-16, 16-17, 17-18, and 18-19.
 expected_results = list(
   "69" = c(488, 460, 405, 328, 234, 128, 25),
   "120" = c(528, 497, 437, 353, 249, 134, 23),

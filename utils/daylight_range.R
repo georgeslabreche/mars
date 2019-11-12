@@ -12,7 +12,7 @@ sunset = dget(here("utils", "sunset.R"))
 # Equation 7 (1990): The declination angle.
 source(here("utils", "declination.R"))
 
-daylight_range = function(Ls, phi, T_step=1, T_min=0, T_max=24){
+daylight_range = function(Ls, phi, T_step=1, T_min=0, T_max=24, beta=NULL, gamma_c=NULL){
   
   # Equation 7 (1990): Declination angle [rad].
   delta = declination(Ls)
@@ -33,8 +33,8 @@ daylight_range = function(Ls, phi, T_step=1, T_min=0, T_max=24){
   }else{
     # For non polar nights or non polar days.
     # Bound time range with sunrise and sunset times.
-    T_sr = sunrise(Ls, phi, 3)
-    T_ss = sunset(Ls, phi, 3)
+    T_sr = sunrise(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
+    T_ss = sunset(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
     
     # Include max solar time if it isn't included already.
     Ts_range = seq(T_sr, T_ss, T_step)
