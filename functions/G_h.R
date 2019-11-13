@@ -13,7 +13,7 @@ Gob_eq = dget(here("functions", "G_ob.R"))
 Z_eq = dget(here("functions", "Z.R"))
 
 # The normalized net flux function.
-f = dget(here("functions", "f.R"))
+source(here("functions", "f.R"))
 
 # Albedo.
 source(here("functions", "albedo.R"))

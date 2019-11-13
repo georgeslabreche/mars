@@ -2,13 +2,39 @@
 library(testthat) 
 library(here)
 
-f = dget(here("functions", "f.R"))
+source(here("functions", "f.R"))
 
 # Assert equals test function.
 assert = function(x, al, pub_year){
   net_flux = f(Z=x["Z"], tau=x["tau"], al=al, pub_year=pub_year)
   expect_equal(unname(x["netflux"]), net_flux, tolerance=0, scale=1)
 }
+
+test_that("I_h: Global irradiance on Mars horizontal surface with different normalized net flux functions lookup tables.", {
+  # Test parameters.
+  Z_seq = c(seq(0, 80, 10), 85)
+  
+  tau_seq = c(
+    seq(0.1, 2.0, 0.1),
+    seq(2.5, 3, 0.5),
+    5, 6)
+  
+  al = 0.1 # Albedo.
+
+  for(Z in Z_seq){
+    for(tau in tau_seq){
+
+      # Calculate global irradiances.
+      net_flux_1989 = f(Z=Z, tau=tau, al=al, pub_year=1989)
+      net_flux_1990 = f(Z=Z, tau=tau, al=al, pub_year=1990)
+
+      # Test assert equality.
+      # Normalized net flux values in lookup tables 1989 and 1990 are not exactly equal all the time
+      # but they are at least approximately equal.
+      expect_equal(net_flux_1989, net_flux_1990, tolerance=0.051, scale=1)
+    }
+  }
+})
 
 test_that("f function - 1990 Update: albedo 0.1.", {
 
@@ -37,27 +63,30 @@ test_that("f function - 1990 Update: albedo 0.4.", {
 })
 
 test_that("f function - analytical: albedo 0.1.", {
-  
+
   # Test input parameters.
   Z_seq = seq(0, 85, 5)
-  
+
   tau_seq = c(
     seq(0.1, 2, 0.05)
+    # TODO: seq(2.1, 3, 0.1),
+    # TODO: seq(3.2, 4, 0.2)
+    # TODO: seq(4.5, 6, 0.5)
   )
-  
+
   al = 0.1 # Albedo
-  
+
   # Analytical function should return net flux that is approximately equal to those found in the lookup tables
   for(Z in Z_seq){
     for(tau in tau_seq){
       net_flux_lookup = f(Z=Z, tau=tau, al=al, pub_year=1990)
       net_flux_analytical = f(Z=Z, tau=tau, al=al)
-      
+
       # Larger divergences for high values of Z.
       # Maximum error is 7% for Z = 80° or Z = 85°.
       # Adjust acceptale tolerance accordingly.
       tolerance = ifelse(Z >= 65, 0.0471, 0.0171)
-      
+
       expect_equal(net_flux_lookup, net_flux_analytical, tolerance=tolerance, scale=1)
     }
   }
@@ -65,27 +94,30 @@ test_that("f function - analytical: albedo 0.1.", {
 
 
 test_that("f function - analytical: albedo 0.4.", {
-  
+
   # Test input parameters.
   Z_seq = seq(0, 85, 5)
-  
+
   tau_seq = c(
     seq(0.1, 2, 0.05)
+    # TODO: seq(2.1, 3, 0.1),
+    # TODO: seq(3.2, 4, 0.2)
+    # TODO: seq(4.5, 6, 0.5)
   )
-  
+
   al = 0.4 # Albedo
-  
+
   # Analytical function should return net flux that is approximately equal to those found in the lookup tables
   for(Z in Z_seq){
     for(tau in tau_seq){
       net_flux_lookup = f(Z=Z, tau=tau, al=al, pub_year=1990)
       net_flux_analytical = f(Z=Z, tau=tau, al=al)
-      
+
       # Larger divergences for high values of Z.
       # Maximum error is 7% for Z = 80° or Z = 85°.
       # Adjust acceptale tolerance accordingly.
       tolerance = ifelse(Z >= 65, 0.0471, 0.0171)
-      
+
       expect_equal(net_flux_lookup, net_flux_analytical, tolerance=tolerance, scale=1)
     }
   }

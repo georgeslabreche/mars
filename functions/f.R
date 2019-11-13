@@ -15,8 +15,27 @@ f_build_df = dget(here("functions", "f_build_df.R"))
 
 f_build_coefficients_df = dget(here("functions", "f_build_coefficients_df.R"))
 
-k0_coeffs = f_build_coefficients_df(k=0)
-k1_coeffs = f_build_coefficients_df(k=1)
+if(!exists("k0_coeffs")){
+  k0_coeffs = f_build_coefficients_df(k=0)
+}
+
+if(!exists("k1_coeffs")){
+  k1_coeffs = f_build_coefficients_df(k=1)
+}
+
+# build a dataframe representation of Table III referenced in Appelbaum, Joseph & Flood, Dennis. (1990):
+if(!exists("nnff_0p1_89")){
+  nnff_0p1_89 = f_build_df(al=0.1, pub_year=1989)
+}
+
+# Build dataframe representation of Table III and IV referenced in Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990.
+if(!exists("nnff_0p1_90")){
+  nnff_0p1_90 = f_build_df(al=0.1, pub_year=1990)
+}
+
+if(!exists("nnff_0p4_90")){
+  nnff_0p4_90 = f_build_df(al=0.4, pub_year=1990)
+}
 
 # The coefficient lookup function.
 # See Table IV - Normalized Net Flux Function Coefficients in Appelbaum, Joseph & Flood, Dennis (1990) Update 1990. 
@@ -54,16 +73,18 @@ p = function(i, j, k){
 #   al    - Albedo. Can only be 0.1 for 1989 data.
 f_89 = function(Z, tau, al=0.1){
   
-  if(al != 0.1){
+  nnff_df = NULL
+  
+  if(al == 0.1){
+    nnff_df = nnff_0p1_89
+    
+  }else{
     stop("The albedo can only be 0.1 when using f_89 table lookup.")
   }
   
-  # We build a dataframe representation of Table III referenced in Appelbaum, Joseph & Flood, Dennis. (1990):
-  nnff = f_build_df(al=al, pub_year=1989)
-  
   return(
     unlist( # Unlist in case a sequence of Zs are given instead of a single value (i.e. in the case of integrations).
-      nnff[nnff$tau == tau, paste("X", Z, sep="")],
+      nnff_df[nnff_df$tau == toString(tau), paste("X", Z, sep="")],
       use.names=FALSE
     )
   )
@@ -83,17 +104,22 @@ f_89 = function(Z, tau, al=0.1){
 #   tau   - Optical depth tau factor.
 #   al    - Albedo. Can be 0.1 or 0.4 for 1990 data.
 f_90 = function(Z, tau, al=0.1){
-  # We build a dataframe representation of Table III and IV referenced in Appelbaum, Joseph & Flood, Dennis. (1990). Solar radiation on Mars: Update 1990.
   
-  if(!(al %in% c(0.1, 0.4))){
+  nnff_df = NULL
+  
+  if(al == 0.1){
+    nnff_df = nnff_0p1_90
+    
+  }else if(al == 0.4){
+    nnff_df = nnff_0p4_90
+    
+  }else{
     stop("The albedo can only be 0.1 or 0.4 when using f_90 table lookup.")
   }
   
-  nnff = f_build_df(al=al, pub_year=1990)
-  
   return(
     unlist( # Unlist in case a sequence of Zs are given instead of a single value (i.e. in the case of integrations).
-      nnff[nnff$tau == tau, paste("X", Z, sep="")],
+      nnff_df[nnff_df$tau == toString(tau), paste("X", Z, sep="")],
       use.names=FALSE
     )
   )
@@ -150,7 +176,7 @@ f_analytical = function(Z, tau, al=0.1){
 #   Z     - Zenith angle [deg].
 #   tau   - Optical depth tau factor.
 #   al    - Albedo (ranges from 0.1 to 0.4).
-function(Z, tau, al=0.1, pub_year=NULL){
+f = function(Z, tau, al=0.1, pub_year=NULL){
   net_flux = NULL
   
   if(is.null(pub_year)){

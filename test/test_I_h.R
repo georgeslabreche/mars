@@ -8,6 +8,7 @@
 #   TABLE IV. - HOURLY AND DAILY GLOBAL INSOLATION ON A HORIZONTAL SURFACE AT MARS SURFACE.
 
 library(here)
+library(testthat) 
 
 Ih_eq = dget(here("functions", "I_h.R"))
 
