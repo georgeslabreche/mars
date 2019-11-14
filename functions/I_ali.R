@@ -1,6 +1,6 @@
 library(here)
 
-Gal_i_eq = dget(here("functions", "G_al_i.R"))
+Gali_eq = dget(here("functions", "G_ali.R"))
 
 source(here("functions", "albedo.R"))
 
@@ -26,12 +26,12 @@ function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longit
   
   # Step 2: Calculate insolation.
   interand = function(T_s){
-    G_al_i = Gal_i_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta, nfft=nfft)
-    return(G_al_i)
+    Gali = Gali_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta, nfft=nfft)
+    return(Gali)
   }
   
-  I_al_i = integrate(interand, T_start, T_end)
+  Iali = integrate(interand, T_start, T_end)
   
   # Return integration result.
-  return(I_al_i$value)
+  return(Iali$value)
 }

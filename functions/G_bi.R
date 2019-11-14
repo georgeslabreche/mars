@@ -40,64 +40,69 @@ function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, beta, ga
   #   between the Mars solar time T and the hour angle as for the Earth.
   omega_deg = 15 * T_s - 180
   
-  # Equation 6 (1993): Solar Azimuth Angle [deg]
-  solar_azimuth_angle = function(){
-    x = sin(phi*pi/180) * cos(delta) * cos(omega_deg*pi/180)
-    y = cos(phi*pi/180) * sin(delta)
-    z = sin(Z*pi/180)
-    
-    gamma_s = acos((x - y) / z) * 180/pi # [deg]
-    
-    # Alternatively, Equation 7 (1993): Solar Azimuth Angle [deg]
-    # x = sin(phi*pi/180) * cos(Z*pi/180) - sin(delta)
-    # y = cos(phi*pi/180) * sin(Z*pi/180)
-    # 
-    # gamma_s = acos(x / y) * 180/pi # [deg]
-    
-    return(gamma_s)
-  } 
-  
-  # Set to omega to exactly zero when omega near zero instead because sometimes it is essentially zero with values like -2.8421709430404e-14 deg.
-  for(i in 1:length(omega_deg)){
-    if(omega_deg[i] > -0.1 && omega_deg[i] < 0.1){
-      omega_deg[i] = 0
-    }
+  # Set to omega to exactly zero when omega near zero because sometimes it is essentially zero with values like -2.8421709430404e-14 deg.
+  zero = function(x){
+    return(
+      ifelse(x > -1e-5 && x < 1e-5, 0, x)
+    )
   }
+  
+  # Apply the function that will set omega to zero if it is close to zero.
+  omega_deg = sapply(omega_deg, zero)
+  
+  # Equation 6 (1993): Solar Azimuth Angle [deg]
+  x = sin(phi*pi/180) * cos(delta) * cos(omega_deg*pi/180)
+  y = cos(phi*pi/180) * sin(delta)
+  z = sin(Z*pi/180)
   
   # From (32) in (1993): It is solar noon when omega is 0 deg. This translates to gamma_s = 0 deg.
-  gamma_s = ifelse(omega_deg == 0, 0, solar_azimuth_angle())
+  # The following operation will result in a value very close to 1 but not exactly 1 if it is
+  # solar noon, i.e. when omega is 0 deg. When op = 1 -> acos(op) = 0, i.e. (32) in (1993).
+  op = ((x - y) / z)
   
+  # The following function is to make sure that op is exactly 1 when omega is 0 deg
+  one = function(x){
+    return(
+      ifelse(x > 0,
+             ifelse(x > 1 && x < 1+1e-5, 1, x),  # If x is positive.
+             ifelse(x < -1 && x > -1-1e-5, 1, x)) # If x is negative.
+    )
+  }
+
+  # Apply the function.
+  op = sapply(op, one)
   
+  # Calculate gamma_s.
+  gamma_s = acos(op) * 180/pi # [deg]
+    
+  # Alternatively, Equation 7 (1993): Solar Azimuth Angle [deg]
+  # x = sin(phi*pi/180) * cos(Z*pi/180) - sin(delta)
+  # y = cos(phi*pi/180) * sin(Z*pi/180)
+  # 
+  # gamma_s = acos(x / y) * 180/pi # [deg]
+
   # Sun Angle of Incidence [rad].
-  #   Equation 13 (1993): Inclined surface.
-  # FIXME: Equation 23 (1993): Vertical surface.
-  #        Equation 27 (1993): Facing the equator.
-  #        Equation 29 (1993): Beta = 0.
   sun_angle_of_incidence = function(){
-    # if(beta == 0){ # Equation 29 (1993): Beta = 0.
-    #   return(NULL)
-    #   
-    # }else if(beta == 90){ #Equation 29 (1993): Beta = 0.
-    #   return(NULL)
-    #   
-    # }else if(gamma_c == 0){ # Equation 27 (1993): Facing the equator.
-    #   return(NULL)
-    #   
-    # }else{
-    #   #  Inclined surface.
-    #   i = cos(beta * pi/180) * cos(Z * pi/180)
-    #   j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
-    #   teta = acos(i + j) # [rad]
-    # }
+    teta = NULL
     
-    # Inclined surface.
-    i = cos(beta * pi/180) * cos(Z * pi/180)
-    j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
-    teta = acos(i + j) # [rad]
-    
+    # (23) in (1993) Vertical surface.
+    if(beta == 90){
+      i = cos(gamma_s * pi/180) * cos(gamma_c * pi/180)
+      #TODO:  Double check this, why wouldn't the paper use squared instead of multiply the by the same value? 
+      #       Check with (24) in (1993). 
+      j = sin(gamma_s * pi/180) * sin(gamma_s * pi/180) 
+      teta = acos(sin(Z * pi/180) * (i + j))# [rad]
+      
+    }else{
+      # (13) in (1993): Inclined surface.
+      # (27) in (1993): Surface facing the equator.
+      i = cos(beta * pi/180) * cos(Z * pi/180)
+      j = sin(beta * pi/180) * sin(Z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
+      teta = acos(i + j) # [rad]
+    }
+
     return(teta)
   }
-  
   
   # Sun Angle of Incidence [rad] on an inclined surface.
   teta = sun_angle_of_incidence()
@@ -106,4 +111,3 @@ function(Ls, phi, T_s, Z=Z_eq(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, beta, ga
 
   return(Gbi)
 }
-

@@ -139,7 +139,8 @@ f_90 = function(Z, tau, al=0.1){
 f_analytical = function(Z, tau, al=0.1){
   # Check for and warn against parameters that would result in lagest errors (max. 7%).
   if(tau > 5){
-    warning(paste("Large error encountered with τ = ", tau, " greater than 5 (maximum error is 7%). ", 
+    # TODO: Make warning.
+    message(paste("Large error encountered with τ = ", tau, " greater than 5 (maximum error is 7%). ", 
                   "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
                   sep="")
     )
@@ -155,7 +156,8 @@ f_analytical = function(Z, tau, al=0.1){
   # handle warning message.
   for(w_msg in warning_msg){
     if(w_msg != ""){
-      warning(w_msg)
+      # TODO: Make warning.
+      message(w_msg)
     }
   }
   

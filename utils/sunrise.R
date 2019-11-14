@@ -21,12 +21,15 @@ sunrise_for_inclined_surface_oriented_equator = function(phi, beta, delta){
   
   # (8) in (1993).
   omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta)
-  
+
   # (30) in (1993).
   omega_rad_2 = -acos(-tan(delta) * tan(phi-beta))
-  
+
   # From (21) in (1993) we want to grab the minium between (8) and (30).
-  omega_rad = -min(abs(omega_rad_1), abs(omega_rad_2)) 
+  omega_rad = -min(abs(omega_rad_1), abs(omega_rad_2))
+  
+  # FIXME: Is it just (30)? This was checked with plots.
+  #omega_rad = -acos(-tan(delta) * tan(phi-beta))
   
   return(omega_rad)
 }

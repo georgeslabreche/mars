@@ -15,7 +15,7 @@ Z_eq = dget(here("functions", "Z.R"))
 
 Gbi_eq = dget(here("functions", "G_bi.R"))
 Gdi_eq = dget(here("functions", "G_di.R"))
-Gali_eq = dget(here("functions", "G_al_i.R"))#
+Gali_eq = dget(here("functions", "G_ali.R"))#
 
 source(here("functions", "albedo.R"))
 

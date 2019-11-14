@@ -3,8 +3,10 @@
 # TODO: Make this a hidden function.
 x_for_inclined_surface = function(phi, beta, gamma_c){
   
-  # a is zero for a vertical surface, i.e. beta = 90 deg. See (25) from (1993)
+  # FIXME: For vertical surface, i.e. beta = 90. Need gamma_s?!?!
+  #        See (25) in (1993).
   a = cos(phi) / (sin(gamma_c) * tan(beta)) 
+  a = ifelse(beta == 90*pi/180, 0, sin(phi) / (sin(gamma_c) * tan(beta)))
   b = sin(phi) / tan(gamma_c)
   
   x = a + b

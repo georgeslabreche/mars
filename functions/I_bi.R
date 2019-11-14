@@ -1,11 +1,11 @@
 library(here)
 
-Gb_beta_eq = dget(here("functions", "G_b_beta.R"))
+Gbi_eq = dget(here("functions", "G_bi.R"))
 
 # Constrain T_start and T_end based on sunrise and sunset times.
 constrain_solar_time_range = dget(here("utils", "constrain_solar_time_range.R")) 
 
-function(Ls, phi, tau, T_start, T_end, al=0.1, beta, gamma_c, nfft){
+function(Ls, phi, tau, T_start, T_end, beta, gamma_c, nfft){
   
   if(gamma_c > 180 || gamma_c < -180){
     stop("Surface azimuth angle gamma_c must between -180 and 180 degres with zero south, east negative, and west positive.")
@@ -29,12 +29,12 @@ function(Ls, phi, tau, T_start, T_end, al=0.1, beta, gamma_c, nfft){
   # Step 2: Calculate insolation.
   
   interand = function(T_s){
-    G_b_beta = Gb_beta_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
-    return(G_b_beta)
+    G_bi = Gbi_eq(Ls=Ls, phi=phi, T_s=T_s, tau=tau, beta=beta, gamma_c=gamma_c, nfft=nfft)
+    return(G_bi)
   }
   
-  I_b_beta = integrate(interand, T_start, T_end)
+  I_bi = integrate(interand, T_start, T_end)
   
   # Return integration result.
-  return(I_b_beta$value)
+  return(I_bi$value)
 }
