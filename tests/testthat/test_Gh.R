@@ -30,7 +30,7 @@ test_that("G_h: Global irradiance on Mars horizontal surface with different norm
       tolerance = 30
       
       if(tau == 6){
-        tolerance = 205
+        tolerance = 250
         
       }else if(tau == 5){
         tolerance = 140
