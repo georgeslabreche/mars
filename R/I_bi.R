@@ -20,7 +20,7 @@ I_bi = function(Ls, phi, tau, T_start, T_end, beta, gamma_c, nfft){
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
   
   # Apply solar time range constraint.
-  T_range = constrain_solar_time_range(Ls, phi, T_start, T_end, beta, gamma_c)
+  T_range = constrain_solar_time_range(Ls=Ls, phi=phi, T_start=T_start, T_end=T_end, beta=beta, gamma_c=gamma_c)
   
   # No solar irradiance within the contrained time range.
   if(is.null(T_range)){

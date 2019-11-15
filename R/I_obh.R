@@ -14,7 +14,6 @@
 #'
 #' @return
 #' @export
-#' FIXME: Remove nfft. Remove in all I functions.
 I_obh = function(Ls, phi, T_start, T_end, nfft){
   
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
@@ -36,7 +35,7 @@ I_obh = function(Ls, phi, T_start, T_end, nfft){
   
   # The integrand for Equation 11 (1990).
   integrand = function(T_s){
-    z = Z(Ls=Ls, T_s=T_s, phi=phi)
+    z = Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft)
 
     x = G_ob(Ls) * cos(z*pi/180)
     return(x)
