@@ -9,7 +9,7 @@ G_ali(
   phi,
   longitude,
   T_s,
-  Z = Z_eq(Ls = Ls, T_s = T_s, phi = phi, nfft = nfft),
+  z = Z(Ls = Ls, T_s = T_s, phi = phi, nfft = nfft),
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
   beta,
@@ -25,8 +25,6 @@ G_ali(
 
 \item{T_s}{}
 
-\item{Z}{}
-
 \item{tau}{}
 
 \item{al}{}
@@ -34,6 +32,8 @@ G_ali(
 \item{beta}{}
 
 \item{nfft}{}
+
+\item{Z}{}
 }
 \value{
 

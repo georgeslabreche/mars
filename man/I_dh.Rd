@@ -4,7 +4,16 @@
 \alias{I_dh}
 \title{Title}
 \usage{
-I_dh(Ls, phi, tau, T_start, T_end, al, nfft)
+I_dh(
+  Ls,
+  phi,
+  longitude,
+  tau,
+  T_start,
+  T_end,
+  al = albedo(latitude = phi, longitude = longitude, tau = tau),
+  nfft
+)
 }
 \arguments{
 \item{Ls}{}

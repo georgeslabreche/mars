@@ -4,7 +4,7 @@
 \alias{Z}
 \title{Equation 6: Zenith angle of the incident solar radiation [deg].}
 \usage{
-Z(Ls, T_s, phi, nfft)
+Z(Ls, T_s, phi, nfft = 3)
 }
 \arguments{
 \item{Ls}{Areocentric longitude [deg].}
