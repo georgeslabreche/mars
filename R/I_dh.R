@@ -9,6 +9,7 @@
 #'
 #' @param Ls 
 #' @param phi 
+#' @param longitude
 #' @param tau 
 #' @param T_start 
 #' @param T_end 
@@ -17,8 +18,8 @@
 #'
 #' @return
 #' @export
-I_dh = function(Ls, phi, tau, T_start, T_end, al, nfft){
+I_dh = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), nfft){
   
-  Ih = I_h(Ls, phi, tau, T_start, T_end, al, nfft) - I_bh(Ls, phi, tau, T_start, T_end, al, nfft)
+  Ih = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=T_start, T_end=T_end, al=al, nfft=nfft) - I_bh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_end, al=al, nfft=nfft)
   return(Ih)
 }

@@ -9,6 +9,8 @@
 
 
 tolerance = 11
+
+phi = 22.3
 al = 0.1
 nfft = 3
 
@@ -46,7 +48,7 @@ test_that("I_dh.", {
     hour_index = 1
     for(T_start in 12:18){
       
-      Idh = I_dh(Ls=Ls, phi=22.3, tau=tau, T_start=T_start, T_end=T_start+1, al=al, nfft=nfft)
+      Idh = I_dh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1, al=al, nfft=nfft)
       Idh_expected = expected_result[hour_index, 2]
       
       expect_equal(Idh, Idh_expected, tolerance=tolerance, scale=1)
