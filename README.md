@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/georgeslabreche/mars.svg?branch=master)](https://travis-ci.org/georgeslabreche/mars)
+[![Build Status](https://travis-ci.org/georgeslabreche/mars.svg?branch=master)](https://travis-ci.org/georgeslabreche/mars) [![codecov](https://codecov.io/gh/georgeslabreche/mars/branch/master/graph/badge.svg)](https://codecov.io/gh/georgeslabreche/mars)
 
 # Solar Radiation on Mars
 Plotting solar radiation on Mars as a function of the following parameters:
