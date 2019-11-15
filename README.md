@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/georgeslabreche/mars.svg?branch=master)](https://travis-ci.org/georgeslabreche/mars)
+
 # Solar Radiation on Mars
 Plotting solar radiation on Mars as a function of the following parameters:
 - Areocentric Longitude (Ls)

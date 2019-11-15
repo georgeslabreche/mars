@@ -4,7 +4,14 @@
 \alias{H_dh}
 \title{Title}
 \usage{
-H_dh(Ls, phi, tau, al, nfft)
+H_dh(
+  Ls,
+  phi,
+  longitude,
+  tau,
+  al = albedo(latitude = phi, longitude = longitude, tau = tau),
+  nfft
+)
 }
 \arguments{
 \item{Ls}{}

@@ -4,16 +4,23 @@
 \alias{H_h}
 \title{Title}
 \usage{
-H_h(Ls, phi, tau, al = 0.1, nfft)
+H_h(
+  Ls,
+  phi,
+  longitude,
+  al = albedoe(latitude = phi, longitude = longitude, tau = tau),
+  tau,
+  nfft
+)
 }
 \arguments{
 \item{Ls}{}
 
 \item{phi}{}
 
-\item{tau}{}
-
 \item{al}{}
+
+\item{tau}{}
 
 \item{nfft}{}
 }
