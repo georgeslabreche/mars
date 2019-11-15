@@ -49,26 +49,29 @@ G_bi = function(Ls, phi, T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, beta
   omega_deg = sapply(omega_deg, zero)
   
   # Equation 6 (1993): Solar Azimuth Angle [deg]
-  x = sin(phi*pi/180) * cos(delta) * cos(omega_deg*pi/180)
-  y = cos(phi*pi/180) * sin(delta)
-  z = sin(z*pi/180)
+  i = sin(phi*pi/180) * cos(delta) * cos(omega_deg*pi/180)
+  j = cos(phi*pi/180) * sin(delta)
+  k = sin(z*pi/180)
   
-  # From (32) in (1993): It is solar noon when omega is 0 deg. This translates to gamma_s = 0 deg.
+  # From (32) in (1993): It is solar noon when omega is 0°. This translates to gamma_s = 0°.
   # The following operation will result in a value very close to 1 but not exactly 1 if it is
   # solar noon, i.e. when omega is 0 deg. When op = 1 -> acos(op) = 0, i.e. (32) in (1993).
-  op = ((x - y) / z)
+  op = (i - j) / k
   
-  # The following function is to make sure that op is exactly 1 when omega is 0 deg
-  one = function(x){
+  # The following function is to make sure that op is:
+  #   - exactly 1 when omega is 0° (or else NaN is produced when calculating gamma_s)
+  #   - exactly 0 when omega is 90°.
+  adjust = function(x){
     return(
-      ifelse(x > 0,
-        ifelse(x > 1 && x < 1+1e-5, 1, x),  # If x is positive.
-        ifelse(x < -1 && x > -1-1e-5, 1, x)) # If x is negative.
+      ifelse(x > -1e-5 && x < 1e-5, 0,
+             ifelse(x > 0,
+                    ifelse(x > 1 && x < 1+1e-5, 1, x),  # If x is positive.
+                    ifelse(x < -1 && x > -1-1e-5, 1, x))) # If x is negative.
     )
   }
 
   # Apply the function.
-  op = sapply(op, one)
+  op = sapply(op, adjust)
   
   # Calculate gamma_s.
   gamma_s = acos(op) * 180/pi # [deg]
@@ -98,14 +101,15 @@ G_bi = function(Ls, phi, T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, beta
       j = sin(beta * pi/180) * sin(z * pi/180) * cos((gamma_s - gamma_c) * pi/180) # Does not matter when beta = 0 because it leads to j = 0.
       teta = acos(i + j) # [rad]
     }
-
+    
     return(teta)
   }
   
   # Sun Angle of Incidence [rad] on an inclined surface.
   teta = sun_angle_of_incidence()
   
+  # Calculate Gbi.
   Gbi = G_b(Ls=Ls, z=z, tau=tau) * cos(teta)
-
+  
   return(Gbi)
 }

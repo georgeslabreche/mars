@@ -33,7 +33,7 @@ test_that("H_bi: Beam daily insolation on an inclined surface for beta = phi at 
   tol = 0.03
 
   # Test input parameters.
-  Ls_seq = seq(0, 360, 5)
+  Ls_seq = seq(0, 0, 5)
 
   # Expect equals all calculations against all expected.
   expect_equal_all(tol=tol, Ls=Ls_seq,
