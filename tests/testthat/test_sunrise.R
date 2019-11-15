@@ -28,7 +28,7 @@ test_that("Sunrise time on an inclined surface facing the equator.", {
   tolerance = 0
 
   # Sunrise data to test against. For beta = phi.
-  expected_sunrise_times = read.csv("data/sunrise_beta_equals_phi_table_I_1993.csv")
+  expected_sunrise_times = read.csv("data/sunrise_beta_equals_phi_table_i_1993.csv")
 
   # Rename rows labels (Ls).
   rownames(expected_sunrise_times) = sprintf("%i", expected_sunrise_times[,1])

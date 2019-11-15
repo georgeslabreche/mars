@@ -12,10 +12,10 @@ expect_equal_all = function(tol, Ls_seq, phi, longitude, beta, measured_taus, ex
     # Measured tau.
     tau_measured = measured_taus[measured_taus$Ls == Ls, "tau"]
     
-    # Expected Hdh on inclined surface.
+    # Expected Hbi on inclined surface.
     Hbi_expected = expected_insolations[expected_insolations$Ls == Ls, "Hb"]
 
-    # Calculated Hdh on inclined surface.
+    # Calculated Hbi on inclined surface.
     Hbi_calculated = H_bi(Ls=Ls, phi=phi, tau=tau_measured, beta=beta, gamma_c=gamma_c, nfft=nfft)
     Hbi_calculated = round(Hbi_calculated, 1)
     
