@@ -9,7 +9,7 @@
 #'
 #' @return
 #' @export
-Z = function(Ls, T_s, phi, nfft){
+Z = function(Ls, T_s, phi, nfft=3){
   
   # Equation 7: Declination angle [rad].
   delta = declination(Ls)

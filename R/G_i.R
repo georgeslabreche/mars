@@ -44,9 +44,9 @@ G_i = function(Ls, phi, longitude, T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft),
     stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
   }
   
-  a = Gbi_eq(Ls=Ls, phi=phi, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, beta=beta, gamma_c=gamma_c, nfft=nfft)
-  b = Gdi_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, al=al, beta=beta, nfft=nfft)
-  c = Gali_eq(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, al=al, beta=beta, nfft=nfft)
+  a = G_bi(Ls=Ls, phi=phi, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, beta=beta, gamma_c=gamma_c, nfft=nfft)
+  b = G_di(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, al=al, beta=beta, nfft=nfft)
+  c = G_ali(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, al=al, beta=beta, nfft=nfft)
   
   Gi = a + b + c
   

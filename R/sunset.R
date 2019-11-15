@@ -10,7 +10,6 @@
 #' @export
 sunset_for_horizontal_surface = function(phi, delta){
 
-  
   # (9) in (1993): Sunset hour angle [rad].
   omega_rad = acos(-tan(delta) * tan(phi))
   
@@ -32,7 +31,6 @@ sunset_for_horizontal_surface = function(phi, delta){
 #' @export
 sunset_for_inclined_surface_oriented_equator = function(phi, beta, delta){
 
-  
   # (9) in (1993).
   omega_rad_1 = sunset_for_horizontal_surface(phi=phi, delta=delta)
 
@@ -62,7 +60,6 @@ sunset_for_inclined_surface_oriented_equator = function(phi, beta, delta){
 #' @export
 sunset_for_inclined_surface_oriented_east = function(phi, beta, gamma_c, delta){
 
-  
   omega_rad_1 = sunset_for_horizontal_surface(phi=phi, delta=delta)
   
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)

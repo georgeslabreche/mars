@@ -6,12 +6,7 @@
 #
 # Expected results taken from:
 #   TABLE IV. - HOURLY AND DAILY GLOBAL INSOLATION ON A HORIZONTAL SURFACE AT MARS SURFACE.
-
-library(testthat) 
-library(here)
-
-# Global daily insolation on Mars horizontal surface [Wh/m2-day].
-Hh_eq = dget(here("functions", "H_h.R"))
+context("Global daily insolation on Mars horizontal surface")
 
 # Test with expected results from TABLE IV.
 test_that("H_h.", {
@@ -34,10 +29,10 @@ test_that("H_h.", {
     
     Ls = strtoi(names(expected_results)[index])
     tau = er[1]
-    H_h_expected = er[2]
+    Hh_expected = er[2]
     
-    H_h = Hh_eq(Ls, phi, tau, al=al, nfft)
-    expect_equal(H_h, H_h_expected, tolerance=tolerance, scale=1)
+    Hh = H_h(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
+    expect_equal(Hh, Hh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1
   }

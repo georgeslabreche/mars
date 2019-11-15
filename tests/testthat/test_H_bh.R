@@ -7,10 +7,8 @@
 # Expected results taken from:
 #   TABLE V. - HOURLY AND DAILY BEAM INSOLATION ON A HORIZONTAL SURFACE AT MARS SURFACE.
 
-library(testthat) 
-library(here)
-
-Hbh_eq = dget(here("functions", "H_bh.R"))
+context("Beam daily insolation on Mars horizontal surface")
+source("data.R")
 
 # Test with expected results from TABLE V.
 test_that("H_bh.", {
@@ -31,10 +29,10 @@ test_that("H_bh.", {
     
     Ls = strtoi(names(expected_results)[index])
     tau = expected_result[1]
-    H_bh_expected = expected_result[2]
+    Hbh_expected = expected_result[2]
     
-    H_bh = Hbh_eq(Ls=Ls, phi=phi, tau=tau, nfft=nfft)
-    expect_equal(H_bh, H_bh_expected, tolerance=tolerance, scale=1)
+    Hbh = H_bh(Ls=Ls, phi=phi, tau=tau, nfft=nfft)
+    expect_equal(Hbh, Hbh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1
   }

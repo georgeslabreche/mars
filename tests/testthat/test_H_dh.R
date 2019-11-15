@@ -6,12 +6,7 @@
 #
 # Expected results taken from:
 #   TABLE VI. - HOURLY AND DAILY DIFFUSE INSOLATION O NA HORIZONTAL SURFACE AT MAR SURFACE.
-
-library(testthat) 
-library(here)
-
-# Diffuse hourly insolation on Mars horizontal surface [Wh/m2-day].
-Hdh_eq = dget(here("functions", "H_dh.R"))
+context("Diffuse daily insolation on Mars horizontal surface")
 
 # Test with expected results from TABLE VI.
 test_that("H_dh.", {
@@ -33,10 +28,10 @@ test_that("H_dh.", {
     
     Ls = strtoi(names(expected_results)[index])
     tau = expected_result[1]
-    H_dh_expected = expected_result[2]
+    Hdh_expected = expected_result[2]
     
-    H_dh = Hdh_eq(Ls, phi, tau, al, nfft)
-    expect_equal(H_dh, H_dh_expected, tolerance=tolerance, scale=1)
+    Hdh = H_dh(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
+    expect_equal(Hdh, Hdh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1
   }

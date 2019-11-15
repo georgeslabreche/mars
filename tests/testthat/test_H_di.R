@@ -1,9 +1,5 @@
-library(testthat) 
-library(here)
-
-Hdi_eq = dget(here("functions", "H_di.R"))
-
-source(here("test", "data.R"))
+context("Diffuse daily insolation on an inclined surface")
+source("data.R")
 
 # Constant test parameters.
 gamma_c = 0
@@ -20,7 +16,7 @@ expect_equal_all = function(tol, Ls_seq, phi, longitude, beta, measured_taus, ex
     Hdi_expected = expected_insolations[expected_insolations$Ls == Ls, "Hd"]
     
     # Calculated Hdh on inclined surface.
-    Hdi_calculated = Hdi_eq(Ls=Ls, phi=phi, longitude=longitude, tau=tau_measured, beta=beta, gamma_c=gamma_c, nfft=nfft)
+    Hdi_calculated = H_di(Ls=Ls, phi=phi, longitude=longitude, tau=tau_measured, beta=beta, gamma_c=gamma_c, nfft=nfft)
     Hdi_calculated = round(Hdi_calculated, 1)
     
     #print(paste("Ls:", Ls, "tau:", tau_measured, "Hdi_c:", Hdi_calculated, "Hdi_e:", Hdi_expected, "diff:", (Hdi_calculated-Hdi_expected)))

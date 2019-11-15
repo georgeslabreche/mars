@@ -7,29 +7,30 @@
 #' Title
 #'
 #' @param Ls 
-#' @param phi 
+#' @param phi
+#' @param nfft 
 #'
 #' @return
 #' @export
-H_obh = function(Ls, phi){
-  
-  # Convert phi into radians.
-  phi = phi * pi/180
-  
+H_obh = function(Ls, phi, nfft=1){
+  # FIXME: Support both?
+  # Iobh =I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24, nfft=nfft)
+  # return(Iobh)
+
   # Equation 7 (1990): Declination angle [rad].
   delta = declination(Ls)
-  
+
   # Equation 9 (1990): The sunset hour angle [rad].
-  omega_ss = acos(-tan(phi) * tan(delta))
-  
+  omega_ss = sunset(Ls=Ls, phi=phi, unit=1)
+
   # Equation 13 (1990): Daily beam insolation on a horizontal surfce at top of Mars atmosphere [Wh/m2-day].
-  a = (24/pi) * Gob_eq(Ls)
+  a = (24/pi) * G_ob(Ls)
   b = 2 * pi * (omega_ss*180/pi) / 360
-  c = sin(phi) * sin(delta)
-  d = cos(phi) * cos(delta) * sin(omega_ss)
-  
+  c = sin(phi*pi/180) * sin(delta)
+  d = cos(phi*pi/180) * cos(delta) * sin(omega_ss)
+
   Hobh = a * (b * c + d)
-  
+
   # Return result.
   return(Hobh)
 }

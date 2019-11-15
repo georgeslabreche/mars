@@ -18,10 +18,10 @@
 #'
 #' @return
 #' @export
-H_hbh = function(Ls, phi, tau, al=NULL, nfft){
+H_bh = function(Ls, phi, tau, al=NULL, nfft){
   
   # Hbh is obtained by integrating Ibh over the period from sunrise to sunset.
-  Hbh = I_bh(Ls, phi, tau, 0, 24, NULL, nfft)
+  Hbh = I_bh(Ls=Ls, phi=phi, tau=tau, T_start=0, T_end=24, al=NULL, nfft=nfft)
   
   # Return result.
   return(Hbh)

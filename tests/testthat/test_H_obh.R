@@ -6,24 +6,15 @@
 #
 # Expected results taken from:
 #   TABLE II. - HOURLY AND DAILY BEAM INSOLATION ON A HORIZONTAL SURFACE AT TOP OF MARS ATMOSPHERE
-
-library(testthat) 
-library(here)
-
-# Equation 13 (1990): Daily beam insolation on a horizontal surfce at top of Mars atmosphere [Wh/m2-day].
-Hobh_eq = dget(here("functions", "H_obh.R"))
-
-# Equation 12 (1990): Beam insolation on a horizotal surface at the top of Mars atmosphere [Wh/m2].
-Iobh_eq = dget(here("functions", "I_obh.R"))
-
+context("Daily beam insolation on a horizontal surfce at top of Mars atmosphere")
 phi = 22.3
 nfft = 3
 
 # Test with expected results from TABLE II.
 test_that("Equation 13 (1990): H_obh.", {
-  
+
   tolerance = 6
-  
+
   # Expected results: Ls and H_obh.
   expected_results = list(
     "69" = 4136,
@@ -31,14 +22,14 @@ test_that("Equation 13 (1990): H_obh.", {
     "153" = 4620,
     "249" = 3449,
     "299" = 3350)
-  
-  index = 1
-  for(H_obh_expected in expected_results){
-    Ls = strtoi(names(expected_results)[index])
-    H_obh = Hobh_eq(Ls, phi)
 
-    expect_equal(H_obh, H_obh_expected, tolerance=tolerance, scale=1)
-    
+  index = 1
+  for(Hobh_expected in expected_results){
+    Ls = strtoi(names(expected_results)[index])
+    Hobh = H_obh(Ls, phi)
+
+    expect_equal(Hobh, Hobh_expected, tolerance=tolerance, scale=1)
+
     index = index + 1
   }
 })
@@ -47,14 +38,14 @@ test_that("Equation 13 (1990): H_obh.", {
 # So we can also test if this equality is true.
 test_that("Equation 13 (1990): H_obh (compared with I_obh from sunrise to sunset).", {
   tolerance = 1e-10
-  
+
   index = 1
   for(Ls in 0:360){
-    H_obh = Hobh_eq(Ls, phi)
-    I_obh_day = Iobh_eq(Ls, phi, 0, 24, nfft)
-    
-    expect_equal(H_obh, I_obh_day, tolerance=tolerance, scale=1)
-    
+    Hobh = H_obh(Ls=Ls, phi=phi)
+    Iobh_day = I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24, nfft=nfft)
+
+    expect_equal(Hobh, Iobh_day, tolerance=tolerance, scale=1)
+
     index = index + 1
   }
 })
