@@ -38,14 +38,14 @@ I_h = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, 
   
   # Step 2: Calculate insolation.
   
-  # The interand for Equation 19 (1990).
-  interand = function(T_s){
+  # The integrand for Equation 19 (1990).
+  integrand = function(T_s){
     Gh = G_h(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al)
     return(Gh)
   }
   
   # Global hourly insolation on Mars horizontal surface.
-  Ih = integrate(interand, T_start, T_end)
+  Ih = integrate(integrand, T_start, T_end)
   
   return(Ih$value)
 }

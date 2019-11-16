@@ -33,12 +33,12 @@ I_bi = function(Ls, phi, tau, T_start, T_end, beta, gamma_c){
   
   # Step 2: Calculate insolation.
   
-  interand = function(T_s){
+  integrand = function(T_s){
     Gbi = G_bi(Ls=Ls, phi=phi, T_s=T_s, tau=tau, beta=beta, gamma_c=gamma_c)
     return(Gbi)
   }
   
-  Ibi = integrate(interand, T_start, T_end)
+  Ibi = integrate(integrand, T_start, T_end)
   
   # Return integration result.
   return(Ibi$value)

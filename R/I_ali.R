@@ -32,12 +32,12 @@ I_ali = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi
   }
   
   # Step 2: Calculate insolation.
-  interand = function(T_s){
+  integrand = function(T_s){
     Gali = G_ali(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta)
     return(Gali)
   }
   
-  Iali = integrate(interand, T_start, T_end)
+  Iali = integrate(integrand, T_start, T_end)
   
   # Return integration result.
   return(Iali$value)
