@@ -9,12 +9,12 @@
 #' @param Ls 
 #' @param phi 
 #' @param T_s 
-#' @param z 
-#' @param nfft 
+#' @param z
 #'
 #' @return
 #' @export
-G_obh = function(Ls, phi=NULL, T_s=NULL, z=Z(Ls, T_s, phi, nfft), nfft=1){
+#' TODO: What happens if T_s is null?
+G_obh = function(Ls, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s)){
   
   Gobh = G_ob(Ls) * cos(z*pi/180)
   return(Gobh)

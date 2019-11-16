@@ -1,50 +1,43 @@
+Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
+
 # The function.
 #
-#   nfft    - Net flux function implementation type.
-#               - 1 for f_89.
-#               - 2 for f_90.
-#               - 3 for f_analytical.
 #' Title
-#'
-#' @param nfft 
 #'
 #' @return
 #' @export
-f_all_taus = function(nfft){
+f_lookup_taus = function(){
   
-  if(nfft==1){
+  net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
+  
+  if(net_flux_function_type == "lookup_v1"){
     as.numeric(rownames(df_netflux_0p1_1990))
     
-  }else if(nfft==2){
+  }else if(net_flux_function_type == "lookup_v2"){
     as.numeric(rownames(df_netflux_0p1_1991))
     
   }else{
-    stop("Unsupported net flux type, should be 1 for the original 1989 publication or 1990 for the 1990 update")
+    stop("This function is only available when the NET_FLUX_FUNCTION_TYPE environment variable is set to 'lookup_v1' or 'lookup_v2'.")
   }
 }
 
 # The function.
-#
-#   nfft    - Net flux function implementation type.
-#               - 1 for f_89.
-#               - 2 for f_90.
-#               - 3 for f_analytical.
 #' Title
-#'
-#' @param nfft 
-#'
+#' 
 #' @return
 #' @export
-f_all_Zs = function(nfft){
+f_lookup_Zs = function(){
   
-  if(nfft==1){
+  net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
+  
+  if(net_flux_function_type == "lookup_v1"){
     as.numeric(gsub("X", "", colnames(df_netflux_0p1_1990)))
     
-  }else if(nfft==2){
+  }else if(net_flux_function_type == "lookup_v2"){
     as.numeric(gsub("X", "", colnames(df_netflux_0p1_1991)))
     
   }else{
-    stop("Unsupported net flux type, should be 1 for the original 1989 publication or 1990 for the 1990 update")
+    stop("This function is only available when the NET_FLUX_FUNCTION_TYPE environment variable is set to 'lookup_v1' or 'lookup_v2'.")
   }
 }
 
@@ -83,10 +76,10 @@ p = function(i, j, k){
 #' @param al Albedo, can only be 0.1.
 #'
 #' @return Normalized net flux.
-f_89 = function(z, tau, al=0.1){
+f_lookup_v1 = function(z, tau, al=0.1){
   
   if(al != 0.1){
-    stop("The albedo can only be 0.1 when using f_89 table lookup.")
+    stop("The albedo can only be 0.1 when using f_lookup_v1.")
   }
   
   return(
@@ -108,7 +101,7 @@ f_89 = function(z, tau, al=0.1){
 #' @param al Albedo, can be 0.1 or 0.4.
 #'
 #' @return Normalized net flux.
-f_90 = function(z, tau, al=0.1){
+f_lookup_v2 = function(z, tau, al=0.1){
   
   nnff_df = NULL
   
@@ -119,7 +112,7 @@ f_90 = function(z, tau, al=0.1){
     nnff_df = df_netflux_0p4_1991
     
   }else{
-    stop("The albedo can only be 0.1 or 0.4 when using f_90 table lookup.")
+    stop("The albedo can only be 0.1 or 0.4 when using f_lookup_v2.")
   }
   
   return(
@@ -195,21 +188,21 @@ f_analytical = function(z, tau, al=0.1){
 #'
 #' @return Normalized net flux.
 #' @export
-f = function(z, tau, al=0.1, pub_year=NULL){
+f = function(z, tau, al=0.1){
   
-  net_flux = NULL
+  net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
   
-  if(is.null(pub_year)){
+  if(net_flux_function_type == "polynomial"){
     net_flux = f_analytical(z, tau, al)
     
-  }else if(pub_year == 1989){
-    net_flux = f_89(z, tau, al)
+  }else if(net_flux_function_type == "lookup_v1"){
+    net_flux = f_lookup_v1(z, tau, al)
     
-  }else if(pub_year == 1990){
-    net_flux = f_90(z, tau, al)
+  }else if(net_flux_function_type == "lookup_v2"){
+    net_flux = f_lookup_v2(z, tau, al)
     
   }else{
-    stop("Usupported publication year, should either be 1989 for the original pulication or 1990 for its 1990 update")
+    stop("The NET_FLUX_FUNCTION_TYPE environment variable should be set to 'lookup_v1', 'lookup_v2', or 'polynomial'.")
   }
   
   # Check if given Z results in NULL net flux.

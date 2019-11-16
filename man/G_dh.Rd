@@ -9,10 +9,9 @@ G_dh(
   phi,
   longitude,
   T_s = NULL,
-  z = Z(Ls, T_s, phi, nfft),
+  z = Z(Ls = Ls, phi = phi, T_s = T_s),
   tau,
-  al = albedo(latitude = phi, longitude = longitude, tau = tau),
-  nfft
+  al = albedo(latitude = phi, longitude = longitude, tau = tau)
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ G_dh(
 \item{tau}{}
 
 \item{al}{}
-
-\item{nfft}{}
 }
 \value{
 

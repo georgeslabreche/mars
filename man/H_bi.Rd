@@ -4,7 +4,7 @@
 \alias{H_bi}
 \title{Title}
 \usage{
-H_bi(Ls, phi, tau, beta, gamma_c, nfft)
+H_bi(Ls, phi, tau, beta, gamma_c)
 }
 \arguments{
 \item{Ls}{}
@@ -16,8 +16,6 @@ H_bi(Ls, phi, tau, beta, gamma_c, nfft)
 \item{beta}{}
 
 \item{gamma_c}{}
-
-\item{nfft}{}
 }
 \value{
 

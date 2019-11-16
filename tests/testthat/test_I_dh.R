@@ -12,7 +12,6 @@ tolerance = 11
 
 phi = 22.3
 al = 0.1
-nfft = 3
 
 expected_results = list(
   # Areocentric Longitude.
@@ -39,7 +38,6 @@ expected_results = list(
   # ))
 
 test_that("I_dh.", {
-  
   expected_result_index = 1
   for(expected_result in expected_results){
     Ls = strtoi(names(expected_results[expected_result_index]))
@@ -48,7 +46,7 @@ test_that("I_dh.", {
     hour_index = 1
     for(T_start in 12:18){
       
-      Idh = I_dh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1, al=al, nfft=nfft)
+      Idh = I_dh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1, al=al)
       Idh_expected = expected_result[hour_index, 2]
       
       expect_equal(Idh, Idh_expected, tolerance=tolerance, scale=1)

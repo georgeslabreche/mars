@@ -15,7 +15,6 @@ test_that("H_bh.", {
   tolerance = 41
   
   phi = 22.3
-  nfft = 3
   
   expected_results = list(
     "69" = c(0.65, 1768), # FIXME: Larger error (40).
@@ -31,7 +30,7 @@ test_that("H_bh.", {
     tau = expected_result[1]
     Hbh_expected = expected_result[2]
     
-    Hbh = H_bh(Ls=Ls, phi=phi, tau=tau, nfft=nfft)
+    Hbh = H_bh(Ls=Ls, phi=phi, tau=tau)
     expect_equal(Hbh, Hbh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1

@@ -4,15 +4,7 @@
 \alias{is_irradiated}
 \title{Check if there is solar irradiance at the given location and moment.}
 \usage{
-is_irradiated(
-  Ls,
-  phi,
-  T_s,
-  z = Z(Ls, T_s, phi, nfft),
-  beta = NULL,
-  gamma_c = NULL,
-  nfft
-)
+is_irradiated(Ls, phi, T_s, z = Z(Ls, T_s, phi), beta = NULL, gamma_c = NULL)
 }
 \arguments{
 \item{Ls}{}
@@ -26,8 +18,6 @@ is_irradiated(
 \item{beta}{}
 
 \item{gamma_c}{}
-
-\item{nfft}{}
 }
 \value{
 

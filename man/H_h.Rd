@@ -8,9 +8,8 @@ H_h(
   Ls,
   phi,
   longitude,
-  al = albedoe(latitude = phi, longitude = longitude, tau = tau),
   tau,
-  nfft
+  al = albedo(latitude = phi, longitude = longitude, tau = tau)
 )
 }
 \arguments{
@@ -18,11 +17,9 @@ H_h(
 
 \item{phi}{}
 
-\item{al}{}
-
 \item{tau}{}
 
-\item{nfft}{}
+\item{al}{}
 }
 \value{
 

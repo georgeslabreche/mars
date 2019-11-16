@@ -14,7 +14,6 @@ test_that("H_h.", {
   
   phi = 22.3
   al = 0.1
-  nfft = 3
   
   expected_results = list(
     "69" = c(0.65, 3340),
@@ -31,7 +30,7 @@ test_that("H_h.", {
     tau = er[1]
     Hh_expected = er[2]
     
-    Hh = H_h(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
+    Hh = H_h(Ls=Ls, phi=phi, tau=tau, al=al)
     expect_equal(Hh, Hh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1

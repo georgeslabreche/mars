@@ -4,7 +4,7 @@
 \alias{I_bh}
 \title{Title}
 \usage{
-I_bh(Ls, phi, tau, T_start, T_end, al = NULL, nfft)
+I_bh(Ls, phi, tau, T_start, T_end)
 }
 \arguments{
 \item{Ls}{}
@@ -16,10 +16,6 @@ I_bh(Ls, phi, tau, T_start, T_end, al = NULL, nfft)
 \item{T_start}{}
 
 \item{T_end}{}
-
-\item{al}{}
-
-\item{nfft}{}
 }
 \value{
 

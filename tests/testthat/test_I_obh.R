@@ -8,7 +8,6 @@
 #   TABLE II. - HOURLY AND DAILY BEAM IN SOLATION ON A HORIZONTAL SURFACE AT TOP OF MARS ATMOSPHERE
 
 phi = 22.3
-nfft = 3
 
 tolerance = 9
 
@@ -29,7 +28,7 @@ test_that("I_obh.", {
     
     hour_index = 1
     for(T_start in 12:18){
-      Iobh = I_obh(Ls=Ls, phi=phi, T_start=T_start, T_end=T_start+1, nfft=nfft)
+      Iobh = I_obh(Ls=Ls, phi=phi, T_start=T_start, T_end=T_start+1)
       Iobh_expected = expected_result[hour_index]
       
       expect_equal(Iobh, Iobh_expected, tolerance=tolerance, scale=1)

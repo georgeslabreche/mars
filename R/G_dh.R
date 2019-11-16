@@ -15,10 +15,6 @@
 #   Z         - Sun zenith angle [deg].
 #   tau       - Optical depth.
 #   al        - Albedo.
-#   nfft      - Net flux function implementation type.
-#                 - 1 for f_89.
-#                 - 2 for f_90.
-#                 - 3 for f_analytical.
 #' Title
 #'
 #' @param Ls 
@@ -27,18 +23,18 @@
 #' @param T_s 
 #' @param z 
 #' @param tau 
-#' @param al 
-#' @param nfft 
+#' @param al
 #'
 #' @return
 #' @export
-G_dh = function(Ls, phi, longitude, T_s=NULL, z=Z(Ls, T_s, phi, nfft), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), nfft){
+#' TODO: What happens when T_s is NULL? How is z calculated?
+G_dh = function(Ls, phi, longitude, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z, nfft=nfft)){
+  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
     return(0)
     
   }else{
-    Gdh = G_h(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=z, tau=tau, al=al, nfft=nfft) - G_bh(Ls=Ls, phi=phi, T_s=T_s, z=z, tau=tau, nfft=nfft)
+    Gdh = G_h(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=z, tau=tau, al=al) - G_bh(Ls=Ls, phi=phi, T_s=T_s, z=z, tau=tau)
     return(Gdh)
   }
 } 

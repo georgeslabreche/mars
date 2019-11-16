@@ -4,7 +4,7 @@
 \alias{G_b}
 \title{Title}
 \usage{
-G_b(Ls, phi = NULL, T_s = NULL, z = Z(Ls, T_s, phi, nfft), tau, nfft)
+G_b(Ls, phi = NULL, T_s = NULL, z = Z(Ls = Ls, phi = phi, T_s = T_s), tau)
 }
 \arguments{
 \item{Ls}{}
@@ -16,8 +16,6 @@ G_b(Ls, phi = NULL, T_s = NULL, z = Z(Ls, T_s, phi, nfft), tau, nfft)
 \item{z}{}
 
 \item{tau}{}
-
-\item{nfft}{}
 }
 \value{
 

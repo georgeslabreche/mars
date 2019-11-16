@@ -16,12 +16,11 @@
 #' @param z 
 #' @param tau 
 #' @param beta 
-#' @param gamma_c 
-#' @param nfft 
+#' @param gamma_c
 #'
 #' @return
 #' @export
-G_bi = function(Ls, phi, T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, beta, gamma_c, nfft){
+G_bi = function(Ls, phi, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
     stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")

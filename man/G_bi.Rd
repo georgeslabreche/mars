@@ -4,16 +4,7 @@
 \alias{G_bi}
 \title{Title}
 \usage{
-G_bi(
-  Ls,
-  phi,
-  T_s,
-  z = Z(Ls = Ls, T_s = T_s, phi = phi, nfft = nfft),
-  tau,
-  beta,
-  gamma_c,
-  nfft
-)
+G_bi(Ls, phi, T_s, z = Z(Ls = Ls, phi = phi, T_s = T_s), tau, beta, gamma_c)
 }
 \arguments{
 \item{Ls}{}
@@ -29,8 +20,6 @@ G_bi(
 \item{beta}{}
 
 \item{gamma_c}{}
-
-\item{nfft}{}
 }
 \value{
 

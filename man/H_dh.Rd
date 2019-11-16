@@ -9,8 +9,7 @@ H_dh(
   phi,
   longitude,
   tau,
-  al = albedo(latitude = phi, longitude = longitude, tau = tau),
-  nfft
+  al = albedo(latitude = phi, longitude = longitude, tau = tau)
 )
 }
 \arguments{
@@ -21,8 +20,6 @@ H_dh(
 \item{tau}{}
 
 \item{al}{}
-
-\item{nfft}{}
 }
 \value{
 

@@ -4,7 +4,7 @@
 \alias{I_obh}
 \title{Title}
 \usage{
-I_obh(Ls, phi, T_start, T_end, nfft)
+I_obh(Ls, phi, T_start, T_end)
 }
 \arguments{
 \item{Ls}{}
@@ -14,8 +14,6 @@ I_obh(Ls, phi, T_start, T_end, nfft)
 \item{T_start}{}
 
 \item{T_end}{}
-
-\item{nfft}{}
 }
 \value{
 

@@ -10,11 +10,10 @@ context("Diffuse daily insolation on Mars horizontal surface")
 
 # Test with expected results from TABLE VI.
 test_that("H_dh.", {
-  tolerance = 50
+  tolerance = 47
   
   phi = 22.3
   al = 0.1
-  nfft = 3
   
   expected_results = list(
     "69" = c(0.65, 1572), # FIXME: Large error (47).
@@ -30,7 +29,7 @@ test_that("H_dh.", {
     tau = expected_result[1]
     Hdh_expected = expected_result[2]
     
-    Hdh = H_dh(Ls=Ls, phi=phi, tau=tau, al=al, nfft=nfft)
+    Hdh = H_dh(Ls=Ls, phi=phi, tau=tau, al=al)
     expect_equal(Hdh, Hdh_expected, tolerance=tolerance, scale=1)
     
     index = index + 1

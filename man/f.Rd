@@ -4,7 +4,7 @@
 \alias{f}
 \title{he analytical expression of the normalized net flux function.}
 \usage{
-f(z, tau, al = 0.1, pub_year = NULL)
+f(z, tau, al = 0.1)
 }
 \arguments{
 \item{z}{Zenith angle [deg].}

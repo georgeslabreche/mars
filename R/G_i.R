@@ -12,17 +12,11 @@
 #
 #   Ls        - Areocentric longitude [deg].
 #   omega     - Hour angle value [h].
-#                 - An integer belonging to [6, 18] if using net flux function f_89 or f_90 (nfft 1 or 2).
-#                 - An interger belonging to [0, 24] if using net flux function f_analytical (nfft 3).
 #   phi       - Latitude [deg].
 #   tau       - Optical depth.
 #   al        - Albedo
 #   beta      - Slope/Tilt angle [deg].
 #   gamma_c   - Sun surface azimuth angle (i.e. orientation angle) [deg].
-#   nfft      - Net flux function implementation type.
-#                 - 1 for f_89.
-#                 - 2 for f_90.
-#                 - 3 for f_analytical.
 #' Title
 #'
 #' @param Ls 
@@ -33,20 +27,19 @@
 #' @param tau 
 #' @param al 
 #' @param beta 
-#' @param gamma_c 
-#' @param nfft 
+#' @param gamma_c
 #'
 #' @return
 #' @export
-G_i = function(Ls, phi, longitude, T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c, nfft){
+G_i = function(Ls, phi, longitude, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180° and +180° with zero south, east negative, and west positive.")
   }
   
-  a = G_bi(Ls=Ls, phi=phi, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, beta=beta, gamma_c=gamma_c, nfft=nfft)
-  b = G_di(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, al=al, beta=beta, nfft=nfft)
-  c = G_ali(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau=tau, al=al, beta=beta, nfft=nfft)
+  a = G_bi(Ls=Ls, phi=phi, T_s=T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau=tau, beta=beta, gamma_c=gamma_c)
+  b = G_di(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau=tau, al=al, beta=beta)
+  c = G_ali(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau=tau, al=al, beta=beta)
   
   Gi = a + b + c
   

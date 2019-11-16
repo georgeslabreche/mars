@@ -36,7 +36,6 @@ expected_results = list(
 phi = 22.3
 longitude = -49.97
 al = 0.1
-nfft = 3
 
 # Test tolerance
 tolerance = 9
@@ -52,7 +51,7 @@ test_that("I_h: Hourly global insolation on a horizontal surface at mars surface
     hour_index = 1
     for(T_start in 12:18){
       
-      Ih = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=T_start, T_end=T_start+1, al=al, nfft=nfft)
+      Ih = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=T_start, T_end=T_start+1, al=al)
 
       Ih_expected = expected_result[hour_index, 2]
       

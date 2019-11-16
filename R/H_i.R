@@ -17,19 +17,18 @@
 #' @param tau 
 #' @param al 
 #' @param beta 
-#' @param gamma_c 
-#' @param nfft 
+#' @param gamma_c
 #'
 #' @return
 #' @export
-H_i = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c, nfft){
+H_i = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180 and 180 degrees with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180° and 180° with zero south, east negative, and west positive.")
   }
   
   # Hi is obtained by integrating Ii over the period from sunrise to sunset.
-  Hi = I_i(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+  Hi = I_i(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c)
   
   # Return result.
   return(Hi)

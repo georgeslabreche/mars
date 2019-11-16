@@ -8,7 +8,6 @@
 #   TABLE II. - HOURLY AND DAILY BEAM INSOLATION ON A HORIZONTAL SURFACE AT TOP OF MARS ATMOSPHERE
 context("Daily beam insolation on a horizontal surfce at top of Mars atmosphere")
 phi = 22.3
-nfft = 3
 
 # Test with expected results from TABLE II.
 test_that("Equation 13 (1990): H_obh.", {
@@ -42,7 +41,7 @@ test_that("Equation 13 (1990): H_obh (compared with I_obh from sunrise to sunset
   index = 1
   for(Ls in 0:360){
     Hobh = H_obh(Ls=Ls, phi=phi)
-    Iobh_day = I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24, nfft=nfft)
+    Iobh_day = I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24)
 
     expect_equal(Hobh, Iobh_day, tolerance=tolerance, scale=1)
 
