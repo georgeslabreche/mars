@@ -4,23 +4,12 @@
 \alias{G_bh}
 \title{Title}
 \usage{
-G_bh(
-  Ls,
-  phi,
-  longitude = NULL,
-  T_s,
-  z = Z(Ls, T_s, phi, nfft),
-  tau,
-  al = NULL,
-  nfft
-)
+G_bh(Ls, phi, T_s, z = Z(Ls = Ls, phi = phi, T_s = T_s), tau)
 }
 \arguments{
 \item{Ls}{}
 
 \item{phi}{}
-
-\item{longitude}{}
 
 \item{T_s}{}
 
@@ -28,9 +17,9 @@ G_bh(
 
 \item{tau}{}
 
-\item{al}{}
+\item{longitude}{}
 
-\item{nfft}{}
+\item{al}{}
 }
 \value{
 

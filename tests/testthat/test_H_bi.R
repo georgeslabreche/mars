@@ -3,7 +3,6 @@ source("data.R")
 
 # Constant test parameters.
 gamma_c = 0
-nfft = 3
 
 # Convenience function.
 expect_equal_all = function(tol, Ls_seq, phi, longitude, beta, measured_taus, expected_insolations){
@@ -16,7 +15,7 @@ expect_equal_all = function(tol, Ls_seq, phi, longitude, beta, measured_taus, ex
     Hbi_expected = expected_insolations[expected_insolations$Ls == Ls, "Hb"]
 
     # Calculated Hbi on inclined surface.
-    Hbi_calculated = H_bi(Ls=Ls, phi=phi, tau=tau_measured, beta=beta, gamma_c=gamma_c, nfft=nfft)
+    Hbi_calculated = H_bi(Ls=Ls, phi=phi, tau=tau_measured, beta=beta, gamma_c=gamma_c)
     Hbi_calculated = round(Hbi_calculated, 1)
     
     #print(paste("Ls:", Ls, "tau:", tau_measured, "Hbi_c:", Hbi_calculated, "Hbi_e:", Hbi_expected, "diff:", (Hbi_calculated-Hbi_expected)))

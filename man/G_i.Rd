@@ -9,12 +9,11 @@ G_i(
   phi,
   longitude,
   T_s,
-  z = Z(Ls = Ls, T_s = T_s, phi = phi, nfft = nfft),
+  z = Z(Ls = Ls, phi = phi, T_s = T_s),
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
   beta,
-  gamma_c,
-  nfft
+  gamma_c
 )
 }
 \arguments{
@@ -35,8 +34,6 @@ G_i(
 \item{beta}{}
 
 \item{gamma_c}{}
-
-\item{nfft}{}
 }
 \value{
 

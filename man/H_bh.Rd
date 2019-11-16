@@ -4,7 +4,7 @@
 \alias{H_bh}
 \title{Title}
 \usage{
-H_bh(Ls, phi, tau, al = NULL, nfft)
+H_bh(Ls, phi, tau)
 }
 \arguments{
 \item{Ls}{}
@@ -12,10 +12,6 @@ H_bh(Ls, phi, tau, al = NULL, nfft)
 \item{phi}{}
 
 \item{tau}{}
-
-\item{al}{}
-
-\item{nfft}{}
 }
 \value{
 

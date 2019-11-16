@@ -11,8 +11,7 @@ I_h(
   tau,
   T_start,
   T_end,
-  al = albedo(latitude = phi, longitude = longitude, tau = tau),
-  nfft
+  al = albedo(latitude = phi, longitude = longitude, tau = tau)
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ I_h(
 \item{T_end}{}
 
 \item{al}{}
-
-\item{nfft}{}
 }
 \value{
 

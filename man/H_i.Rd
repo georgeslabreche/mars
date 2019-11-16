@@ -11,8 +11,7 @@ H_i(
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
   beta,
-  gamma_c,
-  nfft
+  gamma_c
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ H_i(
 \item{beta}{}
 
 \item{gamma_c}{}
-
-\item{nfft}{}
 }
 \value{
 

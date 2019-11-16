@@ -7,13 +7,12 @@
 #' @param z 
 #' @param tau 
 #' @param al 
-#' @param beta 
-#' @param nfft 
+#' @param beta
 #'
 #' @return
 #' @export
-G_di = function(Ls, phi, longitude, T_s, z=Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, nfft){
+G_di = function(Ls, phi, longitude, T_s, z=Z(Ls=Ls,  phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta){
   
-  G_di = G_dh(Ls=Ls, phi=phi, longitude=longitude, z=z, tau=tau, al=al, nfft=nfft) * cos((beta*pi/180) / 2)^2
+  G_di = G_dh(Ls=Ls, phi=phi, longitude=longitude, z=z, tau=tau, al=al) * cos((beta*pi/180) / 2)^2
   return(G_di)
 }

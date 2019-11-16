@@ -4,16 +4,14 @@
 \alias{Z}
 \title{Equation 6: Zenith angle of the incident solar radiation [deg].}
 \usage{
-Z(Ls, T_s, phi, nfft = 3)
+Z(Ls, phi, T_s)
 }
 \arguments{
 \item{Ls}{Areocentric longitude [deg].}
 
-\item{T_s}{Solar time [h]}
-
 \item{phi}{Planetary latitude [deg].}
 
-\item{nfft}{Net flux function type.}
+\item{T_s}{Solar time [h]}
 }
 \value{
 

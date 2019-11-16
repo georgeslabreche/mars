@@ -8,13 +8,13 @@
 #'
 #' @param Ls 
 #' @param phi
-#' @param nfft 
 #'
 #' @return
 #' @export
-H_obh = function(Ls, phi, nfft=1){
+#' FIXME: Use I_obh.
+H_obh = function(Ls, phi){
   # FIXME: Support both?
-  # Iobh =I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24, nfft=nfft)
+  # Iobh =I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24)
   # return(Iobh)
 
   # Equation 7 (1990): Declination angle [rad].

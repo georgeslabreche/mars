@@ -13,8 +13,7 @@ I_i(
   T_end,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
   beta,
-  gamma_c,
-  nfft
+  gamma_c
 )
 }
 \arguments{
@@ -35,8 +34,6 @@ I_i(
 \item{beta}{}
 
 \item{gamma_c}{}
-
-\item{nfft}{}
 }
 \value{
 

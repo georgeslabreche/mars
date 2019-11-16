@@ -1,8 +1,8 @@
 context("Normalized net flux function")
 
 # Assert equals test function.
-assert = function(x, al, pub_year){
-  net_flux = f(z=x["z"], tau=x["tau"], al=al, pub_year=pub_year)
+assert = function(x, al){
+  net_flux = f(z=x["z"], tau=x["tau"], al=al)
   expect_equal(unname(x["netflux"]), net_flux, tolerance=0, scale=1)
 }
 
@@ -21,18 +21,21 @@ test_that("I_h: Global irradiance on Mars horizontal surface with different norm
     for(tau in tau_seq){
 
       # Calculate global irradiances.
-      net_flux_1989 = f(z=z, tau=tau, al=al, pub_year=1989)
-      net_flux_1990 = f(z=z, tau=tau, al=al, pub_year=1990)
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v1")
+      net_flux_lookup_v1 = f(z=z, tau=tau, al=al)
+      
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
+      net_flux_lookup_v2 = f(z=z, tau=tau, al=al)
 
       # Test assert equality.
-      # Normalized net flux values in lookup tables 1989 and 1990 are not exactly equal all the time
+      # Normalized net flux values in lookup tables lookup_v1 and lookup_v2 are not exactly equal all the time
       # but they are at least approximately equal.
-      expect_equal(net_flux_1989, net_flux_1990, tolerance=0.051, scale=1)
+      expect_equal(net_flux_lookup_v1, net_flux_lookup_v2, tolerance=0.051, scale=1)
     }
   }
 })
 
-test_that("f function - 1990 Update: albedo 0.1.", {
+test_that("f function - lookup_v2: albedo 0.1.", {
 
   # Expected results.
   expected_results = data.frame(
@@ -41,11 +44,12 @@ test_that("f function - 1990 Update: albedo 0.1.", {
     "netflux" = c(.875, .802, .678, .592, .518, .411, .337, .257, .212, .154))
 
   # Apply test function.
-  apply(expected_results, 1, assert, al=0.1, pub_year=1990)
+  Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
+  apply(expected_results, 1, assert, al=0.1)
 })
 
 
-test_that("f function - 1990 Update: albedo 0.4.", {
+test_that("f function - lookup_v2: albedo 0.4.", {
 
   # Expected results.
   expected_results = data.frame(
@@ -55,10 +59,11 @@ test_that("f function - 1990 Update: albedo 0.4.", {
 
 
   # Apply test function.
-  apply(expected_results, 1, assert, al=0.4, pub_year=1990)
+  Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
+  apply(expected_results, 1, assert, al=0.4)
 })
 
-test_that("f function - analytical: albedo 0.1.", {
+test_that("f function - polynomial: albedo 0.1.", {
 
   # Test input parameters.
   z_seq = seq(0, 85, 5)
@@ -75,21 +80,25 @@ test_that("f function - analytical: albedo 0.1.", {
   # Analytical function should return net flux that is approximately equal to those found in the lookup tables
   for(z in z_seq){
     for(tau in tau_seq){
-      net_flux_lookup = f(z=z, tau=tau, al=al, pub_year=1990)
-      net_flux_analytical = f(z=z, tau=tau, al=al)
+      
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
+      net_flux_lookup = f(z=z, tau=tau, al=al)
+      
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
+      net_flux_polynomial = f(z=z, tau=tau, al=al)
 
       # Larger divergences for high values of Z.
       # Maximum error is 7% for Z = 80° or Z = 85°.
       # Adjust acceptale tolerance accordingly.
       tolerance = ifelse(z >= 65, 0.0471, 0.0171)
 
-      expect_equal(net_flux_lookup, net_flux_analytical, tolerance=tolerance, scale=1)
+      expect_equal(net_flux_lookup, net_flux_polynomial, tolerance=tolerance, scale=1)
     }
   }
 })
 
 
-test_that("f function - analytical: albedo 0.4.", {
+test_that("f function - polynomial: albedo 0.4.", {
 
   # Test input parameters.
   z_seq = seq(0, 85, 5)
@@ -106,15 +115,18 @@ test_that("f function - analytical: albedo 0.4.", {
   # Analytical function should return net flux that is approximately equal to those found in the lookup tables
   for(z in z_seq){
     for(tau in tau_seq){
-      net_flux_lookup = f(z=z, tau=tau, al=al, pub_year=1990)
-      net_flux_analytical = f(z=z, tau=tau, al=al)
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
+      net_flux_lookup = f(z=z, tau=tau, al=al)
+      
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
+      net_flux_polynomial = f(z=z, tau=tau, al=al)
 
       # Larger divergences for high values of z.
       # Maximum error is 7% for z = 80° or z = 85°.
       # Adjust acceptale tolerance accordingly.
       tolerance = ifelse(z >= 65, 0.0471, 0.0171)
 
-      expect_equal(net_flux_lookup, net_flux_analytical, tolerance=tolerance, scale=1)
+      expect_equal(net_flux_lookup, net_flux_polynomial, tolerance=tolerance, scale=1)
     }
   }
 })

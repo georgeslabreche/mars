@@ -18,13 +18,19 @@ test_that("G_h: Global irradiance on Mars horizontal surface with different norm
   for(z in z_seq){
     for(tau in tau_seq){
       
-      # Calculate global irradiances.
-      Gh_nfft_lookup_1 = G_h(Ls=Ls, phi=phi, z=z, tau=tau, al=al, nfft=1)
-      Gh_nfft_lookup_2 = G_h(Ls=Ls, phi=phi, z=z, tau=tau, al=al, nfft=2)
-      Gh_nfft_analytical = G_h(Ls=Ls, phi=phi, z=z, tau=tau, al=al, nfft=3)
+      # Calculate global irradiances for different normalized net flux function types
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v1")
+      Gh_lookup_1 = G_h(Ls=Ls, phi=phi, z=z, tau=tau, al=al)
+      
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
+      Gh_lookup_2 = G_h(Ls=Ls, phi=phi, z=z, tau=tau, al=al)
       
       # Test assert equality.
-      expect_equal(Gh_nfft_lookup_1, Gh_nfft_lookup_2, tolerance=4, scale=1)
+      expect_equal(Gh_lookup_1, Gh_lookup_2, tolerance=4, scale=1)
+      
+      # Test against polynomial approach to obtaining the normalized net flux.
+      Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
+      Gh_analytical = G_h(Ls=Ls, phi=phi, z=z, tau=tau, al=al)
       
       # For equality test against analytical approach, set the tolerance based on tau value.
       tolerance = 30
@@ -36,8 +42,8 @@ test_that("G_h: Global irradiance on Mars horizontal surface with different norm
         tolerance = 140
       }
       
-      expect_equal(Gh_nfft_analytical, Gh_nfft_lookup_1, tolerance=tolerance, scale=1)
-      expect_equal(Gh_nfft_analytical, Gh_nfft_lookup_2, tolerance=tolerance, scale=1)
+      expect_equal(Gh_analytical, Gh_lookup_1, tolerance=tolerance, scale=1)
+      expect_equal(Gh_analytical, Gh_lookup_2, tolerance=tolerance, scale=1)
     }
   }
 })

@@ -11,12 +11,11 @@
 #   Z         - Sun zenith angle [deg].
 #   tau       - Optical depth.
 #   al        - Albedo.
-#   nfft      - Net flux function implementation type.
-#                 - 1 for f_89.
-#                 - 2 for f_90.
-#                 - 3 for f_analytical.
 #
 # FIXME: Error check that albedo value is given and not calculated when using look up table for net_flux.
+
+
+
 #' Title
 #'
 #' @param Ls 
@@ -25,32 +24,23 @@
 #' @param T_s 
 #' @param z 
 #' @param tau 
-#' @param al 
-#' @param nfft 
+#' @param al
 #'
 #' @return
 #' @export
-G_h = function(Ls, phi, longitude, T_s=NULL, z=Z(Ls, T_s, phi, nfft), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), nfft){
+G_h = function(Ls, phi, longitude, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z, nfft=nfft)){
+  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
     return(0)
     
   }else{
-    if(nfft == 1){
-      net_flux = f(z=z, tau=tau, al=al, pub_year=1989)
-
-    }else if(nfft == 2){
-      net_flux = f(z=z, tau=tau, al=al, pub_year=1990)
-      
-    }else if(nfft == 3){
-      net_flux = f(z=z, tau=tau, al=al)
-      
-    }else{
-      stop("Unsupported net flux function type. Should be 1 for the original 1989 lookup table publication, 2 for the 1990/1991 lookup table update, or 3 for the analytical expression.")
-    }
+    # Get the normalized net flux value.
+    net_flux = f(z=z, tau=tau, al=al)
     
+    # Calculate Gh.
     Gh = G_ob(Ls) * cos(z*pi/180) * (net_flux / (1-al))
     
+    # Return the result.
     return(Gh)
   }
 }

@@ -4,18 +4,16 @@
 \alias{G_obh}
 \title{Title}
 \usage{
-G_obh(Ls, phi = NULL, T_s = NULL, z = Z(Ls, T_s, phi, nfft), nfft = 1)
+G_obh(Ls, T_s = NULL, z = Z(Ls = Ls, phi = phi, T_s = T_s))
 }
 \arguments{
 \item{Ls}{}
-
-\item{phi}{}
 
 \item{T_s}{}
 
 \item{z}{}
 
-\item{nfft}{}
+\item{phi}{}
 }
 \value{
 

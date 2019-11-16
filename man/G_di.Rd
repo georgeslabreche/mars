@@ -9,11 +9,10 @@ G_di(
   phi,
   longitude,
   T_s,
-  z = Z(Ls = Ls, T_s = T_s, phi = phi, nfft = nfft),
+  z = Z(Ls = Ls, phi = phi, T_s = T_s),
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
-  beta,
-  nfft
+  beta
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ G_di(
 \item{al}{}
 
 \item{beta}{}
-
-\item{nfft}{}
 }
 \value{
 

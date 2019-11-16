@@ -17,15 +17,14 @@
 #' @param T_end 
 #' @param al 
 #' @param beta 
-#' @param gamma_c 
-#' @param nfft 
+#' @param gamma_c
 #'
 #' @return
 #' @export
-I_i = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c, nfft){
+I_i = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180° and +180 with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180° and +180° with zero south, east negative, and west positive.")
   }
   
   # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
@@ -45,14 +44,14 @@ I_i = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, 
   
   # Step 2: Calculate insolation.
   
-  # The interand for Equation 19 (1990).
-  interand = function(T_s){
-    Gi = G_i(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c, nfft=nfft)
+  # The integrand for Equation 19 (1990).
+  integrand = function(T_s){
+    Gi = G_i(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c)
     return(Gi)
   }
   
   # Global hourly insolation on Mars inclined surface.
-  Ii = integrate(interand, T_start, T_end)
+  Ii = integrate(integrand, T_start, T_end)
   
   # Return integration result.
   return(Ii$value)

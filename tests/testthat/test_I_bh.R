@@ -9,8 +9,6 @@
 
 
 phi = 22.3
-al = 0.1
-nfft = 3
 
 tolerance = 10
 
@@ -51,7 +49,7 @@ test_that("I_bh.", {
       Ibh_expected = expected_result[hour_index, 2]
       
       # Calculated output.
-      Ibh = I_bh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1, al=al, nfft=nfft)
+      Ibh = I_bh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1)
       
       # Test assertion
       expect_equal(Ibh, Ibh_expected, tolerance=tolerance, scale=1)

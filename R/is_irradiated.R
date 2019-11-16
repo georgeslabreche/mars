@@ -6,19 +6,17 @@
 #' @param T_s 
 #' @param z 
 #' @param beta 
-#' @param gamma_c 
-#' @param nfft 
+#' @param gamma_c
 #'
 #' @return
 #' @export
-is_irradiated = function(Ls, phi, T_s, z=Z(Ls, T_s, phi, nfft), beta=NULL, gamma_c=NULL, nfft){
-
+is_irradiated = function(Ls, phi, T_s, z=Z(Ls, T_s, phi), beta=NULL, gamma_c=NULL){
 
   if(isTRUE(identical(z, numeric(0)))){
     stop("One of the following is required: i. Sun zenith angle z [deg] or ii. Both latitude phi [deg] and solar time T_s [h].")
   
   # FIXME: Is this needed?  
-  }else if(!is.null(phi) && !is.null(T_s) && z != Z(Ls=Ls, T_s=T_s, phi=phi, nfft=nfft)){
+  }else if(!is.null(phi) && !is.null(T_s) && z != Z(Ls=Ls, T_s=T_s, phi=phi)){
     message("Sun zenith angle z [deg] has been provided, ignoring given latitude phi [deg] and solar time T_s [h].")
     
   }else if(is.null(phi) && !is.null(T_s) || !is.null(phi) && is.null(T_s)) {

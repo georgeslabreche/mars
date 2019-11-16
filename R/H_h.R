@@ -13,15 +13,14 @@
 #' @param phi 
 #' @param longitude
 #' @param tau 
-#' @param al 
-#' @param nfft 
+#' @param al
 #'
 #' @return
 #' @export
-H_h = function(Ls, phi, longitude, al=albedoe(latitude=phi, longitude=longitude, tau=tau), tau, nfft){
+H_h = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
 
   # Hh is obtained by integrating Ih over the period from sunrise to sunset.
-  Hh = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, nfft=nfft)
+  Hh = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al)
   
   # Return result.
   return(Hh)

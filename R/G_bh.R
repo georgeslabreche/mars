@@ -14,7 +14,6 @@
 #   Z         - Sun zenith angle [deg].
 #   tau       - Optical depth.
 #   al        - NOT NEEDED - Included for looping convenience with other functions.
-#   nfft      - Net flux calculation type.
 #' Title
 #'
 #' @param Ls 
@@ -23,14 +22,13 @@
 #' @param T_s 
 #' @param z 
 #' @param tau 
-#' @param al 
-#' @param nfft 
+#' @param al
 #'
 #' @return
 #' @export
-G_bh = function(Ls, phi, longitude=NULL, T_s, z=Z(Ls, T_s, phi, nfft), tau, al=NULL, nfft){
+G_bh = function(Ls, phi, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z, nfft=nfft)){
+  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
     return(0)
     
   }else{

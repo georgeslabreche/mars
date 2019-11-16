@@ -4,12 +4,12 @@
 \alias{H_obh}
 \title{Title}
 \usage{
-H_obh(Ls, phi, nfft = 1)
+H_obh(Ls, phi)
 }
 \arguments{
 \item{Ls}{}
 
-\item{nfft}{}
+\item{phi}{}
 }
 \value{
 

@@ -9,11 +9,10 @@ G_ali(
   phi,
   longitude,
   T_s,
-  z = Z(Ls = Ls, T_s = T_s, phi = phi, nfft = nfft),
+  z = Z(Ls = Ls, T_s = T_s, phi = phi),
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
-  beta,
-  nfft
+  beta
 )
 }
 \arguments{
@@ -25,15 +24,13 @@ G_ali(
 
 \item{T_s}{}
 
+\item{z}{}
+
 \item{tau}{}
 
 \item{al}{}
 
 \item{beta}{}
-
-\item{nfft}{}
-
-\item{Z}{}
 }
 \value{
 
