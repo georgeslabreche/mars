@@ -11,10 +11,10 @@ f_lookup_taus = function(){
   net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
   
   if(net_flux_function_type == "lookup_v1"){
-    as.numeric(rownames(df_netflux_0p1_1990))
+    as.numeric(rownames(df_netflux_0p1_lookup_v1))
     
   }else if(net_flux_function_type == "lookup_v2"){
-    as.numeric(rownames(df_netflux_0p1_1991))
+    as.numeric(rownames(df_netflux_0p1_lookup_v2))
     
   }else{
     stop("This function is only available when the NET_FLUX_FUNCTION_TYPE environment variable is set to 'lookup_v1' or 'lookup_v2'.")
@@ -31,10 +31,10 @@ f_lookup_Zs = function(){
   net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
   
   if(net_flux_function_type == "lookup_v1"){
-    as.numeric(gsub("X", "", colnames(df_netflux_0p1_1990)))
+    as.numeric(gsub("X", "", colnames(df_netflux_0p1_lookup_v1)))
     
   }else if(net_flux_function_type == "lookup_v2"){
-    as.numeric(gsub("X", "", colnames(df_netflux_0p1_1991)))
+    as.numeric(gsub("X", "", colnames(df_netflux_0p1_lookup_v2)))
     
   }else{
     stop("This function is only available when the NET_FLUX_FUNCTION_TYPE environment variable is set to 'lookup_v1' or 'lookup_v2'.")
@@ -53,9 +53,9 @@ f_lookup_Zs = function(){
 p = function(i, j, k){
   
   if(k==0){
-    coefficient = df_netflux_k0_1990[j+1, paste("X", i, sep="")]
+    coefficient = df_netflux_k0_coeffs[j+1, paste("X", i, sep="")]
   }else if(k==1){
-    coefficient = df_netflux_k1_1990[j+1, paste("X", i, sep="")]
+    coefficient = df_netflux_k1_coeffs[j+1, paste("X", i, sep="")]
   }else{
     stop("Unsupported k value.")
   }
@@ -84,7 +84,7 @@ f_lookup_v1 = function(z, tau, al=0.1){
   
   return(
     unlist( # Unlist in case a sequence of Zs are given instead of a single value (i.e. in the case of integrations).
-      df_netflux_0p1_1990[df_netflux_0p1_1990$tau == toString(tau), paste("X", z, sep="")],
+      df_netflux_0p1_lookup_v1[df_netflux_0p1_lookup_v1$tau == toString(tau), paste("X", z, sep="")],
       use.names=FALSE
     )
   )
@@ -106,10 +106,10 @@ f_lookup_v2 = function(z, tau, al=0.1){
   nnff_df = NULL
   
   if(al == 0.1){
-    nnff_df = df_netflux_0p1_1991
+    nnff_df = df_netflux_0p1_lookup_v2
     
   }else if(al == 0.4){
-    nnff_df = df_netflux_0p4_1991
+    nnff_df = df_netflux_0p4_lookup_v2
     
   }else{
     stop("The albedo can only be 0.1 or 0.4 when using f_lookup_v2.")
