@@ -26,11 +26,8 @@ declination = function(Ls, unit=1){
     return(0)
   }
   
-  # Convert Ls and phi into radians.
-  Ls_rad = Ls * pi/180
-  
   # Calculate declination angle in radians and degrees.
-  delta_rad = asin(sin(delta_0*pi/180) * sin(Ls_rad))
+  delta_rad = asin(sin(delta_0*pi/180) * sin(Ls*pi/180))
   delta_deg = delta_rad * 180/pi
   
   # # Alternative equation for delta.

@@ -143,7 +143,7 @@ f_analytical = function(z, tau, al=0.1){
   if(tau > 5){
     # TODO: Make warning.
     message(paste("Large error encountered with tau = ", tau, " greater than 5 (maximum error is 7%). ", 
-                  "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.",
+                  "Consider using the lookup_v1 and lookup_v2 table lookup implementation of the normalized net flux function instead of its polynomial expression.",
                   sep="")
     )
   }
@@ -152,7 +152,7 @@ f_analytical = function(z, tau, al=0.1){
   # Use ifelse in case this function is being invoked from an integration in which case Z can be a vector instead of a scalar.
   # If Z is a scalar and we use if() then the following issue will occur: "the condition has length > 1 and only the first element will be used."
   warning_msg = ifelse(z >= 80, paste("Possibly large error encountered with z = ", z, "° (maximum error is 7% for Z = 80° or Z = 85°). ",
-                                      "Consider using the f_89 and f_90 table lookup implementation of the normalized net flux function instead of its analytical expression.\n",
+                                      "Consider using the lookup_v1 and look_v2 table lookup implementation of the normalized net flux function instead of its polynomial expression.\n",
                                       sep=""), "")
   
   # handle warning message.
@@ -207,7 +207,7 @@ f = function(z, tau, al=0.1){
   
   # Check if given Z results in NULL net flux.
   if(is.null(net_flux)){
-    stop(paste("Sun zenith angle z = ", z ,"° is not available in the net flux look-up table. Consider using the analytical function instead.", sep=""))
+    stop(paste("Sun zenith angle z = ", z ,"° is not available in the net flux lookup table. Consider using the polynomial function instead.", sep=""))
     
   }
   
@@ -216,7 +216,7 @@ f = function(z, tau, al=0.1){
   isNAs = ifelse(is.na(net_flux), TRUE, FALSE)
   for(isNA in isNAs){
     if(isTRUE(isNA)){
-      stop(paste("Optical depth tau factor tau = ", tau," is not available in the net flux look-up table. Consider using the analytical function instead.", sep=""))
+      stop(paste("Optical depth tau factor tau = ", tau," is not available in the net flux lookup table. Consider using the polynomial function instead.", sep=""))
     }
   }
   

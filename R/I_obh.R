@@ -44,19 +44,4 @@ I_obh = function(Ls, phi, Ts_start, Ts_end){
   Iobh = integrate(integrand, Ts_start, Ts_end)
 
   return(Iobh$value)
-  
-  # delta = declination(Ls)
-  # 
-  # # Hour angles [deg].
-  # omega_start = 15 * Ts_start - 180
-  # omega_end = 15 * Ts_end - 180
-  # 
-  # a = (2 * pi * (omega_end - omega_start)) / 360
-  # b = sin(phi*pi/180) * sin(delta)
-  # c = cos(phi*pi/180) * sin(delta) * (sin(omega_end*pi/180) - sin(omega_start*pi/180))
-  # 
-  # Iobh = 12/pi * G_ob(Ls) * (a * b + c) 
-  # 
-  # return(Iobh)
-  
 }

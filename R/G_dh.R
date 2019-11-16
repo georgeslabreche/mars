@@ -27,9 +27,8 @@
 #'
 #' @return
 #' @export
-#' TODO: What happens when Ts is NULL? How is z calculated?
 G_dh = function(Ls, phi, longitude, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
-  
+  # TODO: What happens when Ts is NULL? How is z calculated?
   if(!is_irradiated(Ls=Ls, phi=phi, Ts=Ts, z=z)){
     return(0)
     
