@@ -21,16 +21,16 @@
 #' @param Ls 
 #' @param phi 
 #' @param longitude 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param tau 
 #' @param al
 #'
 #' @return
 #' @export
-G_h = function(Ls, phi, longitude, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
+G_h = function(Ls, phi, longitude, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
+  if(!is_irradiated(Ls=Ls, phi=phi, Ts=Ts, z=z)){
     return(0)
     
   }else{

@@ -14,17 +14,17 @@
 #' @param Ls 
 #' @param phi 
 #' @param tau 
-#' @param T_start 
-#' @param T_end 
+#' @param Ts_start 
+#' @param Ts_end 
 #'
 #' @return
 #' @export
-I_bh = function(Ls, phi, tau, T_start, T_end){
+I_bh = function(Ls, phi, tau, Ts_start, Ts_end){
 
-  # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
+  # Step 1: Constrain Ts_start and Ts_end based on sunrise and sunset times.
   
   # Apply solar time range constraint.
-  T_range = constrain_solar_time_range(Ls=Ls, phi=phi, T_start=T_start, T_end=T_end)
+  T_range = constrain_solar_time_range(Ls=Ls, phi=phi, Ts_start=Ts_start, Ts_end=Ts_end)
 
   # No solar irradiance within the contrained time range.
   if(is.null(T_range)){
@@ -32,16 +32,16 @@ I_bh = function(Ls, phi, tau, T_start, T_end){
 
   }else{
     # Constrain the time range.
-    T_start = T_range$T_start
-    T_end = T_range$T_end
+    Ts_start = T_range$Ts_start
+    Ts_end = T_range$Ts_end
   }
   
   # Step 2: Calculate beam insolation.
 
   # The integrand for Equation 19 (1990).
-  integrand = function(T_s){
+  integrand = function(Ts){
 
-    z = Z(Ls=Ls, phi=phi, T_s=T_s)
+    z = Z(Ls=Ls, phi=phi, Ts=Ts)
 
     a = G_ob(Ls)
     b = cos(z*pi/180)
@@ -51,7 +51,7 @@ I_bh = function(Ls, phi, tau, T_start, T_end){
   }
 
   # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.
-  Ibh = integrate(integrand, T_start, T_end)
+  Ibh = integrate(integrand, Ts_start, Ts_end)
 
   return(Ibh$value)
 }

@@ -27,8 +27,8 @@ test_that("I_obh.", {
     Ls = strtoi(names(expected_results[expected_result_index]))
     
     hour_index = 1
-    for(T_start in 12:18){
-      Iobh = I_obh(Ls=Ls, phi=phi, T_start=T_start, T_end=T_start+1)
+    for(Ts_start in 12:18){
+      Iobh = I_obh(Ls=Ls, phi=phi, Ts_start=Ts_start, Ts_end=Ts_start+1)
       Iobh_expected = expected_result[hour_index]
       
       expect_equal(Iobh, Iobh_expected, tolerance=tolerance, scale=1)

@@ -19,16 +19,16 @@
 #' @param Ls 
 #' @param phi 
 #' @param longitude 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param tau 
 #' @param al
 #'
 #' @return
 #' @export
-G_bh = function(Ls, phi, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau){
+G_bh = function(Ls, phi, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
+  if(!is_irradiated(Ls=Ls, phi=phi, Ts=Ts, z=z)){
     return(0)
     
   }else{

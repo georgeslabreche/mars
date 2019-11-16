@@ -44,9 +44,9 @@ test_that("I_dh.", {
     tau = expected_result[1,1]
     
     hour_index = 1
-    for(T_start in 12:18){
+    for(Ts_start in 12:18){
       
-      Idh = I_dh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1, al=al)
+      Idh = I_dh(Ls=Ls, phi=phi, tau=tau, Ts_start=Ts_start, Ts_end=Ts_start+1, al=al)
       Idh_expected = expected_result[hour_index, 2]
       
       expect_equal(Idh, Idh_expected, tolerance=tolerance, scale=1)

@@ -4,14 +4,14 @@
 \alias{Z}
 \title{Equation 6: Zenith angle of the incident solar radiation [deg].}
 \usage{
-Z(Ls, phi, T_s)
+Z(Ls, phi, Ts)
 }
 \arguments{
 \item{Ls}{Areocentric longitude [deg].}
 
 \item{phi}{Planetary latitude [deg].}
 
-\item{T_s}{Solar time [h]}
+\item{Ts}{Solar time [h]}
 }
 \value{
 

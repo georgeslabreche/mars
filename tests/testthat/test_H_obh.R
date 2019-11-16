@@ -41,7 +41,7 @@ test_that("Equation 13 (1990): H_obh (compared with I_obh from sunrise to sunset
   index = 1
   for(Ls in 0:360){
     Hobh = H_obh(Ls=Ls, phi=phi)
-    Iobh_day = I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24)
+    Iobh_day = I_obh(Ls=Ls, phi=phi, Ts_start=0, Ts_end=24)
 
     expect_equal(Hobh, Iobh_day, tolerance=tolerance, scale=1)
 

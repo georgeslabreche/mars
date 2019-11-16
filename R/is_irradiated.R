@@ -3,26 +3,26 @@
 #'
 #' @param Ls 
 #' @param phi 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param beta 
 #' @param gamma_c
 #'
 #' @return
 #' @export
-is_irradiated = function(Ls, phi, T_s, z=Z(Ls, T_s, phi), beta=NULL, gamma_c=NULL){
+is_irradiated = function(Ls, phi, Ts, z=Z(Ls, Ts, phi), beta=NULL, gamma_c=NULL){
 
   if(isTRUE(identical(z, numeric(0)))){
-    stop("One of the following is required: i. Sun zenith angle z [deg] or ii. Both latitude phi [deg] and solar time T_s [h].")
+    stop("One of the following is required: i. Sun zenith angle z [deg] or ii. Both latitude phi [deg] and solar time Ts [h].")
   
   # FIXME: Is this needed?  
-  }else if(!is.null(phi) && !is.null(T_s) && z != Z(Ls=Ls, T_s=T_s, phi=phi)){
-    message("Sun zenith angle z [deg] has been provided, ignoring given latitude phi [deg] and solar time T_s [h].")
+  }else if(!is.null(phi) && !is.null(Ts) && z != Z(Ls=Ls, Ts=Ts, phi=phi)){
+    message("Sun zenith angle z [deg] has been provided, ignoring given latitude phi [deg] and solar time Ts [h].")
     
-  }else if(is.null(phi) && !is.null(T_s) || !is.null(phi) && is.null(T_s)) {
-    message("A latitude phi [deg] or a solar time T_s [h] has been given but not needed because a Sun zenith angle Z [deg] has been given as well.")
+  }else if(is.null(phi) && !is.null(Ts) || !is.null(phi) && is.null(Ts)) {
+    message("A latitude phi [deg] or a solar time Ts [h] has been given but not needed because a Sun zenith angle Z [deg] has been given as well.")
     
-  }else if(!is.null(phi) && !is.null(T_s)){
+  }else if(!is.null(phi) && !is.null(Ts)){
  
     # There is no irradiance during polar nights.
     if(is_polar_night(Ls=Ls, phi=phi)){
@@ -35,10 +35,10 @@ is_irradiated = function(Ls, phi, T_s, z=Z(Ls, T_s, phi), beta=NULL, gamma_c=NUL
       
     }else{
       # There is no irradiance if the solar time is before sunrise or after sunset.
-      T_sr = sunrise(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
-      T_ss = sunset(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
+      Tsr = sunrise(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
+      Tss = sunset(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
 
-      if(T_s < T_sr || T_s > T_ss){
+      if(Ts < Tsr || Ts > Tss){
         return(FALSE)
         
       }else{

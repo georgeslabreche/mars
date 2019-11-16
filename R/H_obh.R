@@ -14,7 +14,7 @@
 #' FIXME: Use I_obh.
 H_obh = function(Ls, phi){
   # FIXME: Support both?
-  # Iobh =I_obh(Ls=Ls, phi=phi, T_start=0, T_end=24)
+  # Iobh =I_obh(Ls=Ls, phi=phi, Ts_start=0, Ts_end=24)
   # return(Iobh)
 
   # Equation 7 (1990): Declination angle [rad].

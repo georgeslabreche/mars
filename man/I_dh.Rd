@@ -9,8 +9,8 @@ I_dh(
   phi,
   longitude,
   tau,
-  T_start,
-  T_end,
+  Ts_start,
+  Ts_end,
   al = albedo(latitude = phi, longitude = longitude, tau = tau)
 )
 }
@@ -21,9 +21,9 @@ I_dh(
 
 \item{tau}{}
 
-\item{T_start}{}
+\item{Ts_start}{}
 
-\item{T_end}{}
+\item{Ts_end}{}
 
 \item{al}{}
 }

@@ -8,8 +8,8 @@ G_h(
   Ls,
   phi,
   longitude,
-  T_s = NULL,
-  z = Z(Ls = Ls, phi = phi, T_s = T_s),
+  Ts = NULL,
+  z = Z(Ls = Ls, phi = phi, Ts = Ts),
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau)
 )
@@ -21,7 +21,7 @@ G_h(
 
 \item{longitude}{}
 
-\item{T_s}{}
+\item{Ts}{}
 
 \item{z}{}
 

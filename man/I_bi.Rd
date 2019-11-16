@@ -4,7 +4,7 @@
 \alias{I_bi}
 \title{Title}
 \usage{
-I_bi(Ls, phi, tau, T_start, T_end, beta, gamma_c)
+I_bi(Ls, phi, tau, Ts_start, Ts_end, beta, gamma_c)
 }
 \arguments{
 \item{Ls}{}
@@ -13,9 +13,9 @@ I_bi(Ls, phi, tau, T_start, T_end, beta, gamma_c)
 
 \item{tau}{}
 
-\item{T_start}{}
+\item{Ts_start}{}
 
-\item{T_end}{}
+\item{Ts_end}{}
 
 \item{beta}{}
 

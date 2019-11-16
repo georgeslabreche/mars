@@ -18,7 +18,7 @@ H_ali = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=long
   }
   
   # H_alii is obtained by integrating I_ali over the period from sunrise to sunset.
-  Hali = I_ali(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c)
+  Hali = I_ali(Ls=Ls, phi=phi, longitude=longitude, tau=tau, Ts_start=0, Ts_end=24, al=al, beta=beta, gamma_c=gamma_c)
   
   # Return result.
   return(Hali)

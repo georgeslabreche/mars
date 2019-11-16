@@ -17,15 +17,15 @@
 #'
 #' @param Ls 
 #' @param phi 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param tau
 #'
 #' @return
 #' @export
-G_b = function(Ls, phi=NULL, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau){
+G_b = function(Ls, phi=NULL, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
+  if(!is_irradiated(Ls=Ls, phi=phi, Ts=Ts, z=z)){
     return(0)
     
   }else{

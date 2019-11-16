@@ -22,7 +22,7 @@
 #' @param Ls 
 #' @param phi 
 #' @param longitude 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param tau 
 #' @param al 
@@ -31,15 +31,15 @@
 #'
 #' @return
 #' @export
-G_i = function(Ls, phi, longitude, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
+G_i = function(Ls, phi, longitude, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
     stop("Surface azimuth angle gamma_c must between -180° and +180° with zero south, east negative, and west positive.")
   }
   
-  a = G_bi(Ls=Ls, phi=phi, T_s=T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau=tau, beta=beta, gamma_c=gamma_c)
-  b = G_di(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau=tau, al=al, beta=beta)
-  c = G_ali(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau=tau, al=al, beta=beta)
+  a = G_bi(Ls=Ls, phi=phi, Ts=Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau=tau, beta=beta, gamma_c=gamma_c)
+  b = G_di(Ls=Ls, phi=phi, longitude=longitude, Ts=Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau=tau, al=al, beta=beta)
+  c = G_ali(Ls=Ls, phi=phi, longitude=longitude, Ts=Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau=tau, al=al, beta=beta)
   
   Gi = a + b + c
   

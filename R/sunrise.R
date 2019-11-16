@@ -217,7 +217,7 @@ sunrise = function(Ls, phi, beta=NULL, gamma_c=NULL, unit=1){
   #   It is convenient, for calculation purposes, to define a Mar hour
   #   by dividing the Martian day into 24 hr. Using the same relationship
   #   between the Mars solar time T and the hour angle as for the Earth.
-  T_s = (omega_deg + 180) / 15
+  Ts = (omega_deg + 180) / 15
   
   if(unit == 1){
     return(omega_rad)
@@ -226,7 +226,7 @@ sunrise = function(Ls, phi, beta=NULL, gamma_c=NULL, unit=1){
     return(omega_deg)
     
   }else if(unit == 3){
-    return(T_s)
+    return(Ts)
     
   }else{
     # This should not happen.

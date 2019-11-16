@@ -21,7 +21,7 @@
 H_dh = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
   
   # Integrate I_dh over the period from sunrise to sunset.
-  Hdh = I_dh(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al)
+  Hdh = I_dh(Ls=Ls, phi=phi, longitude=longitude, tau=tau, Ts_start=0, Ts_end=24, al=al)
   
   # Return result.
   return(Hdh)

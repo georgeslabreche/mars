@@ -16,7 +16,7 @@ H_bi = function(Ls, phi, tau, beta, gamma_c){
   }
   
   # Hbi is obtained by integrating Ibi over the period from sunrise to sunset.
-  Hbi = I_bi(Ls=Ls, phi=phi, tau=tau, T_start=0, T_end=24, beta=beta, gamma_c=gamma_c)
+  Hbi = I_bi(Ls=Ls, phi=phi, tau=tau, Ts_start=0, Ts_end=24, beta=beta, gamma_c=gamma_c)
   
   # Return result.
   return(Hbi)

@@ -4,16 +4,16 @@
 \alias{I_obh}
 \title{Title}
 \usage{
-I_obh(Ls, phi, T_start, T_end)
+I_obh(Ls, phi, Ts_start, Ts_end)
 }
 \arguments{
 \item{Ls}{}
 
 \item{phi}{}
 
-\item{T_start}{}
+\item{Ts_start}{}
 
-\item{T_end}{}
+\item{Ts_end}{}
 }
 \value{
 

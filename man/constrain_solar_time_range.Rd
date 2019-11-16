@@ -7,8 +7,8 @@
 constrain_solar_time_range(
   Ls,
   phi,
-  T_start,
-  T_end,
+  Ts_start,
+  Ts_end,
   beta = NULL,
   gamma_c = NULL
 )
@@ -18,9 +18,9 @@ constrain_solar_time_range(
 
 \item{phi}{}
 
-\item{T_start}{}
+\item{Ts_start}{}
 
-\item{T_end}{}
+\item{Ts_end}{}
 
 \item{beta}{}
 

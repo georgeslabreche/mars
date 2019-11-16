@@ -43,13 +43,13 @@ test_that("I_bh.", {
     tau = expected_result[1,1]
     
     hour_index = 1
-    for(T_start in 12:18){
+    for(Ts_start in 12:18){
     
       # Expected output.
       Ibh_expected = expected_result[hour_index, 2]
       
       # Calculated output.
-      Ibh = I_bh(Ls=Ls, phi=phi, tau=tau, T_start=T_start, T_end=T_start+1)
+      Ibh = I_bh(Ls=Ls, phi=phi, tau=tau, Ts_start=Ts_start, Ts_end=Ts_start+1)
       
       # Test assertion
       expect_equal(Ibh, Ibh_expected, tolerance=tolerance, scale=1)

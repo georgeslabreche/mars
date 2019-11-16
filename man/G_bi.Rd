@@ -4,14 +4,14 @@
 \alias{G_bi}
 \title{Title}
 \usage{
-G_bi(Ls, phi, T_s, z = Z(Ls = Ls, phi = phi, T_s = T_s), tau, beta, gamma_c)
+G_bi(Ls, phi, Ts, z = Z(Ls = Ls, phi = phi, Ts = Ts), tau, beta, gamma_c)
 }
 \arguments{
 \item{Ls}{}
 
 \item{phi}{}
 
-\item{T_s}{}
+\item{Ts}{}
 
 \item{z}{}
 

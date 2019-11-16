@@ -132,22 +132,22 @@ test_that("Sunrise time on an inclined surface facing the equator.", {
 # 
 #           tryCatch(
 #             {
-#               T_sr = NULL
-#               T_sr_i = NULL
+#               Tsr = NULL
+#               Tsr_i = NULL
 # 
-#               T_sr = sunrise(Ls=Ls, phi=p, beta=NULL, gamma_c=NULL, unit=3)
-#               T_sr_i = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=gc, unit=3)
+#               Tsr = sunrise(Ls=Ls, phi=p, beta=NULL, gamma_c=NULL, unit=3)
+#               Tsr_i = sunrise(Ls=Ls, phi=p, beta=b, gamma_c=gc, unit=3)
 #             },
 #             error=function(cond) {
 #               # cat("\n============================================================")
 #               # cat(paste("\n\nError:", cond))
-#               # cat(paste("T_sr: ", T_sr, ",    T_sr_i:", T_sr_i))
+#               # cat(paste("Tsr: ", Tsr, ",    Tsr_i:", Tsr_i))
 #               # cat(paste("\nLs=", Ls, "phi=, ", p, ", beta=", b, ", gamma_c=", gc, "\n", sep=""))
 #             },
 #             warning=function(cond) {
 #               # cat("\n============================================================")
 #               # cat(paste("\n\nWarning:", cond))
-#               # cat(paste("T_sr: ", T_sr, ",    T_sr_i:", T_sr_i))
+#               # cat(paste("Tsr: ", Tsr, ",    Tsr_i:", Tsr_i))
 #               # cat(paste("\nLs=", Ls, ", phi=", p, ", beta=", b, ", gamma_c=", gc, "\n", sep=""))
 #               
 #               # Enter here when NaNs produced from sqrt(x^2 - y^2 + 1).

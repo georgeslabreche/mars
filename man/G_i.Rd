@@ -8,8 +8,8 @@ G_i(
   Ls,
   phi,
   longitude,
-  T_s,
-  z = Z(Ls = Ls, phi = phi, T_s = T_s),
+  Ts,
+  z = Z(Ls = Ls, phi = phi, Ts = Ts),
   tau,
   al = albedo(latitude = phi, longitude = longitude, tau = tau),
   beta,
@@ -23,7 +23,7 @@ G_i(
 
 \item{longitude}{}
 
-\item{T_s}{}
+\item{Ts}{}
 
 \item{z}{}
 

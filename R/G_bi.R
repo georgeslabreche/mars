@@ -12,7 +12,7 @@
 #'
 #' @param Ls 
 #' @param phi 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param tau 
 #' @param beta 
@@ -20,7 +20,7 @@
 #'
 #' @return
 #' @export
-G_bi = function(Ls, phi, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, beta, gamma_c){
+G_bi = function(Ls, phi, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
     stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
@@ -35,7 +35,7 @@ G_bi = function(Ls, phi, T_s, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, beta, gamma_c){
   #   It is convenient, for calculation purposes, to define a Mars hour
   #   by dividing the Martian day into 24 hr. Using the same relationship
   #   between the Mars solar time T and the hour angle as for the Earth.
-  omega_deg = 15 * T_s - 180
+  omega_deg = 15 * Ts - 180
   
   # Set to omega to exactly zero when omega near zero because sometimes it is essentially zero with values like -2.8421709430404e-14 deg.
   zero = function(x){

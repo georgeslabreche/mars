@@ -13,24 +13,24 @@
 #' @param phi 
 #' @param longitude 
 #' @param tau 
-#' @param T_start 
-#' @param T_end 
+#' @param Ts_start 
+#' @param Ts_end 
 #' @param al 
 #' @param beta 
 #' @param gamma_c
 #'
 #' @return
 #' @export
-I_i = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
+I_i = function(Ls, phi, longitude, tau, Ts_start, Ts_end, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
     stop("Surface azimuth angle gamma_c must between -180° and +180° with zero south, east negative, and west positive.")
   }
   
-  # Step 1: Constrain T_start and T_end based on sunrise and sunset times.
+  # Step 1: Constrain Ts_start and Ts_end based on sunrise and sunset times.
   
   # Apply solar time range constraint.
-  T_range = constrain_solar_time_range(Ls, phi, T_start, T_end, beta, gamma_c)
+  T_range = constrain_solar_time_range(Ls, phi, Ts_start, Ts_end, beta, gamma_c)
   
   # No solar irradiance within the contrained time range.
   if(is.null(T_range)){
@@ -38,20 +38,20 @@ I_i = function(Ls, phi, longitude, tau, T_start, T_end, al=albedo(latitude=phi, 
     
   }else{
     # Constrain the time range.
-    T_start = T_range$T_start
-    T_end = T_range$T_end
+    Ts_start = T_range$Ts_start
+    Ts_end = T_range$Ts_end
   }
   
   # Step 2: Calculate insolation.
   
   # The integrand for Equation 19 (1990).
-  integrand = function(T_s){
-    Gi = G_i(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, tau=tau, al=al, beta=beta, gamma_c=gamma_c)
+  integrand = function(Ts){
+    Gi = G_i(Ls=Ls, phi=phi, longitude=longitude, Ts=Ts, tau=tau, al=al, beta=beta, gamma_c=gamma_c)
     return(Gi)
   }
   
   # Global hourly insolation on Mars inclined surface.
-  Ii = integrate(integrand, T_start, T_end)
+  Ii = integrate(integrand, Ts_start, Ts_end)
   
   # Return integration result.
   return(Ii$value)

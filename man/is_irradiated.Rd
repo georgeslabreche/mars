@@ -4,14 +4,14 @@
 \alias{is_irradiated}
 \title{Check if there is solar irradiance at the given location and moment.}
 \usage{
-is_irradiated(Ls, phi, T_s, z = Z(Ls, T_s, phi), beta = NULL, gamma_c = NULL)
+is_irradiated(Ls, phi, Ts, z = Z(Ls, Ts, phi), beta = NULL, gamma_c = NULL)
 }
 \arguments{
 \item{Ls}{}
 
 \item{phi}{}
 
-\item{T_s}{}
+\item{Ts}{}
 
 \item{z}{}
 

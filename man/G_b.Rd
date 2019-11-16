@@ -4,14 +4,14 @@
 \alias{G_b}
 \title{Title}
 \usage{
-G_b(Ls, phi = NULL, T_s = NULL, z = Z(Ls = Ls, phi = phi, T_s = T_s), tau)
+G_b(Ls, phi = NULL, Ts = NULL, z = Z(Ls = Ls, phi = phi, Ts = Ts), tau)
 }
 \arguments{
 \item{Ls}{}
 
 \item{phi}{}
 
-\item{T_s}{}
+\item{Ts}{}
 
 \item{z}{}
 

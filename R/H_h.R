@@ -20,7 +20,7 @@
 H_h = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
 
   # Hh is obtained by integrating Ih over the period from sunrise to sunset.
-  Hh = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al)
+  Hh = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, Ts_start=0, Ts_end=24, al=al)
   
   # Return result.
   return(Hh)

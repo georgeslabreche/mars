@@ -49,9 +49,9 @@ test_that("I_h: Hourly global insolation on a horizontal surface at mars surface
     tau = expected_result[1,1]
 
     hour_index = 1
-    for(T_start in 12:18){
+    for(Ts_start in 12:18){
       
-      Ih = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=T_start, T_end=T_start+1, al=al)
+      Ih = I_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau, Ts_start=Ts_start, Ts_end=Ts_start+1, al=al)
 
       Ih_expected = expected_result[hour_index, 2]
       

@@ -19,7 +19,7 @@
 H_bh = function(Ls, phi, tau){
   
   # Hbh is obtained by integrating Ibh over the period from sunrise to sunset.
-  Hbh = I_bh(Ls=Ls, phi=phi, tau=tau, T_start=0, T_end=24)
+  Hbh = I_bh(Ls=Ls, phi=phi, tau=tau, Ts_start=0, Ts_end=24)
   
   # Return result.
   return(Hbh)

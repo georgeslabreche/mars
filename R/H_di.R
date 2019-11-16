@@ -17,7 +17,7 @@ H_di = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longi
   }
   
   # Hdi is obtained by integrating Idi over the period from sunrise to sunset.
-  Hdi = I_di(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c)
+  Hdi = I_di(Ls=Ls, phi=phi, longitude=longitude, tau=tau, Ts_start=0, Ts_end=24, al=al, beta=beta, gamma_c=gamma_c)
   
   # Return result.
   return(Hdi)

@@ -28,7 +28,7 @@ H_i = function(Ls, phi, longitude, tau, al=albedo(latitude=phi, longitude=longit
   }
   
   # Hi is obtained by integrating Ii over the period from sunrise to sunset.
-  Hi = I_i(Ls=Ls, phi=phi, longitude=longitude, tau=tau, T_start=0, T_end=24, al=al, beta=beta, gamma_c=gamma_c)
+  Hi = I_i(Ls=Ls, phi=phi, longitude=longitude, tau=tau, Ts_start=0, Ts_end=24, al=al, beta=beta, gamma_c=gamma_c)
   
   # Return result.
   return(Hi)

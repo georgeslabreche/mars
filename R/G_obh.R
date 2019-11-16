@@ -8,13 +8,13 @@
 #'
 #' @param Ls 
 #' @param phi 
-#' @param T_s 
+#' @param Ts 
 #' @param z
 #'
 #' @return
 #' @export
-#' TODO: What happens if T_s is null?
-G_obh = function(Ls, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s)){
+#' TODO: What happens if Ts is null?
+G_obh = function(Ls, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts)){
   
   Gobh = G_ob(Ls) * cos(z*pi/180)
   return(Gobh)

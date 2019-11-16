@@ -20,21 +20,21 @@
 #' @param Ls 
 #' @param phi 
 #' @param longitude 
-#' @param T_s 
+#' @param Ts 
 #' @param z 
 #' @param tau 
 #' @param al
 #'
 #' @return
 #' @export
-#' TODO: What happens when T_s is NULL? How is z calculated?
-G_dh = function(Ls, phi, longitude, T_s=NULL, z=Z(Ls=Ls, phi=phi, T_s=T_s), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
+#' TODO: What happens when Ts is NULL? How is z calculated?
+G_dh = function(Ls, phi, longitude, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau)){
   
-  if(!is_irradiated(Ls=Ls, phi=phi, T_s=T_s, z=z)){
+  if(!is_irradiated(Ls=Ls, phi=phi, Ts=Ts, z=z)){
     return(0)
     
   }else{
-    Gdh = G_h(Ls=Ls, phi=phi, longitude=longitude, T_s=T_s, z=z, tau=tau, al=al) - G_bh(Ls=Ls, phi=phi, T_s=T_s, z=z, tau=tau)
+    Gdh = G_h(Ls=Ls, phi=phi, longitude=longitude, Ts=Ts, z=z, tau=tau, al=al) - G_bh(Ls=Ls, phi=phi, Ts=Ts, z=z, tau=tau)
     return(Gdh)
   }
 } 
