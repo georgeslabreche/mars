@@ -49,8 +49,10 @@ test_daily_insolation_on_horizontal_surface = function(spacecraft, field, tolera
   phi = spacecrafts[[spacecraft]][["latitude"]]
   longitude = spacecrafts[[spacecraft]][["longitude"]]
   
-  # Ground truth data measured by the spacecraft.
+  # Discretized ground truth optical depth measured by the spacecraft.
   measured_taus = expected_data[[spacecraft]][["tau"]]
+
+  # Expected insolation as per the literature.
   expected_insolations = expected_data[[spacecraft]][["insolation"]][["horizontal"]]
   
   for(Ls in Ls_seq){
@@ -90,7 +92,7 @@ test_daily_insolation_on_horizontal_surface = function(spacecraft, field, tolera
 #' @param field The insolation values to test: Hbi, Hdi, Hali, or Hi. 
 #' @param tolerance 
 #' @param Ls_seq 
-#' @param beta_equals_phi Test against ground truh data for the case in which beta = phi. Else use optimal beta angle.
+#' @param beta_equals_phi Test against literature data in which beta = phi. Else use optimal beta angle.
 #' @param verbose 
 #'
 #' @return
@@ -100,7 +102,7 @@ test_daily_insolation_on_inclined_surface = function(spacecraft, field, toleranc
   phi = spacecrafts[[spacecraft]][["latitude"]]
   longitude = spacecrafts[[spacecraft]][["longitude"]]
   
-  # Ground truth data measured by the spacecraft.
+  # Discretized ground truth optical depth measured by the spacecraft.
   measured_taus = expected_data[[spacecraft]][["tau"]]
   
   expected_insolations = NULL
