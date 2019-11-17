@@ -106,7 +106,9 @@ G_bi = function(Ls, phi, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, beta, gamma_c){
   
   # Sun Angle of Incidence [rad] on an inclined surface.
   teta = sun_angle_of_incidence()
-  
+
+  #teta = acos(sin(delta)^2 + sin(delta)^2 * cos(omega_deg*pi/180))
+ 
   # Calculate Gbi.
   Gbi = G_b(Ls=Ls, z=z, tau=tau) * cos(teta)
   

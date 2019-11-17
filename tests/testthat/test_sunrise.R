@@ -25,7 +25,7 @@ test_that("Sunrise time on an horizontal surface facing 'all' orientations.", {
 test_that("Sunrise time on an inclined surface facing the equator.", {
 
   # Tolerance
-  tolerance = 0
+  tolerance = 0.01
 
   # Sunrise data to test against. For beta = phi.
   expected_sunrise_times = read.csv("data/sunrise_beta_equals_phi_table_i_1993.csv")
@@ -94,7 +94,6 @@ test_that("Sunrise time on an inclined surface facing the equator.", {
 
         # Calculate sunrise time.
         sunrise_calculated = sunrise(Ls=Ls, phi=phi_beta, beta=phi_beta, gamma_c=gamma_c, unit=3)
-        sunrise_calculated = ifelse(is.na(sunrise_calculated), NA, round(sunrise_calculated, 2))
 
         # Due to floating point precision, days that are calculated to be just on the edge of polar day may not match with
         # expected results which state that they are exactly on polar days.
