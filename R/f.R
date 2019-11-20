@@ -169,14 +169,14 @@ f_lookup_v2 = function(z, tau, al=0.1){
 f_analytical = function(z, tau, al=0.1){
   
   # Check for and warn against parameters that would result in lagest errors (max. 7%).
-  if(tau > 5 && show_net_flux_function_warnings()){
+  if(tau > 5 && isTRUE(show_net_flux_function_warnings())){
     warning(paste("Large error encountered with tau = ", tau, " greater than 5 (maximum error is 7%). ", 
                   "Consider using the lookup_v1 and lookup_v2 table lookup implementation of the normalized net flux function instead of its polynomial expression.",
                   sep="")
     )
   }
   
-  if(show_net_flux_function_warnings()){
+  if(isTRUE(show_net_flux_function_warnings())){
     # Use ifelse in case this function is being invoked from an integration in which case Z can be a vector instead of a scalar.
     # If Z is a scalar and we use if() then the following issue will occur: "the condition has length > 1 and only the first element will be used."
     warning_msg = ifelse(z >= 80, paste("Possibly large error encountered with z = ", z, "° (maximum error is 7% for Z = 80° or Z = 85°). ",
