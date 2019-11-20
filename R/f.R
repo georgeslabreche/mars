@@ -1,5 +1,5 @@
 Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
-Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = TRUE)
 
 #' Get the net flux function type that is set in the NET_FLUX_FUNCTION_TYPE environment variable.
 #' Can either be 'lookup_v1', 'lookup_v2', or 'polynomial'.
