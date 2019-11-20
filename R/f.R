@@ -1,4 +1,33 @@
 Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
+#' Get the net flux function type that is set in the NET_FLUX_FUNCTION_TYPE environment variable.
+#' Can either be 'lookup_v1', 'lookup_v2', or 'polynomial'.
+#' If NET_FLUX_FUNCTION_TYPE has not been set then default to 'polynomial'.
+#'
+#' @return
+get_net_flux_function_type = function(){
+  net_flux_function_type = ifelse(Sys.getenv("NET_FLUX_FUNCTION_TYPE") == "", "polynomial", Sys.getenv("NET_FLUX_FUNCTION_TYPE"))
+  return(net_flux_function_type)
+}
+
+
+#' Get the value set in the NET_FLUX_FUNCTION_SHOW_WARNINGS environment variable that determines if net flux function calculation
+#' warnings should be thrown for polynomial calculations that have notable error margin.
+#'
+#' @return
+show_net_flux_function_warnings = function(){
+  
+  net_flux_function_type = ifelse(Sys.getenv("NET_FLUX_FUNCTION_SHOW_WARNINGS") == "", "true", Sys.getenv("NET_FLUX_FUNCTION_WARNINGS"))
+  
+  if(tolower(net_flux_function_type) %in% c("1", "f", "false", "n", "no")){
+    return(FALSE)
+    
+  }else{
+    # Default to TRUE if set value is not anything other than the recognized values for false.
+    return(TRUE)
+  }
+}
 
 # The function.
 #
@@ -8,7 +37,7 @@ Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
 #' @export
 f_lookup_taus = function(){
   
-  net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
+  net_flux_function_type = get_net_flux_function_type()
   
   if(net_flux_function_type == "lookup_v1"){
     as.numeric(rownames(df_netflux_0p1_lookup_v1))
@@ -28,7 +57,7 @@ f_lookup_taus = function(){
 #' @export
 f_lookup_Zs = function(){
   
-  net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
+  net_flux_function_type = get_net_flux_function_type()
   
   if(net_flux_function_type == "lookup_v1"){
     as.numeric(gsub("X", "", colnames(df_netflux_0p1_lookup_v1)))
@@ -140,27 +169,26 @@ f_lookup_v2 = function(z, tau, al=0.1){
 f_analytical = function(z, tau, al=0.1){
   
   # Check for and warn against parameters that would result in lagest errors (max. 7%).
-  if(tau > 5){
-    # TODO: Make warning.
-    message(paste("Large error encountered with tau = ", tau, " greater than 5 (maximum error is 7%). ", 
+  if(tau > 5 && show_net_flux_function_warnings()){
+    warning(paste("Large error encountered with tau = ", tau, " greater than 5 (maximum error is 7%). ", 
                   "Consider using the lookup_v1 and lookup_v2 table lookup implementation of the normalized net flux function instead of its polynomial expression.",
                   sep="")
     )
   }
   
-
-  # Use ifelse in case this function is being invoked from an integration in which case Z can be a vector instead of a scalar.
-  # If Z is a scalar and we use if() then the following issue will occur: "the condition has length > 1 and only the first element will be used."
-  warning_msg = ifelse(z >= 80, paste("Possibly large error encountered with z = ", z, "° (maximum error is 7% for Z = 80° or Z = 85°). ",
-                                      "Consider using the lookup_v1 and look_v2 table lookup implementation of the normalized net flux function instead of its polynomial expression.\n",
-                                      sep=""), "")
-  
-  # handle warning message.
-  for(w_msg in warning_msg){
-    if(w_msg != ""){
-      # TODO: Make warning.
-      message(w_msg)
-    }
+  if(show_net_flux_function_warnings()){
+    # Use ifelse in case this function is being invoked from an integration in which case Z can be a vector instead of a scalar.
+    # If Z is a scalar and we use if() then the following issue will occur: "the condition has length > 1 and only the first element will be used."
+    warning_msg = ifelse(z >= 80, paste("Possibly large error encountered with z = ", z, "° (maximum error is 7% for Z = 80° or Z = 85°). ",
+                                        "Consider using the lookup_v1 and lookup_v2 table lookup implementation of the normalized net flux function instead of its polynomial expression.\n",
+                                        sep=""), "")
+    
+    # Handle warning message.
+    for(w_msg in warning_msg){
+      if(w_msg != ""){
+        warning(w_msg)
+      }
+    }    
   }
   
   psum = 0
@@ -190,7 +218,7 @@ f_analytical = function(z, tau, al=0.1){
 #' @export
 f = function(z, tau, al=0.1){
   
-  net_flux_function_type = Sys.getenv("NET_FLUX_FUNCTION_TYPE")
+  net_flux_function_type = get_net_flux_function_type()
   
   if(net_flux_function_type == "polynomial"){
     net_flux = f_analytical(z, tau, al)
