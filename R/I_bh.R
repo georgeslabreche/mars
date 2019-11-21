@@ -40,14 +40,10 @@ I_bh = function(Ls, phi, tau, Ts_start, Ts_end){
 
   # The integrand for Equation 19 (1990).
   integrand = function(Ts){
-
     z = Z(Ls=Ls, phi=phi, Ts=Ts)
-
-    a = G_ob(Ls)
-    b = cos(z*pi/180)
-    c = exp(-tau / cos(z*pi/180))
-
-    a * b * c
+    x = G_b(Ls=Ls, phi=phi, Ts=Ts, tau=tau) * cos(z*pi/180)
+    
+    return(x)
   }
 
   # Equation 19 (1990): Beam hourly insolation on Mars horizontal surface.

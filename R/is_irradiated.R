@@ -1,3 +1,5 @@
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = TRUE)
+
 # TODO: Write a test script.
 #' Check if there is solar irradiance at the given location and moment.
 #'
@@ -17,11 +19,13 @@ is_irradiated = function(Ls, phi, Ts, z=Z(Ls, Ts, phi), beta=NULL, gamma_c=NULL)
   
   # FIXME: Is this needed?  
   }else if(!is.null(phi) && !is.null(Ts) && z != Z(Ls=Ls, Ts=Ts, phi=phi)){
-    message("Sun zenith angle z [deg] has been provided, ignoring given latitude phi [deg] and solar time Ts [h].")
-    
+    if(isTRUE(show_net_flux_function_warnings())){
+      message("Sun zenith angle z [deg] has been provided, ignoring given latitude phi [deg] and solar time Ts [h].")
+    }
   }else if(is.null(phi) && !is.null(Ts) || !is.null(phi) && is.null(Ts)) {
-    message("A latitude phi [deg] or a solar time Ts [h] has been given but not needed because a Sun zenith angle Z [deg] has been given as well.")
-    
+    if(isTRUE(show_net_flux_function_warnings())){
+      message("A latitude phi [deg] or a solar time Ts [h] has been given but not needed because a Sun zenith angle Z [deg] has been given as well.")
+    }
   }else if(!is.null(phi) && !is.null(Ts)){
  
     # There is no irradiance during polar nights.

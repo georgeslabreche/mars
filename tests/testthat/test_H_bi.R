@@ -44,7 +44,7 @@ test_that("H_bi: Beam daily insolation on optimal inclined surface for beta = 6.
 test_that("H_bi: Beam daily insolation on an inclined surface for beta = phi at VL2", {
 
   # Tolerance.
-  tolerance = 0.06
+  tolerance = 0.057
 
   # Test input parameters.
   Ls_seq = seq(0, 360, 5)

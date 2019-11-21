@@ -10,6 +10,9 @@
 context("Diffuse daily insolation on a horizontal surface")
 source("utils.R")
 
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
 # Test with expected results from TABLE VI.
 test_that("H_dh: Diffuse daily insolation on a horizontal surface", {
   tolerance = 47
@@ -39,10 +42,11 @@ test_that("H_dh: Diffuse daily insolation on a horizontal surface", {
 })
 
 test_that("H_dh: Diffuse daily insolation on a horizontal surface at VL1", {
-  # 10% Error tolerance.
-  tol = 0.1
+  # 3.5% Error tolerance.
+  tol = 0.035
 
   Ls_seq = seq(0, 355, 5)
+  al = 0.1
 
   # Run the tests.
   test_daily_insolation_on_horizontal_surface(
@@ -50,22 +54,25 @@ test_that("H_dh: Diffuse daily insolation on a horizontal surface at VL1", {
     field = "Hdh",
     tolerance = tol,
     Ls_seq = Ls_seq,
+    al = al,
     verbose = FALSE)
 
 })
 
 test_that("H_dh: Diffuse daily insolation on a horizontal surface at VL2", {
-  # 7% Error tolerance.
-  tol = 0.07
-  
+  # 3.8% Error tolerance.
+  tol = 0.038
+  al = 0.1
+
   Ls_seq = seq(0, 355, 5)
-  
+
   # Run the tests.
   test_daily_insolation_on_horizontal_surface(
     spacecraft = "VL2",
     field = "Hdh",
     tolerance = tol,
     Ls_seq = Ls_seq,
+    al = al,
     verbose = FALSE)
-  
+
 })

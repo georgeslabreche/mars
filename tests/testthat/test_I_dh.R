@@ -7,6 +7,8 @@
 # Expected results taken from:
 #   TABLE VI. - HOURLY AND DAILY DIFFUSE INSOLATION ON A HORIZONTAL SURFACE AT MARS SURFACE.
 
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
 
 tolerance = 11
 

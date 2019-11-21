@@ -4,7 +4,7 @@
 \alias{albedo}
 \title{The albedo function.}
 \usage{
-albedo(latitude, longitude, tau, force_multiple_ten = FALSE)
+albedo(latitude, longitude, tau, coordinates_rounding = TRUE)
 }
 \arguments{
 \item{latitude}{Planetary latitude, from -90° to io +90°.}
@@ -13,7 +13,7 @@ albedo(latitude, longitude, tau, force_multiple_ten = FALSE)
 
 \item{tau}{Optical depth.}
 
-\item{force_multiple_ten}{}
+\item{coordinates_rounding}{}
 }
 \value{
 

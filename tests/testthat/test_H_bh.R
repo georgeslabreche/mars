@@ -11,6 +11,9 @@
 context("Beam daily insolation on a horizontal surface")
 source("utils.R")
 
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
 #Test with expected results from TABLE V.
 test_that("H_bh: Beam daily insolation on a horizontal surface", {
   # 41 Wh/m2 error tolerance.
@@ -56,12 +59,12 @@ test_that("H_bh: Beam daily insolation on a horizontal surface at VL1", {
 })
 
 test_that("H_bh: Beam daily insolation on a horizontal surface at VL2", {
-  # 4% Error tolerance.
-  tol = 0.04
-  
+  # 3.2% Error tolerance.
+  tol = 0.032
+
   # Test input parameter.
   Ls_seq = seq(0, 355, 5)
-  
+
   # Run the tests.
   test_daily_insolation_on_horizontal_surface(
     spacecraft = "VL2",

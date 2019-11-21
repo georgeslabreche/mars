@@ -1,3 +1,6 @@
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
 test_that("G_h: Global irradiance on Mars horizontal surface with different normalized net flux functions.", {
   # Test parameters.
   Ls = 122    # Areocentric longitude.

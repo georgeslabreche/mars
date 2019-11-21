@@ -43,7 +43,7 @@ expected_data = list(
 #' @param verbose
 #'
 #' @return
-test_daily_insolation_on_horizontal_surface = function(spacecraft, field, tolerance, Ls_seq, verbose=FALSE){
+test_daily_insolation_on_horizontal_surface = function(spacecraft, field, tolerance, Ls_seq, al=NULL, verbose=FALSE){
   
   # Spacecraft location.
   phi = spacecrafts[[spacecraft]][["latitude"]]
@@ -64,8 +64,8 @@ test_daily_insolation_on_horizontal_surface = function(spacecraft, field, tolera
     
     # Calculated insolation.
     val_calculated = ifelse(field=="Hbh", H_bh(Ls=Ls, phi=phi, tau=tau_measured),
-                                               ifelse(field=="Hdh", H_dh(Ls=Ls, phi=phi, longitude=longitude, tau=tau_measured),
-                                                      ifelse(field=="Hh", H_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau_measured),
+                                               ifelse(field=="Hdh", H_dh(Ls=Ls, phi=phi, longitude=longitude, tau=tau_measured, al=al),
+                                                      ifelse(field=="Hh", H_h(Ls=Ls, phi=phi, longitude=longitude, tau=tau_measured, al=al),
                                                              stop("Invalid field."))))
     
     # Round the calculated value to match floating point numbers in expected value.

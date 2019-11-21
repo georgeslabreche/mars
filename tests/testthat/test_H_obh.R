@@ -8,6 +8,7 @@
 #   TABLE II. - HOURLY AND DAILY BEAM INSOLATION ON A HORIZONTAL SURFACE AT TOP OF MARS ATMOSPHERE
 context("Daily beam insolation on a horizontal surface at top of Mars atmosphere")
 
+
 test_that("H_obh: Integration yields same results as equivalent formula.",{
   
   # Tolerance.

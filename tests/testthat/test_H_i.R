@@ -12,6 +12,9 @@
 context("Global irradiance on Mars inclined surface")
 source("utils.R")
 
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
 test_that("H_i: Global daily insolation on an inclined surface for beta = phi at VL1.", {
 
   # Tolerance.

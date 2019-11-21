@@ -9,7 +9,7 @@
 
 context("Beam insolation on a horizotal surface at the top of Mars atmosphere")
 
-test_that("H_obh: Integration yields same results as equivalent formulas.",{
+test_that("I_obh: Integration yields same results as equivalent formulas.",{
   
   # Tolerance.
   tolerance = 1e-10
