@@ -1,6 +1,9 @@
 context("Beam daily insolation on an inclined surface")
 source("utils.R")
 
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
 test_that("H_bi: Beam daily insolation on an inclined surface for beta = phi at VL1", {
 
   # Tolerance.
@@ -12,7 +15,7 @@ test_that("H_bi: Beam daily insolation on an inclined surface for beta = phi at 
   # Expect equals all calculations against all expected.
   test_daily_insolation_on_inclined_surface(
     spacecraft = "VL1",
-    field = "Hbi",
+    field = "Hb",
     tolerance = tolerance,
     Ls_seq = seq(0, 355, 5),
     beta_equals_phi = TRUE,
@@ -30,7 +33,7 @@ test_that("H_bi: Beam daily insolation on optimal inclined surface for beta = 6.
   # Expect equals all calculations against all expected.
   test_daily_insolation_on_inclined_surface(
     spacecraft = "VL1",
-    field = "Hbi",
+    field = "Hb",
     tolerance = tolerance,
     Ls_seq = Ls_seq,
     beta_equals_phi = FALSE,
@@ -49,7 +52,7 @@ test_that("H_bi: Beam daily insolation on an inclined surface for beta = phi at 
   # Expect equals all calculations against all expected.
   test_daily_insolation_on_inclined_surface(
     spacecraft = "VL2",
-    field = "Hbi",
+    field = "Hb",
     tolerance = tolerance,
     Ls_seq = Ls_seq,
     beta_equals_phi = TRUE,
@@ -67,7 +70,7 @@ test_that("H_bi: Beam daily insolation on optimal inclined surface for beta = 22
   # Expect equals all calculations against all expected.
   test_daily_insolation_on_inclined_surface(
     spacecraft = "VL2",
-    field = "Hbi",
+    field = "Hb",
     tolerance = tolerance,
     Ls_seq = Ls_seq,
     beta_equals_phi = FALSE,

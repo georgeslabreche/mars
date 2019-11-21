@@ -1,6 +1,9 @@
 context("Albedo daily insolation on an inclined surface")
 source("utils.R")
 
+# Disable warnings.
+Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+
 test_that("H_ali: Albedo daily insolation on an inclined surface for beta = phi at VL1.", {
 
   # Tolerance.
@@ -60,7 +63,7 @@ test_that("H_ali: Albedo daily insolation on an inclined surface for beta = phi 
 test_that("H_ali: Albedo daily insolation on an optimal inclined angle beta = 22 at VL2.", {
 
   # Tolerance.
-  tolerance = 0.08
+  tolerance = 0.09
   
   # Test input parameters.
   Ls_seq = seq(0, 355, 5) # Areocentric longitude.
