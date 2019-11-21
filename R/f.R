@@ -18,7 +18,7 @@ get_net_flux_function_type = function(){
 #' @return
 show_net_flux_function_warnings = function(){
   
-  net_flux_function_type = ifelse(Sys.getenv("NET_FLUX_FUNCTION_SHOW_WARNINGS") == "", "true", Sys.getenv("NET_FLUX_FUNCTION_WARNINGS"))
+  net_flux_function_type = ifelse(Sys.getenv("NET_FLUX_FUNCTION_SHOW_WARNINGS") == "", "true", Sys.getenv("NET_FLUX_FUNCTION_SHOW_WARNINGS"))
   
   if(tolower(net_flux_function_type) %in% c("1", "f", "false", "n", "no")){
     return(FALSE)

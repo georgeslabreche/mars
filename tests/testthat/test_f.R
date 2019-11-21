@@ -6,15 +6,50 @@ assert = function(x, al){
   expect_equal(unname(x["netflux"]), net_flux, tolerance=0, scale=1)
 }
 
-test_that("I_h: Global irradiance on Mars horizontal surface with different normalized net flux functions lookup tables.", {
+test_that("f function: toggling warnings.", {
+  Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
+  
+  # Enable warnings
+  Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = TRUE)
+  
+  # Trigger warning regarding tau greater than 5.
+  expect_warning(f(z=10, tau=6, al=0.1))
+  
+  # Trigger warning regarding z greater or equal than 80.
+  expect_warning(f(z=85, tau=0.5, al=0.1))
+  
+  for(false_flag in c("1", "f", "false", "n", "no", "FaLsE", "FALSE", "F", "No", "NO", "N", FALSE)){
+    # Disable warnings
+    Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = false_flag)
+    
+    # Ignore warning regarding tau greater than 5.
+    expect_silent(f(z=10, tau=6, al=0.1))
+    
+    # Ignore warning regarding z greater or equal than 80.
+    expect_silent(f(z=85, tau=0.5, al=0.1))
+  }
+  
+  # Enable warnings by setting show warnings flag to unrecognized values
+  Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = "asdasd")
+  
+  # Trigger warning regarding tau greater than 5.
+  expect_warning(f(z=10, tau=6, al=0.1))
+  
+  # Trigger warning regarding z greater or equal than 80.
+  expect_warning(f(z=85, tau=0.5, al=0.1))
+  
+
+})
+
+test_that("f function: comparing normalized flux lookup table values.", {
   # Test parameters.
   Z_seq = c(seq(0, 80, 10), 85)
-  
+
   tau_seq = c(
     seq(0.1, 2.0, 0.1),
     seq(2.5, 3, 0.5),
     5, 6)
-  
+
   al = 0.1 # Albedo.
 
   for(z in Z_seq){
@@ -23,7 +58,7 @@ test_that("I_h: Global irradiance on Mars horizontal surface with different norm
       # Calculate global irradiances.
       Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v1")
       net_flux_lookup_v1 = f(z=z, tau=tau, al=al)
-      
+
       Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
       net_flux_lookup_v2 = f(z=z, tau=tau, al=al)
 
@@ -80,10 +115,10 @@ test_that("f function - polynomial: albedo 0.1.", {
   # Analytical function should return net flux that is approximately equal to those found in the lookup tables
   for(z in z_seq){
     for(tau in tau_seq){
-      
+
       Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
       net_flux_lookup = f(z=z, tau=tau, al=al)
-      
+
       Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
       net_flux_polynomial = f(z=z, tau=tau, al=al)
 
@@ -117,7 +152,7 @@ test_that("f function - polynomial: albedo 0.4.", {
     for(tau in tau_seq){
       Sys.setenv(NET_FLUX_FUNCTION_TYPE = "lookup_v2")
       net_flux_lookup = f(z=z, tau=tau, al=al)
-      
+
       Sys.setenv(NET_FLUX_FUNCTION_TYPE = "polynomial")
       net_flux_polynomial = f(z=z, tau=tau, al=al)
 
