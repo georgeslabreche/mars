@@ -23,7 +23,7 @@
 G_bi = function(Ls, phi, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180 and 180 degress with zero facing the equator, east negative, and west positive.")
   }
   
   # Equation 7 (1990): Declination angle [rad].
@@ -86,7 +86,7 @@ G_bi = function(Ls, phi, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, beta, gamma_c){
     teta = NULL
     
     # (23) in (1993) Vertical surface.
-    if(beta == 90){
+    if(abs(beta) == 90){
       i = cos(gamma_s * pi/180) * cos(gamma_c * pi/180)
       #TODO:  Double check this, why wouldn't the paper use squared instead of multiply the by the same value? 
       #       Check with (24) in (1993). 
@@ -106,11 +106,12 @@ G_bi = function(Ls, phi, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, beta, gamma_c){
   
   # Sun Angle of Incidence [rad] on an inclined surface.
   teta = sun_angle_of_incidence()
-
-  #teta = acos(sin(delta)^2 + sin(delta)^2 * cos(omega_deg*pi/180))
  
   # Calculate Gbi.
   Gbi = G_b(Ls=Ls, z=z, tau=tau) * cos(teta)
   
+  # For certain teta values we get negative Gbi.
+  # This is interpreted as no beam irradiance hitting the inclined surface.
+  Gbi = ifelse(Gbi < 0, 0, Gbi)
   return(Gbi)
 }

@@ -13,8 +13,8 @@
 #'
 #' @return
 #' @export
-G_obh = function(Ls, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts)){
-  #TODO: What happens if Ts is null?
+G_obh = function(Ls, phi=NULL, Ts=NULL, z=Z(Ls=Ls, phi=phi, Ts=Ts)){
+  #TODO: What happens if phi and Ts are null?
   Gobh = G_ob(Ls) * cos(z*pi/180)
   return(Gobh)
 }

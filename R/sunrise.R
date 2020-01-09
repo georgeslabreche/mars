@@ -46,19 +46,28 @@ sunrise_for_inclined_surface_oriented_equator = function(phi, beta, delta){
 #' @export
 sunrise_for_inclined_surface_oriented_east = function(phi, beta, gamma_c, delta){
   
+  # Calculate omega for horizontal surface.
   omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta)
-  #print(paste("omega_rad_1", omega_rad_1))
-  
+
+  # Calculate omega for inclined surface.
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)
   y = y_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c, delta=delta)
+
+  # If the radicand is negative then it means that the sun never rises on the inclined surface.
+  # This can be the case of the inclined surface is at a:
+  #   - high planetary latitude and oriented northwards.
+  #   - low planetary latitude and oriented southwards.
+  radicand = x^2 - y^2 + 1
+  if(radicand < 0){
+    return(NA)
+  }
   
-  # FIXME: In some cases there are negative values inside the sqrt()
-  #        e.g. Ls=13, phi=22.3, beta=65, gamma_c=-175.
-  a = -x*y - sqrt(x^2 - y^2 + 1)
+  a = -x*y - sqrt(radicand)
   b = x^2 + 1
   
   omega_rad_2 = acos(a / b)
   
+  # Pick between the two calculated omegas.
   omega_rad = -min(abs(omega_rad_1), omega_rad_2)
   
   return(omega_rad)
@@ -79,17 +88,28 @@ sunrise_for_inclined_surface_oriented_east = function(phi, beta, gamma_c, delta)
 #' @export
 sunrise_for_inclined_surface_oriented_west = function(phi, beta, gamma_c, delta){
   
+  # Calculate omega for horizontal surface.
   omega_rad_1 = sunrise_for_horizontal_surface(phi=phi, delta=delta)
   
+  # Calculate omega for inclined surface.
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)
   y = y_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c, delta=delta)
   
-  # FIXME: In some cases there are negative values inside the sqrt()
-  a = -x*y + sqrt(x^2 - y^2 + 1)
+  # If the radicand is negative then it means that the sun never rises on the inclined surface.
+  # This can be the case of the inclined surface is at a:
+  #   - high planetary latitude and oriented northwards.
+  #   - low planetary latitude and oriented southwards.
+  radicand = x^2 - y^2 + 1
+  if(radicand < 0){
+    return(NA)
+  }
+  
+  a = -x*y + sqrt(radicand)
   b = x^2 + 1
   
   omega_rad_2 = acos(a / b)
   
+  # Pick between the two calculated omegas.
   omega_rad = -min(abs(omega_rad_1), omega_rad_2)
   
   return(omega_rad)
@@ -129,10 +149,14 @@ sunrise_for_inclined_surface = function(phi, beta, gamma_c, delta){
   if(beta == 0){
     omega_rad = sunrise_for_horizontal_surface(phi=phi, delta=delta)
     
-  }else if(phi > 0 && gamma_c == 0){ # Inclined surface is oriented South from the northern hemisphere (i.e. towards the equator).
+  }else if(gamma_c == 0){
+    # Inclined surface facing the equator.
+    # i.e. Oriented South when in the Northern hemisphere and oriented North when in the Southern Hemisphere.
     omega_rad = sunrise_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
-  }else if(phi < 0 && abs(gamma_c) == pi){ # Inclined surface is oriented North from the southern hemisphere (i.e. towards the equator).
+  }else if(round(abs(gamma_c), 2) == round(pi, 2)){
+    # Inclined surface facing opposite the equator.
+    # i.e. Oriented North when in the Northern hemisphere and Oriented South whn in the Southern Hemisphere.
     omega_rad = sunrise_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
   }else if(gamma_c < 0){ # Inclined surface is oriented towards the East.
@@ -204,8 +228,12 @@ sunrise = function(Ls, phi, beta=NULL, gamma_c=NULL, unit=1){
     stop("Invalid argument values. Both beta and gamma_c should either be NULL or not NULL.")
   }
   
-  if(is.null(omega_rad)){
-    stop("An unknown error has occurred. The sunrise hour angle has not been set.")
+  # If the radicand is negative then it means that the sun never rises on the inclined surface.
+  # This can be the case of the inclined surface is at a:
+  #   - high planetary latitude and oriented northwards.
+  #   - low planetary latitude and oriented southwards.
+  if(is.na(omega_rad)){
+    return(NA)
   }
   
   # Get the hour angle in degrees.
@@ -233,3 +261,56 @@ sunrise = function(Ls, phi, beta=NULL, gamma_c=NULL, unit=1){
     stop("An unknown error has occurred.")
   }  
 }
+
+# Sys.setenv(NET_FLUX_FUNCTION_SHOW_WARNINGS = FALSE)
+# 
+# Ls_seq=1:360
+# Ls=27
+# phi=34
+# 
+# #beta=45
+# gamma_c=140
+# 
+# Ls = 1
+# Ls_seq = 1:360
+# phi = -10
+# beta = 1
+# gamma_c = 0
+# 
+# index = 1
+# for(gamma_c in gamma_c){
+# #for(phi in seq(45, 50, 5)){
+# 
+#   sr_vect = c()
+#   ss_vect = c()
+#   for(Ls in Ls_seq){
+# 
+#     delta_rad = declination(Ls)
+#     beta = optimal_angle(Ls=Ls, phi=phi, unit=2)
+# 
+#     #cs = constrain_solar_time_range(Ls=Ls, phi=phi, Ts_start=0, Ts_end=24, beta=beta, gamma_c=gamma_c)
+# 
+#     #print(paste("Ls ", Ls, ", phi ", phi, ", beta ", beta))
+#     #print(cs)
+# 
+#     sr = sunrise(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
+#     ss = sunset(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
+#     sr_vect = c(sr_vect, sr)
+#     ss_vect = c(ss_vect, ss)
+#     #print(paste(gamma_c, " ", sr))
+# 
+#   }
+# 
+#   if(index == 1){
+#     dev.new()
+#     plot(Ls_seq, sr_vect, ylim=c(0,20),
+#          type="l", lwd=2, xlab="Areocentric Longitude [deg]", ylab="Surface sunrise time [hr]")
+# 
+#     lines(Ls_seq, ss_vect, lwd=2)
+#   }else{
+#     lines(Ls_seq, sr_vect, lwd=2)
+#     lines(Ls_seq, ss_vect, lwd=2)
+#   }
+# 
+#   index = index + 1
+# }

@@ -30,7 +30,7 @@ I_i = function(Ls, phi, longitude, tau, Ts_start, Ts_end, al=albedo(latitude=phi
   # Step 1: Constrain Ts_start and Ts_end based on sunrise and sunset times.
   
   # Apply solar time range constraint.
-  T_range = constrain_solar_time_range(Ls, phi, Ts_start, Ts_end, beta, gamma_c)
+  T_range = constrain_solar_time_range(Ls=Ls, phi=phi, Ts_start=Ts_start, Ts_end=Ts_end, beta=beta, gamma_c=gamma_c)
   
   # No solar irradiance within the contrained time range.
   if(is.null(T_range)){

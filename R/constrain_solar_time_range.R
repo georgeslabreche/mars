@@ -41,8 +41,14 @@ constrain_solar_time_range = function(Ls, phi, Ts_start, Ts_end, beta=NULL, gamm
     Tsr = sunrise(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
     Tss = sunset(Ls=Ls, phi=phi, beta=beta, gamma_c=gamma_c, unit=3)
     
+    # In case there is no sunrise for the inclined surface.
+    # e.g. high northern planetary latitude, oriented northwards.
+    if(is.na(Tsr)){
+      return(NULL)
+    }
+    
     # If start time is after the sunset, then there is no solar irradiance.
-    if(Ts_start > Tss){
+    else if(Ts_start > Tss){
       return(NULL)
     }
     # If end time is before the sunrise, then there is no solar irradiance.

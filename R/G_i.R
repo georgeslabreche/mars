@@ -34,7 +34,7 @@
 G_i = function(Ls, phi, longitude, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, al=albedo(latitude=phi, longitude=longitude, tau=tau), beta, gamma_c){
   
   if(gamma_c > 180 || gamma_c < -180){
-    stop("Surface azimuth angle gamma_c must between -180° and +180° with zero south, east negative, and west positive.")
+    stop("Surface azimuth angle gamma_c must between -180° and +180° with zero facing the equator, east negative, and west positive.")
   }
   
   a = G_bi(Ls=Ls, phi=phi, Ts=Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau=tau, beta=beta, gamma_c=gamma_c)
@@ -45,4 +45,3 @@ G_i = function(Ls, phi, longitude, Ts, z=Z(Ls=Ls, phi=phi, Ts=Ts), tau, al=albed
   
   return(Gi)
 }
-

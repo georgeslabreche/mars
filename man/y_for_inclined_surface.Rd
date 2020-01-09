@@ -7,13 +7,13 @@
 y_for_inclined_surface(phi, beta, gamma_c, delta)
 }
 \arguments{
-\item{phi}{}
+\item{phi}{planetary latitude [rad]}
 
-\item{beta}{}
+\item{beta}{surface inclination angle [rad]}
 
-\item{gamma_c}{}
+\item{gamma_c}{orientation angle [rad]}
 
-\item{delta}{}
+\item{delta}{declination angle [rad]}
 }
 \value{
 

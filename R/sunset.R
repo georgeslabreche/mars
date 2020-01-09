@@ -65,7 +65,16 @@ sunset_for_inclined_surface_oriented_east = function(phi, beta, gamma_c, delta){
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)
   y = y_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c, delta=delta)
   
-  a = -x*y + sqrt(x^2 - y^2 + 1)
+  # If the radicand is negative then it means that the sun never sets on the inclined surface.
+  # This can be the case of the inclined surface is at a:
+  #   - high planetary latitude and oriented northwards.
+  #   - low planetary latitude and oriented southwards.
+  radicand = x^2 - y^2 + 1
+  if(radicand < 0){
+    return(NA)
+  }
+  
+  a = -x*y + sqrt(radicand)
   b = x^2 + 1
   
   omega_rad_2 = acos(a / b)
@@ -94,7 +103,16 @@ sunset_for_inclined_surface_oriented_west = function(phi, beta, gamma_c, delta){
   x = x_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c)
   y = y_for_inclined_surface(phi=phi, beta=beta, gamma_c=gamma_c, delta=delta)
   
-  a = -x*y - sqrt(x^2 - y^2 + 1)
+  # If the radicand is negative then it means that the sun never sets on the inclined surface.
+  # This can be the case of the inclined surface is at a:
+  #   - high planetary latitude and oriented northwards.
+  #   - low planetary latitude and oriented southwards.
+  radicand = x^2 - y^2 + 1
+  if(radicand < 0){
+    return(NA)
+  }
+  
+  a = -x*y - sqrt(radicand)
   b = x^2 + 1
   
   omega_rad_2 = acos(a / b)
@@ -121,10 +139,14 @@ sunset_for_inclined_surface = function(phi, beta, gamma_c, delta){
   if(beta == 0){
     omega_rad = sunset_for_horizontal_surface(phi=phi, delta=delta)
     
-  }else if(phi > 0 && gamma_c == 0){ # Inclined surface is oriented South from the northern hemisphere (i.e. towards the equator).
+  }else if(gamma_c == 0){
+    # Inclined surface facing the equator.
+    # i.e. Oriented South when in the Northern hemisphere and oriented North when in the Southern Hemisphere.
     omega_rad = sunset_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
-  }else if(phi < 0 && abs(gamma_c) == pi){ # Inclined surface is oriented North from the southern hemisphere (i.e. towards the equator).
+  }else if(round(abs(gamma_c), 2) == round(pi, 2)){
+    # Inclined surface facing opposite the equator.
+    # i.e. Oriented North when in the Northern hemisphere and Oriented South whn in the Southern Hemisphere.
     omega_rad = sunset_for_inclined_surface_oriented_equator(phi=phi, beta=beta, delta=delta)
     
   }else if(gamma_c < 0){ # Inclined surface is oriented towards the East.
